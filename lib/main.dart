@@ -1,14 +1,13 @@
 import 'package:baljachwi_project/screens/catalog_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
+// HOME
 import 'package:baljachwi_project/screens/Home/home.dart';
-import 'package:baljachwi_project/screens/Home/test.dart';
 // firebase core 플러그인 및 생성한 구서파일 가져오기
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+//
 import 'package:baljachwi_project/screens/product_details/product_details_screen.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:flutter_dropdown_alert/dropdown_alert.dart';
@@ -40,9 +39,9 @@ class MyApp extends StatelessWidget {
         children: [child!, DropdownAlert()],
       ),
       //
-
-      home: barTestScreen(),
-      // home: mypage(),
+      home:Home()
+      //home: barTestScreen(),
+      //home: mypage(),
     );
   }
 }
