@@ -4,7 +4,13 @@ import 'home_banner.dart';
 import '../../widgets/product.dart';
 import 'package:google_fonts/google_fonts.dart'; //폰트들은 임의로 설정했음.나중에 변경할 예정
 
-class JachwiReommendPage extends StatelessWidget {
+
+class Home_Main extends StatefulWidget {
+  @override
+  _Main createState() => _Main();
+}
+
+class _Main extends State<Home_Main>{
   @override
   Widget build(BuildContext context) {
     return ListView(
