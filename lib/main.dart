@@ -16,8 +16,9 @@ import 'package:flutter_dropdown_alert/model/data_alert.dart';
 
 // Navbar랑 Footbar 테스트 스크린 적용하기
 import 'package:baljachwi_project/screens/bar_test_screen.dart';
+import 'package:baljachwi_project/screens/mypage/mypage_screen.dart';
 
-void main() async{
+void main() async {
   /*
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -36,14 +37,12 @@ class MyApp extends StatelessWidget {
 
       // 제품 상세페이지 드롭다운 메뉴를 위한 builer *지우지 마시오*
       builder: (context, child) => Stack(
-        children: [
-          child!,
-          DropdownAlert()
-        ],
+        children: [child!, DropdownAlert()],
       ),
       //
 
       home: barTestScreen(),
+      // home: mypage(),
     );
   }
 }
