@@ -167,7 +167,7 @@ class mypage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => coupon(),
+                                builder: (context) => MyPage_Coupon(),
                               ),
                             );
                           },
