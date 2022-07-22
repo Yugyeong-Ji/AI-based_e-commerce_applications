@@ -576,7 +576,7 @@ class mypage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => notice(),
+                          builder: (context) => MyPage_Notice(),
                         ),
                       );
                     },

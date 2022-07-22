@@ -21,11 +21,11 @@ import 'package:baljachwi_project/screens/bar_test_screen.dart';
 import 'package:baljachwi_project/screens/mypage/mypage_screen.dart';
 
 void main() async {
-  /*
+  // => firebase 사용하기 위한 필수 코드
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );*/
+  );
   runApp(const MyApp());
 }
 
@@ -42,9 +42,9 @@ class MyApp extends StatelessWidget {
         children: [child!, DropdownAlert()],
       ),
       //
-      home: mateHomeScreen(),
+      //home: mateHomeScreen(),
       //home: barTestScreen(),
-      //home: mypage(),
+      home: mypage(),
     );
   }
 }
