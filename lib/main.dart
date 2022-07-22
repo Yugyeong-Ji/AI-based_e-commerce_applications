@@ -1,3 +1,4 @@
+import 'package:baljachwi_project/screens/Mate/mate_home_screen.dart';
 import 'package:baljachwi_project/screens/catalog_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
@@ -12,6 +13,8 @@ import 'package:baljachwi_project/screens/product_details/product_details_screen
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
+
+import 'package:baljachwi_project/screens/Mate/mate_home_screen.dart';
 
 // Navbar랑 Footbar 테스트 스크린 적용하기
 import 'package:baljachwi_project/screens/bar_test_screen.dart';
@@ -39,7 +42,7 @@ class MyApp extends StatelessWidget {
         children: [child!, DropdownAlert()],
       ),
       //
-      home:Home()
+      home: mateHomeScreen(),
       //home: barTestScreen(),
       //home: mypage(),
     );
