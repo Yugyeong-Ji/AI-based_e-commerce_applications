@@ -1,9 +1,10 @@
 import 'package:baljachwi_project/screens/Mate/mate_home_screen.dart';
 import 'package:baljachwi_project/screens/catalog_list_screen.dart';
+import 'package:baljachwi_project/screens/after_login.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 // HOME
-import 'package:baljachwi_project/screens/Home/home.dart';
+import 'package:baljachwi_project/screens/Home/home_screen.dart';
 // firebase core 플러그인 및 생성한 구서파일 가져오기
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -41,10 +42,12 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => Stack(
         children: [child!, DropdownAlert()],
       ),
-      //
+
+      home: BaseWidget()
+      //home: HomeScreen(),
       //home: mateHomeScreen(),
       //home: barTestScreen(),
-      home: mypage(),
+      //home: mypage(),
     );
   }
 }

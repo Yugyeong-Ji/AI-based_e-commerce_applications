@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-
+import 'package:baljachwi_project/widgets/foot_bar.dart';
+import 'package:baljachwi_project/widgets/nav_bar.dart';
 import 'package:baljachwi_project/screens/Home/home_1_main.dart';
 import 'package:baljachwi_project/screens/Home/home_2_shopping.dart';
 import 'package:baljachwi_project/screens/Home/home_3_mate.dart';
 import 'package:baljachwi_project/screens/Home/home_4_recipe.dart';
 
-
-class Home extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
-class _HomeState extends State<Home> with TickerProviderStateMixin {
+class _HomeState extends State<HomeScreen> with TickerProviderStateMixin {
   late TabController _tabController;
   @override
   void initState() {
@@ -20,11 +20,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(70),
+        child: Navbar(),
+      ),
       body: Column(
         children: [
           Container(
