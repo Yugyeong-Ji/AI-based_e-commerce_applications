@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         children: [child!, DropdownAlert()],
       ),
 
-      home: BaseWidget()
+      home: catalogList(),
       //home: HomeScreen(),
       //home: mateHomeScreen(),
       //home: barTestScreen(),

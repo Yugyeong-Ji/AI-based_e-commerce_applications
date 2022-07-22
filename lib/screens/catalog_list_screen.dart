@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 bool isChecked = false;
 
@@ -9,7 +10,23 @@ class catalogList extends StatefulWidget {
   State<catalogList> createState() => _catalogList();
 }
 
+class Product{
+  var name;
+  var price;
+  var discountRate;
+  var regularDelivery;
+  var img;
+}
+
 class _catalogList extends State<catalogList> {
+  CollectionReference productCol = FirebaseFirestore.instance.collection('products');
+  late ScrollController _scrollController;
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
   final TextEditingController _controller = TextEditingController();
   void _clearTextField() {
     // Clear everything in the text field
@@ -18,19 +35,12 @@ class _catalogList extends State<catalogList> {
     setState(() {});
   }
 
-  void readdata(String code){ //// 여기 해야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    final usercol=FirebaseFirestore.instance.collection("users").doc("$code");
-    usercol.get().then((value) => {
-      print(value.data())
-    });
-  }
-
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           '상품 목록',
@@ -101,7 +111,7 @@ class _catalogList extends State<catalogList> {
         children: <Widget>[
           Container(
             color: Colors.white,
-            height: 37,
+            height: 33,
             padding: const EdgeInsets.all(2.0),
             margin: const EdgeInsets.all(4.0),
             child: Column(
@@ -133,110 +143,154 @@ class _catalogList extends State<catalogList> {
             ),
           ),
           Container(
-            height: 1.5,
+            height: 1.2,
             color: Color(0xffb4b7bb),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: double.infinity,
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.fromLTRB(5, 12, 35, 12),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Wrap(
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          height: 110,
-                          margin: const EdgeInsets.only(left: 20, right: 20),
-                          alignment: Alignment.centerLeft,
-                          child: Image.asset('assets/images/chickenBreast.jpg',
-                              width: 100, height: 100),
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Container(
-                              width: 202 * (MediaQuery.of(context).size.width/360),
-                              child: Text(
-                                '하림 IFF 닭가슴살(냉동), 2kg, 1개',
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              width: 202 * (MediaQuery.of(context).size.width/360),
-                              child: Text(
-                                '16,900원',
-                                style: TextStyle(fontSize: 13, height: 1.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.fromLTRB(5, 12, 35, 12),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Wrap(
-                      //mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          height: 110,
-                          margin: const EdgeInsets.only(left: 20, right: 20),
-                          alignment: Alignment.centerLeft,
-                          child: Image.asset('assets/images/tomato.jpg',
-                              width: 100, height: 100),
-                        ),
-                        Column(
-                          //width: 240,
-                          children: <Widget>[
-                            Container(
-                              width: 202 * (MediaQuery.of(context).size.width/360),
-                              //margin: const EdgeInsets.only(left: 20, right: 20),
-                              child: Text(
-                                '충남세도 GAP 인증 대추방울토마토, 1kg, 1박스',
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              width: 202 * (MediaQuery.of(context).size.width/360),
-                              child: Text(
-                                '11,800원',
-                                style: TextStyle(fontSize: 13, height: 1.5),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
           Expanded(
-            child: Container(
-              height: double.infinity,
-              color: Color(0xfff2f2f2),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              controller: ScrollController(),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  FutureBuilder(
+                      future: _getProduct(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot snapshot){
+                        if (snapshot.hasError) {
+                          print(snapshot);
+                          return Text("Something went wrong");
+                        }
+                        if (!snapshot.hasData) {
+                          return Text("Document does not exist");
+                        }
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          List<Product> nList = snapshot.data;
+                          List<ListTile> mainContainer = [];
+                          for(Product doc in nList)
+                            mainContainer.add(makeProduct(doc.name,doc.img, doc.price, doc.discountRate, doc.regularDelivery, context));
+                          return Container(
+                            child: Column(
+                              children: mainContainer.toList(),
+                            ),
+                          );
+                        }
+                        return Text('roading');
+                      }
+                  )
+                ],
+              ),
             ),
           ),
         ],
       ),
     );
   }
+}
+
+Future<List<Product>> _getProduct() async{
+  CollectionReference<Map<String,dynamic>> collectionReference = FirebaseFirestore.instance.collection('products');
+  QuerySnapshot<Map<String,dynamic>> querySnapshot = await collectionReference.get();
+  List<Product> products = [];
+  for(var doc in querySnapshot.docs){
+    Product tmp = Product();
+    tmp.name = doc['name'];
+    tmp.img = doc['img'];
+    tmp.price = doc['price'];
+    tmp.discountRate = doc['discountRate'];
+    tmp.regularDelivery = doc['regularDelivery'];
+    products.add(tmp);
+  }
+  return products;
+}
+
+
+ListTile makeProduct(String name,String img, int price, int discountRate, bool regularDelivery, BuildContext context){
+  var f = NumberFormat('###,###,###,###원');
+  return ListTile(
+    onTap: (){
+      print(name);
+    },
+    title: Column(
+      children: [
+        Container(
+          width: double.infinity,
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Wrap(
+                children: <Widget>[
+                  Container(
+                    width: 100,
+                    height: 110,
+                    margin: const EdgeInsets.only(left: 3, right: 15),
+                    alignment: Alignment.centerLeft,
+                    child: Image.asset('assets/images/${img}',
+                        width: 100, height: 100),
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        width: 202 * (MediaQuery.of(context).size.width/360),
+                        height: 5,
+                      ),
+                      if (regularDelivery == true)
+                        Container(
+                          width: 202 * (MediaQuery.of(context).size.width/360),
+                          margin: const EdgeInsets.only(bottom: 6),
+                          alignment: Alignment.centerLeft,
+                          child: Image.asset('assets/images/regularDelivery.png',
+                              width: 52),
+                        ),
+                      Container(
+                        width: 202 * (MediaQuery.of(context).size.width/360),
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                              fontSize: 14),
+                        ),
+                      ),
+                      if (discountRate > 0)
+                        Container(
+                          width: 202 * (MediaQuery.of(context).size.width/360),
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                discountRate.toString()+'%\t',
+                                style: TextStyle(fontSize: 14.1, height: 1.6, fontWeight: FontWeight.bold, color:Color(0xffff8511)),
+                              ),
+                              Text(
+                                f.format(price)+'\t',
+                                style: TextStyle(fontSize: 14, height: 1.5, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                f.format(price),
+                                style: TextStyle(fontSize: 12, height: 1.6, decoration: TextDecoration.lineThrough, color:Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                      if (discountRate == 0)
+                        Container(
+                          width: 202 * (MediaQuery.of(context).size.width/360),
+                          child: Text(
+                            f.format(price),
+                            style: TextStyle(fontSize: 14, height: 1.5, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }
