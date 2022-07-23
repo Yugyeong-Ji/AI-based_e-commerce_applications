@@ -95,7 +95,7 @@ class mypage extends StatelessWidget {
                               child: Text(
                                 'SILVER',
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 26,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xffffa511),
                                 ),
@@ -190,7 +190,7 @@ class mypage extends StatelessWidget {
                                 child: Text(
                                   '1',
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 26,
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xffffa511),
                                   ),
@@ -246,7 +246,7 @@ class mypage extends StatelessWidget {
                                 child: Text(
                                   '3',
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 26,
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xffffa511),
                                   ),
@@ -266,22 +266,22 @@ class mypage extends StatelessWidget {
               margin: const EdgeInsets.all(25),
               child: Column(
                 children: <Widget>[
-                  makeCol(0,'나의 쇼핑'),
+                  makeCol(0, '나의 쇼핑'),
                   makeList(context, orderHistory(), '주문 내역'),
                   makeList(context, addressMange(), '배송지 관리'),
                   makeList(context, review(), '리뷰'),
                   makeList(context, giftHistory(), '선물 내역'),
-                  makeCol(30,'계정 설정'),
-                  makeList(context, productInquiry(),'회원 정보 수정'),
-                  makeList(context, inviteFriend(),'친구 초대'),
-                  makeList(context, editMemberInfo(),'로그아웃'),
-                  makeCol(30,'고객 센터'),
-                  makeList(context, personalInquiry(),'1:1 문의'),
-                  makeList(context, productInquiry(),'상품 문의'),
-                  makeCol(30,'발자취'),
-                  makeList(context, MyPage_Notice(),'공지사항'),
-                  makeList(context, informationUse(),'이용 안내'),
-                  makeList(context, introduce(),'회사 소개')
+                  makeCol(30, '계정 설정'),
+                  makeList(context, productInquiry(), '회원 정보 수정'),
+                  makeList(context, inviteFriend(), '친구 초대'),
+                  makeList(context, editMemberInfo(), '로그아웃'),
+                  makeCol(30, '고객 센터'),
+                  makeList(context, personalInquiry(), '1:1 문의'),
+                  makeList(context, productInquiry(), '상품 문의'),
+                  makeCol(30, '발자취'),
+                  makeList(context, MyPage_Notice(), '공지사항'),
+                  makeList(context, informationUse(), '이용 안내'),
+                  makeList(context, introduce(), '회사 소개')
                 ],
               ),
             ),
@@ -291,7 +291,8 @@ class mypage extends StatelessWidget {
     );
   }
 }
-Column makeCol(double m,String title){
+
+Column makeCol(double m, String title) {
   return Column(
     children: [
       Container(height: m),
@@ -315,7 +316,8 @@ Column makeCol(double m,String title){
     ],
   );
 }
-Container makeList(BuildContext context,Widget path,String title){
+
+Container makeList(BuildContext context, Widget path, String title) {
   return Container(
     child: Column(
       children: [
