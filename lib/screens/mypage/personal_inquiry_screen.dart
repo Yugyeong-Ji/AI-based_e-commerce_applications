@@ -4,7 +4,6 @@ import 'package:baljachwi_project/screens/mypage/write_personal_inquiry_screen.d
 
 class personalInquiry extends StatelessWidget {
   const personalInquiry({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,7 +123,7 @@ class personalInquiry extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => writePersonalInquiry(),
+                                builder: (context) => writePersonalInquiry('userID'),
                               ),
                             );
                           },
