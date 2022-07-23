@@ -95,7 +95,7 @@ class mypage extends StatelessWidget {
                               child: Text(
                                 'SILVER',
                                 style: TextStyle(
-                                  fontSize: 30,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xffffa511),
                                 ),
@@ -113,7 +113,7 @@ class mypage extends StatelessWidget {
                           child: Text(
                             '할인혜택 보기',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 14,
                               color: Color(0xffa6a6a6),
                             ),
                           ),
@@ -190,7 +190,7 @@ class mypage extends StatelessWidget {
                                 child: Text(
                                   '1',
                                   style: TextStyle(
-                                    fontSize: 30,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xffffa511),
                                   ),
@@ -246,7 +246,7 @@ class mypage extends StatelessWidget {
                                 child: Text(
                                   '3',
                                   style: TextStyle(
-                                    fontSize: 30,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xffffa511),
                                   ),
@@ -266,389 +266,22 @@ class mypage extends StatelessWidget {
               margin: const EdgeInsets.all(25),
               child: Column(
                 children: <Widget>[
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.all(5),
-                    child: Text(
-                      '나의 쇼핑',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff7f7f7f),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 5, bottom: 10),
-                    height: 5,
-                    color: Color(0xff7f7f7f),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => orderHistory(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(5),
-                      child: Text(
-                        '주문 내역',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xffa6a6a6),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                    height: 1,
-                    color: Color(0xffd9d9d9),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => addressMange(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(5),
-                      child: Text(
-                        '배송지 관리',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xffa6a6a6),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                    height: 1,
-                    color: Color(0xffd9d9d9),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => review(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(5),
-                      child: Text(
-                        '리뷰',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xffa6a6a6),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                    height: 1,
-                    color: Color(0xffd9d9d9),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => giftHistory(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(5),
-                      child: Text(
-                        '선물 내역',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xffa6a6a6),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                    height: 1,
-                    color: Color(0xffd9d9d9),
-                  ),
-                  Container(height: 30),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.all(5),
-                    child: Text(
-                      '계정 설정',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff7f7f7f),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 5, bottom: 10),
-                    height: 5,
-                    color: Color(0xff7f7f7f),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => editMemberInfo(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(5),
-                      child: Text(
-                        '회원 정보 수정',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xffa6a6a6),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                    height: 1,
-                    color: Color(0xffd9d9d9),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => inviteFriend(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(5),
-                      child: Text(
-                        '친구 초대',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xffa6a6a6),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                    height: 1,
-                    color: Color(0xffd9d9d9),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => nonmemberOrder(),
-                      //   ),
-                      // );
-                    },
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(5),
-                      child: Text(
-                        '로그아웃',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xffa6a6a6),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                    height: 1,
-                    color: Color(0xffd9d9d9),
-                  ),
-                  Container(height: 30),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.all(5),
-                    child: Text(
-                      '고객 센터',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff7f7f7f),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 5, bottom: 10),
-                    height: 5,
-                    color: Color(0xff7f7f7f),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => personalInquiry(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(5),
-                      child: Text(
-                        '1:1 문의',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xffa6a6a6),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                    height: 1,
-                    color: Color(0xffd9d9d9),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => productInquiry(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(5),
-                      child: Text(
-                        '상품 문의',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xffa6a6a6),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                    height: 1,
-                    color: Color(0xffd9d9d9),
-                  ),
-                  Container(height: 30),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.all(5),
-                    child: Text(
-                      '발자취',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff7f7f7f),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 5, bottom: 10),
-                    height: 5,
-                    color: Color(0xff7f7f7f),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyPage_Notice(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(5),
-                      child: Text(
-                        '공지사항',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xffa6a6a6),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                    height: 1,
-                    color: Color(0xffd9d9d9),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => informationUse(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(5),
-                      child: Text(
-                        '이용 안내',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xffa6a6a6),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                    height: 1,
-                    color: Color(0xffd9d9d9),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => introduce(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(5),
-                      child: Text(
-                        '회사 소개',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xffa6a6a6),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                    height: 1,
-                    color: Color(0xffd9d9d9),
-                  ),
+                  makeCol(0,'나의 쇼핑'),
+                  makeList(context, orderHistory(), '주문 내역'),
+                  makeList(context, addressMange(), '배송지 관리'),
+                  makeList(context, review(), '리뷰'),
+                  makeList(context, giftHistory(), '선물 내역'),
+                  makeCol(30,'계정 설정'),
+                  makeList(context, productInquiry(),'회원 정보 수정'),
+                  makeList(context, inviteFriend(),'친구 초대'),
+                  makeList(context, editMemberInfo(),'로그아웃'),
+                  makeCol(30,'고객 센터'),
+                  makeList(context, personalInquiry(),'1:1 문의'),
+                  makeList(context, productInquiry(),'상품 문의'),
+                  makeCol(30,'발자취'),
+                  makeList(context, MyPage_Notice(),'공지사항'),
+                  makeList(context, informationUse(),'이용 안내'),
+                  makeList(context, introduce(),'회사 소개')
                 ],
               ),
             ),
@@ -658,7 +291,64 @@ class mypage extends StatelessWidget {
     );
   }
 }
-
+Column makeCol(double m,String title){
+  return Column(
+    children: [
+      Container(height: m),
+      Container(
+        alignment: Alignment.centerLeft,
+        margin: const EdgeInsets.all(5),
+        child: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Color(0xff7f7f7f),
+          ),
+        ),
+      ),
+      Container(
+        margin: const EdgeInsets.only(top: 5, bottom: 10),
+        height: 5,
+        color: const Color(0xff7f7f7f),
+      ),
+    ],
+  );
+}
+Container makeList(BuildContext context,Widget path,String title){
+  return Container(
+    child: Column(
+      children: [
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => path,
+              ),
+            );
+          },
+          child: Container(
+            alignment: Alignment.centerLeft,
+            margin: const EdgeInsets.all(5),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                color: Color(0xffa6a6a6),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 8, bottom: 8),
+          height: 1,
+          color: const Color(0xffd9d9d9),
+        )
+      ],
+    ),
+  );
+}
 /*
 1. 장바구니 로고 바꾸기 + 장바구니 담은 상품 개수
 2. 회원 정보 불러오기, 연동

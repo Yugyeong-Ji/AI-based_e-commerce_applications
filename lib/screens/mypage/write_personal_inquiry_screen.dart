@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 class writePersonalInquiry extends StatefulWidget {
-  const writePersonalInquiry({Key? key}) : super(key: key);
+  final String userID;
+
+  const writePersonalInquiry(this.userID);
 
   @override
   State<writePersonalInquiry> createState() => _writePersonalInquiryState();
 }
-
 class _writePersonalInquiryState extends State<writePersonalInquiry> {
-  final _valueList = ['배송', '주문 취소', '배송지 변경', '반품/교환', '기타 문의']; // 예시
+  final _valueList = ['배송', '주문 취소', '배송지 변경', '반품/교환', '기타 문의'];
   String? _selectedValue;
-
+  final _titleController = TextEditingController();
+  final _contentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           '1:1 문의 작성',
           style: TextStyle(
             color: Colors.black,
@@ -24,7 +26,7 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.navigate_before),
+          icon: const Icon(Icons.navigate_before),
           color: Colors.black,
           iconSize: 30,
           onPressed: () {
@@ -39,10 +41,10 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
         children: <Widget>[
           Container(
             height: 2,
-            color: Color(0xffc0c0c0),
+            color: const Color(0xffc0c0c0),
           ),
           Container(
-            color: Color(0xfff2f2f2),
+            color: const Color(0xfff2f2f2),
             padding: const EdgeInsets.all(25),
             child: Container(
               color: Colors.white,
@@ -52,7 +54,7 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
                 children: <Widget>[
                   Container(
                     alignment: Alignment.topLeft,
-                    child: Text(
+                    child: const Text(
                       '문의 유형',
                       style: TextStyle(
                         fontSize: 18,
@@ -64,22 +66,22 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
                     width: 310,
                     margin: const EdgeInsets.only(top: 5, bottom: 20),
                     child: DropdownButton(
-                      hint: Text(' 문의 유형을 선택해주세요'),
+                      hint: const Text(' 문의 유형을 선택해주세요'),
                       value: _selectedValue,
                       items: _valueList
                           .map(
                             (value) => DropdownMenuItem(
-                              child: Text(value),
-                              value: value,
-                            ),
-                          )
+                          child: Text(value),
+                          value: value,
+                        ),
+                      )
                           .toList(),
                       onChanged: (value) {
                         setState(() {
                           _selectedValue = value as String;
                         });
                       },
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xffa6a6a6),
                         fontSize: 16,
                       ),
@@ -88,7 +90,7 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
                   ),
                   Container(
                     alignment: Alignment.topLeft,
-                    child: Text(
+                    child: const Text(
                       '작성란',
                       style: TextStyle(
                         fontSize: 18,
@@ -100,8 +102,9 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
                     height: 40,
                     margin: const EdgeInsets.only(top: 5),
                     child: TextField(
-                      style: TextStyle(color: Color(0xffa6a6a6)),
-                      decoration: InputDecoration(hintText: ' 제목을 입력해주세요'),
+                      controller: _titleController,
+                      style: const TextStyle(color: Color(0xffa6a6a6)),
+                      decoration: const InputDecoration(hintText: ' 제목을 입력해주세요'),
                     ),
                   ),
                   Container(
@@ -111,14 +114,15 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
                     decoration: BoxDecoration(
                       border: Border.all(
                         width: 1,
-                        color: Color(0xffa6a6a6),
+                        color: const Color(0xffa6a6a6),
                       ),
                     ),
                     child: TextField(
+                      controller: _contentController,
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
-                      style: TextStyle(color: Color(0xffa6a6a6)),
-                      decoration: InputDecoration.collapsed(
+                      style: const TextStyle(color: Color(0xffa6a6a6)),
+                      decoration: const InputDecoration.collapsed(
                           hintText: ' 문의하실 내용을 입력해주세요'),
                     ),
                   ),
@@ -130,9 +134,9 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
             height: 50,
             width: double.infinity,
             padding: const EdgeInsets.only(left: 30, right: 30),
-            color: Color(0xfff2f2f2),
+            color: const Color(0xfff2f2f2),
             child: ElevatedButton(
-              child: Text(
+              child: const Text(
                 '등록',
                 style: TextStyle(
                   fontSize: 18,
@@ -147,17 +151,54 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
                 primary: Color(0xffffa511),
               ),
               onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) =>(),
-                //   ),
-                // );
+                print('onPressed');
+                if(vaildCheck()){
+                  print('valid check');
+                  createNewInquiry();
+                }
               },
             ),
           ),
         ],
       ),
     );
+  }
+  bool vaildCheck(){
+    if(_selectedValue=="" || _titleController.text=="" || _titleController.text=="") {
+      return false;
+    }
+    return true;
+  }
+  void createNewInquiry() {
+    Inquiry newInquiry = Inquiry(0, _selectedValue,_titleController.text,_titleController.text,widget.userID, DateTime.now(),false);
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    db.collection('inquiry').add(newInquiry.toFirestore()).then((value) => {
+      print('문의가 접수되었습니다!')
+      //Scaffold.of(context).showSnackBar(const SnackBar(content:Text('문의가 접수되었습니다!')))
+    });
+    //
+  }
+}
+class Inquiry{
+  var type;
+  var category;
+  var title;
+  var content;
+  var writer;
+  var date;
+  var isReply;
+  var reply;
+  Inquiry(this.type,this.category,this.title,this.content,this.writer,this.date,this.isReply);
+  Map<String, dynamic> toFirestore() {
+    return {
+      if (type != null) "type": type,
+      if (category != null) "category": category,
+      if (title != null) "country": title,
+      if (content != null) "capital": content,
+      if (writer != null) "population": writer,
+      if (date != null) "regions": date,
+      if (isReply != null) "isReply": isReply,
+      "reply": reply,
+    };
   }
 }

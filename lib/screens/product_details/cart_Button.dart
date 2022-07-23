@@ -26,6 +26,7 @@ class _cartButton extends State<cartButton> {
       height: 90,
       shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10.0)),
       minWidth: (MediaQuery.of(context).size.width) - 35,
+      color: Color(0xffffa511),
       onPressed: success,
       child: Text(
         '구매하기',
@@ -35,7 +36,6 @@ class _cartButton extends State<cartButton> {
             fontWeight: FontWeight.bold
         ),
       ),
-      color: Color(0xffffa511),
     );
   }
 
