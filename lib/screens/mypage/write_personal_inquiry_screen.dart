@@ -69,10 +69,10 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
                       items: _valueList
                           .map(
                             (value) => DropdownMenuItem(
-                              child: Text(value),
-                              value: value,
-                            ),
-                          )
+                          child: Text(value),
+                          value: value,
+                        ),
+                      )
                           .toList(),
                       onChanged: (value) {
                         setState(() {

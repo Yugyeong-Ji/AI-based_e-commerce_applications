@@ -4,6 +4,7 @@ import 'package:baljachwi_project/screens/product_details/product_details_screen
 import 'package:baljachwi_project/screens/product_details/product_information_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product_review_screen.dart';
+import 'package:baljachwi_project/screens/product_details/product.dart';
 import 'package:baljachwi_project/screens/product_details/cart_Button.dart';
 import 'package:baljachwi_project/screens/product_details/add_to_wishlist.dart';
 
@@ -11,24 +12,24 @@ import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 
 class productDetails extends StatefulWidget {
+  final Product2 productInform;
+  productDetails({Key? key, required this.productInform}) : super(key: key);
   @override
-  _productDetails createState() => _productDetails();
+  _productDetails createState() => _productDetails(productInform);
 }
 
 List<Widget> list = [
   // 상단 탭바 이름
-  Tab(
-      child:
-          Text("상품설명", style: TextStyle(fontSize: 20, color: Colors.black26))),
-  Tab(
-      child:
-          Text("상세정보", style: TextStyle(fontSize: 20, color: Colors.black26))),
+  Tab(child: Text("상품설명", style: TextStyle(fontSize: 20, color: Colors.black26))),
+  Tab(child: Text("상세정보", style: TextStyle(fontSize: 20, color: Colors.black26))),
   Tab(child: Text("리뷰", style: TextStyle(fontSize: 20, color: Colors.black26))),
   Tab(child: Text("문의", style: TextStyle(fontSize: 20, color: Colors.black26)))
 ];
 
-class _productDetails extends State<productDetails>
-    with TickerProviderStateMixin {
+class _productDetails extends State<productDetails> with TickerProviderStateMixin {
+  Product2 productInform;
+  _productDetails(this.productInform);
+
   int _selectedIndex = 0;
   late TabController _controller;
 
@@ -53,14 +54,14 @@ class _productDetails extends State<productDetails>
     return Scaffold(
       resizeToAvoidBottomInset: false, // 오버플로우 방지
       appBar: AppBar(
-        title: Text(
+        /*title: Text(
           '제품 상세',
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 25
           ),
-        ),
+        ),*/
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -107,10 +108,10 @@ class _productDetails extends State<productDetails>
       body: TabBarView(
         controller: _controller,
         children: [
-          Center(child: productDescription()),
+          Center(child: productDescription(productInform: this.productInform)),
           Center(child: productInformation()),
           Center(child: productReview()),
-          Center(child: productInquiry())
+          Center(child: productInquiry(productInform: this.productInform))
         ],
       ),
       bottomNavigationBar: BottomAppBar(
@@ -129,5 +130,6 @@ Widget bottomMenu() {
   return Container(
       padding: EdgeInsets.symmetric(vertical: 20),
       margin: EdgeInsets.symmetric(horizontal: 20),
-      child: cartButton());
+      child: cartButton()
+  );
 }
