@@ -7,7 +7,6 @@ class Product2 {
   final int discount;
   final String detailsImagePath;
   final List<String> imagePath;
-
   Product2(this.manufacturer, this.name, this.distributor, this.seller,
       this.price, this.discount, this.detailsImagePath, this.imagePath); // 생성자
 }

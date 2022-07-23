@@ -75,6 +75,7 @@ class _productDescription extends State<productDescription> {
                 color: Colors.black54,
               ),
             ),
+
             Text(
               '평일 오전 9시 - 오후 6시 운영',
               style: TextStyle(

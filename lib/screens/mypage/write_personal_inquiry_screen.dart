@@ -86,6 +86,7 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
                       isExpanded: true,
                     ),
                   ),
+
                   Container(
                     alignment: Alignment.topLeft,
                     child: Text(

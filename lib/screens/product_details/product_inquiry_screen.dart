@@ -80,6 +80,7 @@ class _productInquiry extends State<productInquiry> {
           SizedBox(
             height: 5.0,
           ),
+
           Row(
             children: <Widget>[
               Text(isResolved,

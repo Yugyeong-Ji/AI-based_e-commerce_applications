@@ -124,7 +124,6 @@ class _productDetails extends State<productDetails> with TickerProviderStateMixi
     );
   }
 }
-
 // bottomMenu : 위시리스트 담기, 장바구니 담기
 Widget bottomMenu() {
   return Container(

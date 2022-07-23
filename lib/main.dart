@@ -60,7 +60,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 // *제품 상세페이지 테스트를 위한 임시 상품객체 --> 추후 삭제 *
 Product2 testProduct = new Product2(
     "하림",

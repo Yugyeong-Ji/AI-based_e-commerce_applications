@@ -8,6 +8,7 @@ class productInquiryCompletion extends StatefulWidget {
 }
 
 class _productInquiryCompletion extends State<productInquiryCompletion> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
