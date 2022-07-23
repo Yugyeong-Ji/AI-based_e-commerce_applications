@@ -50,15 +50,18 @@ class MyApp extends StatelessWidget {
 
       home: productDetails(productInform: testProduct),
       // home: catalogList(),
-      //home: HomeScreen(),
-      //home: mateHomeScreen(),
-      //home: barTestScreen(),
-      //home: mypage(),
+      // home: HomeScreen(),
+      // home: Home(),
+      // catalogList(),
+      // home: HomeScreen(),
+      // home: mateHomeScreen(),
+      // home: barTestScreen(),
+      // home: mypage(),
     );
   }
 }
 
-// *제품 상세페이지 테스트를 위한 임시 상품객체*
+// *제품 상세페이지 테스트를 위한 임시 상품객체 --> 추후 삭제 *
 Product2 testProduct = new Product2(
     "하림",
     "하림 닭가슴살 110g x 총 20팩 무료배송",
