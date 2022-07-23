@@ -1,0 +1,439 @@
+[33mcommit 8f416cc057786943535114fa581d21b51e341be6[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m, [m[1;31morigin/develop[m[33m)[m
+Author: seoZ02 <87064616+seoZ02@users.noreply.github.com>
+Date:   Thu Jul 21 12:43:37 2022 +0900
+
+    :sparkles: Add jachwi_recommend_page
+
+[33mcommit dc7fb5427ec175fbed88b2af5aaea69e88cfd759[m
+Author: Soohyeon02 <tngusr@naver.com>
+Date:   Thu Jul 21 01:26:18 2022 +0900
+
+    :sparkles: add Navbar and Footbar
+
+[33mcommit 649436a3abb60ad60f3021308832404109bca3c3[m
+Merge: 3af0ff2 1558227
+Author: nute11a <87134443+seungha164@users.noreply.github.com>
+Date:   Thu Jul 21 00:24:55 2022 +0900
+
+    Merge pull request #18 from seungha164/master
+    
+    :lipstick: recipe_page _swiper ADD
+
+[33mcommit 3af0ff2a0f69ea5c0ebeeed0f85adaf3fa20250f[m
+Author: JinJuJeong <wjdwlswn731@gmail.com>
+Date:   Wed Jul 20 23:50:52 2022 +0900
+
+    :art: Improve product details and :sparkels: Add subpage
+
+[33mcommit 2ce46d4a2c6888e47f455b416b16a5f3eebafc02[m
+Author: Jjanghyo <longkjh123@gmail.com>
+Date:   Wed Jul 20 21:10:25 2022 +0900
+
+    :lipstick: modify ui structure and :sparkles: connect db
+
+[33mcommit b4c7eb460dd13a603aa607f4d197b49a39cfdbfe[m
+Author: Jjanghyo <longkjh123@gmail.com>
+Date:   Wed Jul 20 19:03:43 2022 +0900
+
+    :sparkles: Update latest version
+
+[33mcommit 15582279b5708f1f55fb30adc916246a9b12f2d2[m
+Author: nute11a <87134443+seungha164@users.noreply.github.com>
+Date:   Wed Jul 20 18:15:49 2022 +0900
+
+    :lipstick: recipe_page : swiper ADD
+
+[33mcommit 8f0fff83b9c463b061c0d3645bb0f1ac93f282d5[m
+Merge: 3d59f6e 76177f6
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Wed Jul 20 15:51:41 2022 +0900
+
+    Merge pull request #15 from Yugyeong-Ji/develop
+    
+    🗃️  firebase init
+
+[33mcommit 76177f6f7ab6a66e50e55bb813f2b21a0f84edbd[m
+Author: nute11a <87134443+seungha164@users.noreply.github.com>
+Date:   Wed Jul 20 13:55:30 2022 +0900
+
+    :card_file_box: firebase auth, firestore, storage add
+
+[33mcommit b85bb8cc5adde435fb55bf50c6f52d83d0a21cfd[m
+Merge: f0279ea 3d59f6e
+Author: nute11a <87134443+seungha164@users.noreply.github.com>
+Date:   Wed Jul 20 04:03:27 2022 +0900
+
+    Merge branch 'develop' of https://github.com/Yugyeong-Ji/AI-based_e-commerce_applications into develop
+
+[33mcommit f0279ea88ec4c92f807e64cee73f49af517b9a83[m
+Author: nute11a <87134443+seungha164@users.noreply.github.com>
+Date:   Wed Jul 20 04:02:56 2022 +0900
+
+    :card_file_box: firebase init
+
+[33mcommit 3d59f6e04661d9917e3272e02ed3a1e087e65091[m
+Merge: aa787ca 5aac762
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Wed Jul 20 00:58:09 2022 +0900
+
+    Merge pull request #14 from Yugyeong-Ji/develop
+    
+    :sparkles: add image files
+
+[33mcommit 5aac762c80d413486434d7ec9113822ca35e309d[m
+Author: Yugyeong-Ji <2monica9@naver.com>
+Date:   Wed Jul 20 00:56:51 2022 +0900
+
+    :sparkles: add image files
+
+[33mcommit aa787ca0ca26b2ef05f43784f313af21552f1278[m
+Merge: b90b2dd 64e9c5c
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Wed Jul 20 00:47:41 2022 +0900
+
+    Merge pull request #13 from Yugyeong-Ji/develop
+    
+    ✨ add home_page & recipe_recommand
+
+[33mcommit 64e9c5cb364904ba3215da0fc61ed209105381d6[m
+Merge: 66738f9 13dc874
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Wed Jul 20 00:47:20 2022 +0900
+
+    Merge pull request #11 from Ness731/develop
+    
+    :sparkles: Add product details page
+
+[33mcommit 13dc874b8927cad1be11045d677532099db5d4e8[m
+Merge: 66e9bb8 66738f9
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Wed Jul 20 00:47:11 2022 +0900
+
+    Merge branch 'develop' into develop
+
+[33mcommit 66738f932e529660f03050e2c1abfbac113bd687[m
+Author: Jjanghyo <longkjh123@gmail.com>
+Date:   Tue Jul 19 20:41:22 2022 +0900
+
+    :bug: fix a image bug
+
+[33mcommit df3b7a89e970046e4d959494c8c8756dbdf2ee4f[m
+Author: Jjanghyo <longkjh123@gmail.com>
+Date:   Tue Jul 19 20:39:44 2022 +0900
+
+    :bug: fix a image bug
+
+[33mcommit 971afed7c4760a321c93fc0ffa172c6baf54d346[m
+Author: Jjanghyo <longkjh123@gmail.com>
+Date:   Tue Jul 19 20:15:43 2022 +0900
+
+    :sparkles: Add search widget
+
+[33mcommit 6dc162bea7a9190a00f9ff44c759cb55fb224920[m
+Merge: c1579dc cf2acce
+Author: nute11a <87134443+seungha164@users.noreply.github.com>
+Date:   Tue Jul 19 17:24:28 2022 +0900
+
+    Merge pull request #12 from seungha164/develop
+    
+    ✨ add home_page & recipe_recommand
+
+[33mcommit cf2acce90c40b3dc9e2fff47b35457b10488ea92[m
+Merge: ab4b3ac b90b2dd
+Author: nute11a <87134443+seungha164@users.noreply.github.com>
+Date:   Tue Jul 19 17:16:16 2022 +0900
+
+    Merge branch 'develop' of https://github.com/seungha164/AI-based_e-commerce_applications into develop
+
+[33mcommit ab4b3ac40cc999a71df542bece4a16d7288b8d20[m
+Author: nute11a <87134443+seungha164@users.noreply.github.com>
+Date:   Tue Jul 19 17:13:23 2022 +0900
+
+    :sparkles: home page & recipe
+
+[33mcommit 66e9bb8ce4b2712972b576f98695cd7d0597b0ef[m
+Merge: 650fe4e 3eeb98d
+Author: JinJuJeong <wjdwlswn731@gmail.com>
+Date:   Tue Jul 19 11:59:50 2022 +0900
+
+    Merge branch 'develop' of https://github.com/Ness731/AI-based_e-commerce_applications into develop
+
+[33mcommit 650fe4e817bdae51daac64a876da7c05615b34dd[m
+Merge: a0516b2 c1579dc
+Author: JinJuJeong <wjdwlswn731@gmail.com>
+Date:   Tue Jul 19 11:58:40 2022 +0900
+
+    :memo: Fetch from upstream
+
+[33mcommit a0516b2eda1cd4579c938150c52004c84dfe37bd[m
+Merge: 04f149d 891e488
+Author: JinJuJeong <wjdwlswn731@gmail.com>
+Date:   Tue Jul 19 11:50:37 2022 +0900
+
+    :memo: Fetch from upstream
+
+[33mcommit b90b2dd42ae2dca7bc5aa190ee5fbb28f513ad6a[m
+Merge: d9784fc c1579dc
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Tue Jul 19 11:06:36 2022 +0900
+
+    Merge pull request #10 from Yugyeong-Ji/develop
+    
+    :sparkles: Add mypage
+
+[33mcommit c1579dcfbfa196b8b0f0ebf6a27d54cb4d6fb033[m
+Merge: 5243aa1 dd8481a
+Author: Yugyeong-Ji <2monica9@naver.com>
+Date:   Tue Jul 19 10:50:31 2022 +0900
+
+    Merge branch 'develop' of https://github.com/Yugyeong-Ji/AI-based_e-commerce_applications into develop
+
+[33mcommit 5243aa10ae760c09a7b2b9db2c266c3f90b576f4[m
+Author: Yugyeong-Ji <2monica9@naver.com>
+Date:   Tue Jul 19 10:32:51 2022 +0900
+
+    Back to the Merge
+
+[33mcommit 3eeb98d7a0a7fc698930bffa3e524122c99a53f3[m
+Merge: e69af59 e6a02da
+Author: Ness <103942182+Ness731@users.noreply.github.com>
+Date:   Tue Jul 19 10:12:11 2022 +0900
+
+    Merge pull request #2 from Ness731/revert-1-develop
+    
+    Revert "제품 상세 페이지 뼈대 구현"
+
+[33mcommit e6a02daffdbc1f6a491712a5236f694cc84e8e51[m
+Author: Ness <103942182+Ness731@users.noreply.github.com>
+Date:   Tue Jul 19 10:07:17 2022 +0900
+
+    Revert "제품 상세 페이지 뼈대 구현"
+
+[33mcommit e69af591fe8cecd33f2cc870f4b6d76932c6bb54[m
+Merge: aabb1fd dd8481a
+Author: Ness <103942182+Ness731@users.noreply.github.com>
+Date:   Tue Jul 19 00:52:50 2022 +0900
+
+    Merge pull request #1 from Yugyeong-Ji/develop
+
+[33mcommit dd8481a5b8253f334809e8b0914341d263d9c48b[m
+Merge: 891e488 aabb1fd
+Author: Ness <103942182+Ness731@users.noreply.github.com>
+Date:   Tue Jul 19 00:52:05 2022 +0900
+
+    Merge branch 'develop' into develop
+
+[33mcommit 04f149d2b95341369e66423ed0a447334cb921dc[m
+Merge: aabb1fd d9784fc
+Author: JinJuJeong <wjdwlswn731@gmail.com>
+Date:   Tue Jul 19 00:45:09 2022 +0900
+
+    Merge https://github.com/Yugyeong-Ji/AI-based_e-commerce_applications into develop
+
+[33mcommit aabb1fd189f80488fb82013e7e10fc36a5ef8ce9[m
+Author: JinJuJeong <wjdwlswn731@gmail.com>
+Date:   Tue Jul 19 00:33:15 2022 +0900
+
+    :sparkles: Add product details page
+
+[33mcommit 891e488f1b4fc686053a52a280c04474aabf1bc0[m
+Author: HEEYEON CHO <202015006@kyonggi.ac.kr>
+Date:   Mon Jul 18 23:27:13 2022 +0900
+
+    :sparkles: Add mypage
+
+[33mcommit d9784fc684c1725f6bac5552e20fbb61ef6a6de7[m
+Merge: 5716022 a9c1e06
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Mon Jul 18 22:25:07 2022 +0900
+
+    Merge pull request #9 from Yugyeong-Ji/develop
+    
+    :sparkles: Add category
+
+[33mcommit a9c1e06a698d109c3b940d05fb55301d84df4e02[m
+Author: Jjanghyo <longkjh123@gmail.com>
+Date:   Mon Jul 18 21:45:11 2022 +0900
+
+    :sparkles: Add category
+
+[33mcommit 57160226313c6bc92d7efc2d228965c6d383246e[m
+Merge: a022255 905ec2f
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Sun Jul 17 00:31:14 2022 +0900
+
+    Merge pull request #8 from Yugyeong-Ji/develop
+    
+    :sparkles: Add mypage
+
+[33mcommit 905ec2ffa6a10b4bebf93332a3922168fd85b7f9[m
+Author: HEEYEON CHO <202015006@kyonggi.ac.kr>
+Date:   Sat Jul 16 23:53:58 2022 +0900
+
+    :sparkles: Add mypage
+
+[33mcommit a022255a9520ca83d3066960caefc552d59919c4[m[33m ([m[1;32mmaster[m[33m)[m
+Merge: 16f3e63 228fda9
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Sat Jul 16 15:47:59 2022 +0900
+
+    Merge pull request #6 from Yugyeong-Ji/develop
+    
+    :sparkles: Add image files
+
+[33mcommit 228fda92e4743705dcb3bbe023ef9e8633f13ed0[m
+Author: Yugyeong-Ji <2monica9@naver.com>
+Date:   Sat Jul 16 15:46:53 2022 +0900
+
+    :sparkles: Add image files
+
+[33mcommit 16f3e63b1614904ff1ca7cc1c080ed3d389819bd[m
+Merge: 9619656 23264e1
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Sat Jul 16 15:43:19 2022 +0900
+
+    Merge pull request #5 from Yugyeong-Ji/develop
+    
+    ✨ Add new folder
+
+[33mcommit 23264e1258d118223f16e1ba20572c9c6fcacccb[m
+Author: Soohyeon02 <tngusr@naver.com>
+Date:   Sat Jul 16 15:39:04 2022 +0900
+
+    :sparkles: Add new folder
+
+[33mcommit 576eb09b105d5dc6a40aec6be59668a6b91513cf[m
+Author: Soohyeon02 <tngusr@naver.com>
+Date:   Sat Jul 16 15:33:15 2022 +0900
+
+    :sparkles: Add new folder
+
+[33mcommit 961965694960a303d3124bc84426a5fe881dd8ab[m
+Merge: 207376f 7ee23cf
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Sat Jul 16 15:05:44 2022 +0900
+
+    Merge pull request #4 from Yugyeong-Ji/develop
+    
+    test
+
+[33mcommit 7ee23cfb2f86ddb8acbaab22ec4a6ffeebcfceba[m
+Author: Soohyeon02 <tngusr@naver.com>
+Date:   Sat Jul 16 15:03:53 2022 +0900
+
+    test
+
+[33mcommit 207376fc34756b43054e0f9b759c86afbbcce9b4[m
+Author: seoZ02 <87064616+seoZ02@users.noreply.github.com>
+Date:   Thu Jul 7 22:35:58 2022 +0900
+
+    Update README.md
+    
+    이서정 팀원 추가
+
+[33mcommit 8378ff717a27b11ac6a554c661236e23b373eab4[m
+Author: chy0503 <90389517+chy0503@users.noreply.github.com>
+Date:   Thu Jul 7 17:21:10 2022 +0900
+
+    :memo: Update README.md
+
+[33mcommit 434703576c02b07950a4ccf60f4918c59c89d515[m
+Merge: 3a27606 750b554
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Thu Jul 7 17:08:33 2022 +0900
+
+    Merge pull request #3 from Yugyeong-Ji/develop
+    
+    :memo: test
+
+[33mcommit 750b5547a74eb502ab46f8e60dd91dce5b03463c[m
+Author: Yugyeong-Ji <2monica9@naver.com>
+Date:   Thu Jul 7 17:08:05 2022 +0900
+
+    :memo: test
+
+[33mcommit 3a27606a2af03248c46bc014886000b0a3302bb0[m
+Merge: 794f370 4a9e228
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Thu Jul 7 17:06:03 2022 +0900
+
+    Merge pull request #2 from Yugyeong-Ji/develop
+    
+    :memo: add application description
+
+[33mcommit 4a9e228bac2e260f570bcc637302bbf031abbc19[m
+Author: Yugyeong-Ji <2monica9@naver.com>
+Date:   Thu Jul 7 17:04:39 2022 +0900
+
+    :memo: add application description
+
+[33mcommit 794f370ceb1040da6c2eed59620d315e3c2b5bea[m
+Merge: 6e50e03 3fa902b
+Author: 지유경 <83999889+Yugyeong-Ji@users.noreply.github.com>
+Date:   Thu Jul 7 16:44:57 2022 +0900
+
+    Merge pull request #1 from Yugyeong-Ji/develop
+    
+    :memo: branch test
+
+[33mcommit 3fa902bdd421fd2b731b4c719acb31985e5c27a4[m
+Author: Yugyeong-Ji <2monica9@naver.com>
+Date:   Thu Jul 7 16:44:21 2022 +0900
+
+    :memo: branch test
+
+[33mcommit 6e50e0380452692e1b38f41e3066104591682d1c[m
+Author: Ness <103942182+Ness731@users.noreply.github.com>
+Date:   Thu Jul 7 10:18:58 2022 +0900
+
+    :memo: Update README.md
+
+[33mcommit cd3e468f8e6a304d78090cb7f32dac1859fcc8ce[m
+Author: Soohyeon-Hwang <90021333+Soohyeon02@users.noreply.github.com>
+Date:   Thu Jul 7 01:20:21 2022 +0900
+
+    Update README.md
+
+[33mcommit e66069654e9188a850173041df106e801e5f44cb[m
+Author: nute11a <87134443+seungha164@users.noreply.github.com>
+Date:   Wed Jul 6 23:37:42 2022 +0900
+
+    Update README.md
+
+[33mcommit b9bd50704db34182d28b3d263d2c3f6e7973dea0[m
+Author: Soohyeon-Hwang <90021333+Soohyeon02@users.noreply.github.com>
+Date:   Wed Jul 6 18:40:49 2022 +0900
+
+    Update README.md
+
+[33mcommit aa36f878ebc0f880c7e959f998f1c32fd4592119[m
+Author: Jjanghyo <87134427+Jjanghyo@users.noreply.github.com>
+Date:   Wed Jul 6 18:00:22 2022 +0900
+
+    Update README.md
+    
+    :tada: start
+
+[33mcommit 030d184d329a69111779ae24134518aefa50b2c4[m
+Author: Soohyeon-Hwang <90021333+Soohyeon02@users.noreply.github.com>
+Date:   Wed Jul 6 17:56:55 2022 +0900
+
+    Update README.md
+
+[33mcommit c839fd17483a2bafbc0af534c92e06064c174732[m
+Author: Soohyeon-Hwang <90021333+Soohyeon02@users.noreply.github.com>
+Date:   Wed Jul 6 17:56:06 2022 +0900
+
+    Update README.md
+
+[33mcommit a478980f9b1546a654a9f9d2526d5a6627cb61f0[m
+Author: Soohyeon-Hwang <90021333+Soohyeon02@users.noreply.github.com>
+Date:   Wed Jul 6 17:55:31 2022 +0900
+
+    Update README.md
+
+[33mcommit 790abbb833f4cc41c21339fa1a70c3fa4901df15[m
+Author: Yugyeong-Ji <2monica9@naver.com>
+Date:   Wed Jul 6 17:19:19 2022 +0900
+
+    :tada: first commit
