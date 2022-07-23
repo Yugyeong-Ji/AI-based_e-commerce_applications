@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         children: [child!, DropdownAlert()],
       ),
 
-      home: productDetails(productInform: testProduct),
+      //home: productDetails(productInform: testProduct),
       // home: catalogList(),
       // home: HomeScreen(),
       // home: Home(),
@@ -57,6 +57,7 @@ class MyApp extends StatelessWidget {
       // home: mateHomeScreen(),
       // home: barTestScreen(),
       // home: mypage(),
+      home:BaseWidget()
     );
   }
 }
