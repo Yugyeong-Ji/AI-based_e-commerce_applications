@@ -344,9 +344,11 @@ class nonmemberOrder extends StatelessWidget {
   }
 }
 
+
+
 /*
   1. 주문번호 조회
   2. 조회결과 불러오기
   3. 주문 상세 페이지 전환
-  4. 주문번호 작성 시 오버플로
+  4. 주문번호 입력 시 오버플로
 */
