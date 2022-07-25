@@ -45,7 +45,8 @@ class _productInquiry extends State<productInquiry> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      writeProductInquiry(productInform: this.productInform)));
+                      writeProductInquiry(productInform: this.productInform)),
+          );
         },
         tooltip: '+',
         label: Text('상품 문의 등록하기',
