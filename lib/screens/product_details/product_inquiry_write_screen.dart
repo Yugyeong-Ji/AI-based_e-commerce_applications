@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:baljachwi_project/screens/product_details/product_inquiry_completion_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product.dart';
 
-class writeProductInquiry extends StatelessWidget {
+import '../mypage/product_inquiry_screen.dart';
+
+class writeProductInquiry extends StatefulWidget {
   final Product2 productInform;
 
   writeProductInquiry({Key? key, required this.productInform})
       : super(key: key);
+
+  @override
+  _writeProductInquiry createState() => _writeProductInquiry(productInform);
+}
+
+class _writeProductInquiry extends State<writeProductInquiry> {
+  // 문의글 가져오기
+  final Product2 productInform;
+
+  _writeProductInquiry(this.productInform);
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +77,76 @@ class writeProductInquiry extends StatelessWidget {
       ),
     );
   }
+
+  void showCompleteDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          buttonPadding : const EdgeInsets.all(18),
+          backgroundColor: Colors.white,
+          alignment: Alignment.center,
+          title: Text(
+            '상품관련 문의가 접수되었습니다.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            '문의하신 내역은'+"\n"+
+                '마이페이지 > 고객센터 > 문의내역에서 확인하실 수 있습니다.',
+            style: TextStyle(color: Color(0x73000000), fontSize: 14),
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            MaterialButton(
+              height: 70,
+              minWidth: (MediaQuery.of(context).size.width) - 35,
+              color: Color(0xffffa511),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: Text(
+                '확인',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  Widget postButton(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 20),
+      child: MaterialButton(
+        height: 70,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0)),
+        minWidth: (MediaQuery.of(context).size.width),
+        color: Color(0xffffa511),
+        onPressed: () {
+          showCompleteDialog(context);
+        },
+        child: Text(
+          '등록',
+          style: TextStyle(
+              color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
 }
 
 Widget writeTitle() {
@@ -89,10 +170,8 @@ Widget writeContents() {
       border: Border.all(
         width: 1.2,
         color: Color(0xffa6a6a6),
-
       ),
     ),
-
     child: TextField(
       keyboardType: TextInputType.multiline,
       maxLines: null,
@@ -107,27 +186,18 @@ Widget writeContents() {
   );
 }
 
-Widget postButton(BuildContext context) {
+Widget thinDividingLine(context) {
   return Container(
-    padding: EdgeInsets.symmetric(vertical: 20),
-    child: MaterialButton(
-      height: 80,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      minWidth: (MediaQuery.of(context).size.width),
-      color: Color(0xffffa511),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => productInquiryCompletion(),
+      width: (MediaQuery.of(context).size.width) - 50,
+      child: Column(
+        children: [
+          Container(
+            height: 1.5,
+            color: Colors.black12,
           ),
-        );
-      },
-      child: Text(
-        '등록',
-        style: TextStyle(
-            color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
-      ),
-    ),
-  );
+          SizedBox(
+            height: 25.0,
+          ),
+        ],
+      ));
 }
