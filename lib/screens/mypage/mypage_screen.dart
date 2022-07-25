@@ -1,3 +1,4 @@
+import 'package:baljachwi_project/widgets/dao.dart';
 import 'package:flutter/material.dart';
 import 'package:baljachwi_project/screens/mypage/membership_rating_screen.dart';
 import 'package:baljachwi_project/screens/mypage/coupon_screen.dart';
@@ -12,16 +13,18 @@ import 'package:baljachwi_project/screens/mypage/product_inquiry_screen.dart';
 import 'package:baljachwi_project/screens/mypage/notice_screen.dart';
 import 'package:baljachwi_project/screens/mypage/introduce_screen.dart';
 import 'package:baljachwi_project/screens/mypage/information_use_screen.dart';
-
+import 'package:baljachwi_project/widgets/dao.dart';
+List<String> grades = ['BRONZE','SILVER','GOLD','MASTER'];
 class mypage extends StatelessWidget {
-  const mypage({Key? key}) : super(key: key);
+  final User myInfo;
+  const mypage(this.myInfo, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.navigate_before),
+          icon: const Icon(Icons.navigate_before),
           color: Colors.black,
           iconSize: 30,
           onPressed: () {}, // 페이지 연결
@@ -32,7 +35,7 @@ class mypage extends StatelessWidget {
             onPressed: null,
           )
         ],
-        backgroundColor: Color(0xffffa511),
+        backgroundColor: const Color(0xffffa511),
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -40,7 +43,7 @@ class mypage extends StatelessWidget {
           children: <Widget>[
             Container(
               width: double.infinity,
-              color: Color(0xffffa511),
+              color: const Color(0xffffa511),
               height: 140,
               padding: const EdgeInsets.all(20),
               alignment: Alignment.bottomLeft,
@@ -61,8 +64,8 @@ class mypage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'baljachi 님',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    myInfo.name+'님',
+                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -81,7 +84,7 @@ class mypage extends StatelessWidget {
                             Container(
                               alignment: Alignment.centerLeft,
                               margin: const EdgeInsets.all(5),
-                              child: Text(
+                              child: const Text(
                                 '회원 등급',
                                 style: TextStyle(
                                   fontSize: 15,
@@ -93,8 +96,8 @@ class mypage extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               margin: const EdgeInsets.all(5),
                               child: Text(
-                                'SILVER',
-                                style: TextStyle(
+                                grades[myInfo.grade],
+                                style: const TextStyle(
                                   fontSize: 26,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xffffa511),
@@ -122,8 +125,8 @@ class mypage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             elevation: 0,
-                            primary: Color(0xfff2f2f2),
-                            fixedSize: Size(100, 45),
+                            primary: const Color(0xfff2f2f2),
+                            fixedSize: const Size(100, 45),
                           ),
                           onPressed: () {
                             Navigator.push(
@@ -146,7 +149,7 @@ class mypage extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 15),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             top: BorderSide(
                               color: Color(0xffd9d9d9),
@@ -176,7 +179,7 @@ class mypage extends StatelessWidget {
                               Container(
                                 alignment: Alignment.centerLeft,
                                 margin: const EdgeInsets.all(5),
-                                child: Text(
+                                child: const Text(
                                   '사용 가능 쿠폰',
                                   style: TextStyle(
                                     fontSize: 15,
@@ -188,8 +191,8 @@ class mypage extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                                 margin: const EdgeInsets.all(5),
                                 child: Text(
-                                  '1',
-                                  style: TextStyle(
+                                  myInfo.coupon.length.toString(),
+                                  style: const TextStyle(
                                     fontSize: 26,
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xffffa511),
@@ -206,7 +209,7 @@ class mypage extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 15),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             top: BorderSide(
                               color: Color(0xffd9d9d9),
@@ -232,7 +235,7 @@ class mypage extends StatelessWidget {
                               Container(
                                 alignment: Alignment.centerLeft,
                                 margin: const EdgeInsets.all(5),
-                                child: Text(
+                                child: const Text(
                                   '함께 배송 mate',
                                   style: TextStyle(
                                     fontSize: 15,
@@ -243,7 +246,7 @@ class mypage extends StatelessWidget {
                               Container(
                                 alignment: Alignment.centerLeft,
                                 margin: const EdgeInsets.all(5),
-                                child: Text(
+                                child: const Text(
                                   '3',
                                   style: TextStyle(
                                     fontSize: 26,
@@ -272,9 +275,9 @@ class mypage extends StatelessWidget {
                   makeList(context, review(), '리뷰'),
                   makeList(context, giftHistory(), '선물 내역'),
                   makeCol(30, '계정 설정'),
-                  makeList(context, productInquiry(), '회원 정보 수정'),
+                  makeList(context, EditMemberInfo(myInfo), '회원 정보 수정'),
                   makeList(context, inviteFriend(), '친구 초대'),
-                  makeList(context, editMemberInfo(), '로그아웃'),
+                  makeList(context, EditMemberInfo(myInfo), '로그아웃'),
                   makeCol(30, '고객 센터'),
                   makeList(context, personalInquiry(), '1:1 문의'),
                   makeList(context, productInquiry(), '상품 문의'),

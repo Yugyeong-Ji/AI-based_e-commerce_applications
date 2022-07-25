@@ -4,16 +4,20 @@ import 'package:baljachwi_project/widgets/nav_bar.dart';
 import 'package:baljachwi_project/screens/Home/home_screen.dart';
 import 'package:baljachwi_project/screens/mypage/mypage_screen.dart';
 import 'package:baljachwi_project/screens/category_screen.dart';
+import 'package:baljachwi_project/widgets/dao.dart';
 class BaseWidget extends StatefulWidget{
   @override
   _BaseWidget createState() => _BaseWidget();
+}
+User tmp(){
+  return User('38231@naver.com','asd','nute11a','01055556666',['133','1333'],0,['133','1333']);
 }
 class _BaseWidget extends State<BaseWidget>{
   int _selectedIndex = 0; // 인덱싱
   final List<Widget> _widgetOptions = <Widget>[
     category(),
     HomeScreen(),
-    mypage(),
+    mypage(tmp()),
   ];
   void _onItemTapped(int index) {
     setState(() {
