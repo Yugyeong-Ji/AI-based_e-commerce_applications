@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:baljachwi_project/screens/product_details/write_product_inquiry_screen.dart';
+import 'package:baljachwi_project/screens/product_details/product_inquiry_write_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry.dart';
+import 'package:baljachwi_project/screens/product_details/product_inquiry_view_screen.dart';
 
 class productInquiry extends StatefulWidget {
   final Product2 productInform;
@@ -13,8 +14,9 @@ class productInquiry extends StatefulWidget {
 }
 
 class _productInquiry extends State<productInquiry> {
-  final List<ProductInquiry> inquiries = getInquiries(); // 문의글 가져오기
+  // 문의글 가져오기
   Product2 productInform;
+  List<ProductInquiry> inquiries = [];
 
   _productInquiry(this.productInform);
 
@@ -30,6 +32,9 @@ class _productInquiry extends State<productInquiry> {
               height: 20.0,
             ),
             loadInquiries(),
+            SizedBox(
+              height: 80.0,
+            ),
           ],
         ),
       ]),
@@ -52,87 +57,137 @@ class _productInquiry extends State<productInquiry> {
   }
 
   Widget loadInquiries() {
+    getInquiries();
     final children = <Widget>[];
-    for (int i = 0; i < inquiries.length; i++)
+    for (int i = 0; i < inquiries.length; i++) {
       children.add(contentsBox(inquiries[i]));
-
+      if (i != inquiries.length - 1) // 마지막 게시글 밑에는 구분선 생략
+        children.add(thinDividingLine(context));
+    }
     return Column(
       children: children,
     );
   }
 
-  Container contentsBox(ProductInquiry data) {
-    String title = data.title;
+  InkWell contentsBox(ProductInquiry data) {
+    String title = (data.isPrivate ? "비밀글입니다. " : data.title);
     String isResolved = (data.isResolved ? "답변완료" : "답변대기");
-    int c = (data.isResolved ? 0xff1288e5 : 0x8a000000);
     String userName = data.userName;
     String date = data.date;
+    int titleColor = (data.isPrivate ? 0x73000000 : 0xff000000);
+    int statusColor = (data.isResolved ? 0xff1288e5 : 0x73000000);
 
-    return Container(
+    /*return Container(
       color: Colors.white,
-      width: (MediaQuery.of(context).size.width) - 50,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title,
-              style: TextStyle(fontSize: 23, color: Colors.black),
-              textAlign: TextAlign.left),
-          SizedBox(
-            height: 5.0,
-          ),
-
-          Row(
-            children: <Widget>[
-              Text(isResolved,
-                  style: TextStyle(fontSize: 16.5, color: Color(c)),
-                  textAlign: TextAlign.left),
-              Text(" | " + userName + " | " + date,
-                  style: TextStyle(fontSize: 16.5, color: Colors.black54),
-                  textAlign: TextAlign.left)
+      width: (MediaQuery.of(context).size.width) - 50,);*/
+    return InkWell(
+        hoverColor: Colors.white,
+        onTap: () {
+          if (data.isPrivate == false) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => productInquiryView(data: data),
+              ),
+            );
+          }
+        },
+        child: Container(
+          width: (MediaQuery.of(context).size.width) - 50,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: <Widget>[
+                  Text(title,
+                      style: TextStyle(fontSize: 23, color: Color(titleColor)),
+                      textAlign: TextAlign.left),
+                  if (data.isPrivate)
+                    Icon(Icons.lock_outline,
+                        color: Color(titleColor), size: 24),
+                ],
+              ),
+              SizedBox(
+                height: 5.0,
+              ),
+              Row(
+                children: <Widget>[
+                  Text(isResolved,
+                      style:
+                          TextStyle(fontSize: 16.5, color: Color(statusColor)),
+                      textAlign: TextAlign.left),
+                  Text(" | " + userName + " | " + date,
+                      style: TextStyle(fontSize: 16.5, color: Colors.black45),
+                      textAlign: TextAlign.left)
+                ],
+              ),
             ],
           ),
-          thinDividingLine(),
+        ));
+  }
+
+  // 데이터베이스에서 문의글을 가져오는 함수
+  void getInquiries() {
+    List<ProductInquiry> testInquires = [];
+    // ** 임시로 하드코딩 ** ---> 추후 수정
+    // 1. 제품 정보를 받아 일치하는지 검사
+    // 2. 일치하는 데이터만 받아오기
+    // 3. 문의글 리스트 생성 후 null 검사를 통과하면 반환
+
+    for (int i = 1; i <= 3; i++) {
+      ProductInquiry testInquire = new ProductInquiry(
+          this.productInform,
+          "비밀글 테스트 " + i.toString(),
+          "환불해주세요;;",
+          "privateTest" + i.toString(),
+          "2022.04.23",
+          false,
+          true);
+      testInquires.add(testInquire);
+    }
+    for (int i = 1; i <= 3; i++) {
+      ProductInquiry testInquire = new ProductInquiry(
+          this.productInform,
+          "답변대기 테스트 " + i.toString(),
+          "환불해주세요;;",
+          "watingTest" + i.toString(),
+          "2022.04.23",
+          false,
+          false);
+      testInquires.add(testInquire);
+    }
+    for (int i = 1; i <= 3; i++) {
+      ProductInquiry testInquire = new ProductInquiry(
+          this.productInform,
+          "답변완료 테스트 " + i.toString(),
+          "환불해주세요;;",
+          "answerTest" + i.toString(),
+          "2022.04.23",
+          true,
+          false);
+      testInquire.answer = "고객님 죄송하지만 환불은 어렵습니다..^^";
+      testInquires.add(testInquire);
+    }
+
+    inquiries = testInquires;
+  }
+}
+
+Widget thinDividingLine(context) {
+  return Container(
+      width: (MediaQuery.of(context).size.width) - 50,
+      child: Column(
+        children: [
+          SizedBox(
+            height: 19.0,
+          ),
+          Container(
+            height: 1.5,
+            color: Colors.black12,
+          ),
+          SizedBox(
+            height: 14.0,
+          ),
         ],
-      ),
-    );
-  }
-}
-
-// 데이터베이스에서 문의글을 가져오는 함수
-List<ProductInquiry> getInquiries() {
-  List<ProductInquiry> testInquires = [];
-  // ** 임시로 하드코딩 ** ---> 추후 수정
-  // 1. 제품 정보를 받아 일치하는지 검사
-  // 2. 일치하는 데이터만 받아오기
-  // 3. 문의글 리스트 생성 후 null 검사를 통과하면 반환
-
-  for (int i = 10; i >= 6; i--) {
-    ProductInquiry testInquire = new ProductInquiry("테스트 문의사항" + i.toString(),
-        "환불해주세요ㅡㅡ;;", "user" + i.toString(), "2022.04.23", false);
-    testInquires.add(testInquire);
-  }
-  for (int i = 5; i >= 1; i--) {
-    ProductInquiry testInquire = new ProductInquiry("테스트 문의사항" + i.toString(),
-        "환불해주세요ㅡㅡ;;", "user" + i.toString(), "2022.04.23", true);
-    testInquires.add(testInquire);
-  }
-
-  return testInquires;
-}
-
-Widget thinDividingLine() {
-  return Column(
-    children: [
-      SizedBox(
-        height: 19.0,
-      ),
-      Container(
-        height: 1.5,
-        color: Colors.black12,
-      ),
-      SizedBox(
-        height: 14.0,
-      ),
-    ],
-  );
+      ));
 }
