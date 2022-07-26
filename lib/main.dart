@@ -1,3 +1,4 @@
+import 'package:baljachwi_project/screens/Login/login_app_screen.dart';
 import 'package:baljachwi_project/screens/Mate/mate_home_screen.dart';
 import 'package:baljachwi_project/screens/catalog_list_screen.dart';
 import 'package:baljachwi_project/screens/after_login.dart';
@@ -26,6 +27,8 @@ import 'package:baljachwi_project/screens/Mate/mate_team_screen.dart';
 import 'package:baljachwi_project/screens/bar_test_screen.dart';
 import 'package:baljachwi_project/screens/mypage/mypage_screen.dart';
 
+import 'package:baljachwi_project/screens/Login/login_app_screen.dart';
+
 void main() async {
   // => firebase 사용하기 위한 필수 코드
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,15 +53,16 @@ class MyApp extends StatelessWidget {
 
       //home: productDetails(product: testProduct, user: testUser),
       // home: catalogList(),
-      // home: HomeScreen(),
-      // home: Home(),
+      //  home: HomeScreen(),
+      //home: Home(),
       // catalogList(),
       // home: HomeScreen(),
       // home: mateHomeScreen(),
       // home: barTestScreen(),
       // home: mypage(),
-      // home: BaseWidget());
+      //home: BaseWidget()
       //home: mateTeamScreen(),
+      home: LoginAppScreen(),
     );
   }
 }
