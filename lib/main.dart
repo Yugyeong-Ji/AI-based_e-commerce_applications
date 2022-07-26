@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
       // home: mateHomeScreen(),
       // home: barTestScreen(),
       // home: mypage(),
-      // home: BaseWidget());
+      home: BaseWidget()
       //home: mateTeamScreen(),
     );
   }
