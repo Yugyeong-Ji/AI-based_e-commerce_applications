@@ -14,6 +14,7 @@ class Recipe{
   String toString(){
     return "title : "+title+"\n"+"img : "+imgPath;
   }
+  Recipe(this.title,this.imgPath,this.ingredient);
 }
 final List<String> items = [
   '~10,000',
@@ -27,14 +28,17 @@ class Home_Recipe extends StatefulWidget {
   @override
   _Recipe createState()=> _Recipe();
 }
+
 class _Recipe extends State<Home_Recipe>{
-  final tmpTop = <Container>[];
-  final searchRecipe = Recipe();
+  var top10Future;  // 실시간 인기레시피를 불러오기 위한 Future 변수
+  var recommandIngredientFuture;  // 재료추천을 위한 Future 변수
+  final searchRecipe=null;
   final _searchRecipeController = TextEditingController();
   final _searchIngredientController = TextEditingController();
   bool _showRecipe = true;
   // TOP10 뽑는 메소드
   Future<List<Container>> _getTop10() async {
+    List<Container> tmpTop = [];
     http.Response response = await http.get(Uri.parse('https://www.10000recipe.com/ranking/home_new.html?dtype=d&rtype=r'));
     dom.Document document = parse.parse(response.body);
     final recipes = document.getElementsByClassName('common_sp_list_li');
@@ -49,7 +53,7 @@ class _Recipe extends State<Home_Recipe>{
             children: [
               Image.network(imgP,fit: BoxFit.fill,height: 180),
               const SizedBox(height: 10),
-              Text(title)
+              Text(title,style: TextStyle(fontWeight: FontWeight.bold))
             ],
           ),
         ));
@@ -57,49 +61,68 @@ class _Recipe extends State<Home_Recipe>{
     }
    return tmpTop;
   }
-  Future<List<Container>> _getRecipe(recipeName) async{
+
+  Future<Recipe> _getRecipe(recipeName) async{
+    print('call _getRecipe'+recipeName);
     var response = await http.get(Uri.parse('https://www.10000recipe.com/recipe/list.html?q='+recipeName));
     dom.Document document = parse.parse(response.body);
+    var isNone = document.getElementsByClassName('result_none');
+    if(isNone.length!=0){
+      print(isNone[0].innerHtml);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(recipeName+"에 대한 검색결과가 없습니다.")));
+      setState(() {
+        _showRecipe = true;
+      });
+      return Recipe('NONE','NONE', []);
+    }else{
+      print('통과');
+    }
     var ul = document.getElementsByClassName('common_sp_list_ul')[1];
     var li = ul.getElementsByClassName('common_sp_list_li');
     String path = li[0].getElementsByClassName('common_sp_thumb')[0].getElementsByTagName('a')[0].attributes.values.toString();
     path = 'https://www.10000recipe.com'+path.substring(1,path.indexOf(','));
+    print(path);
     // 재료 추출
     var ingredient = [];
     response = await http.get(Uri.parse(path));
     document = parse.parse(response.body);
     // imgPath
-    var img = document.getElementsByClassName('centeredcrop')[0];
+    var img = (document.getElementsByClassName('centeredcrop')[0]).getElementsByTagName('img')[0].attributes['src'];
+    print("<<img>>");
+    print(img);
     // title
-    var title = document.getElementsByClassName('view2_summary st3')[0];
+    var title = (document.getElementsByClassName('view2_summary st3')[0]).getElementsByTagName('h3')[0].innerHtml;
+    print(title);
     // ingredient
     var res = document.getElementsByClassName('ready_ingre3')[0];
     for(var ul in res.getElementsByTagName('ul')){
       if(ul.getElementsByTagName('b')[0].innerHtml.contains('재료')){
         // 재료부분 가져오기!
         for(var li in ul.getElementsByTagName('li')){
-          String title;
+          String tmpIngredient;
           var tmp = li.getElementsByTagName('a');
           //amount = li.getElementsByClassName('ingre_unit')[0].innerHtml;
           if(tmp==null || tmp.length==0){
-            title = li.innerHtml;
-            title = title.toString().substring(0,title.indexOf('<span')).trim();
+            tmpIngredient = li.innerHtml;
+            tmpIngredient = tmpIngredient.toString().substring(0,tmpIngredient.indexOf('<span')).trim();
           }
           else{
-            title = tmp[0].innerHtml;
-            title = title.substring(0,title.indexOf('<img')).trim();
+            tmpIngredient = tmp[0].innerHtml;
+            tmpIngredient = tmpIngredient.substring(0,tmpIngredient.indexOf('<img')).trim();
           }
-          ingredient.add(title);
+          ingredient.add(tmpIngredient);
         }
       }
     }
-    setState(() {
-      searchRecipe.imgPath = img.getElementsByTagName('img')[0].attributes['src'].toString();
-      searchRecipe.title = title.getElementsByTagName('h3')[0].innerHtml;
-      searchRecipe.title = title.getElementsByTagName('h3')[0].innerHtml;
-    });
-    print(searchRecipe);
-    return [Container()];
+    print(title.toString()+img.toString());
+    print(ingredient);
+    return Recipe(title,img,ingredient);
+
+  }
+  @override
+  void initState() {
+    super.initState();
+    top10Future = _getTop10();
   }
   @override
   Widget build(BuildContext context) {
@@ -117,7 +140,7 @@ class _Recipe extends State<Home_Recipe>{
                           const Text('실시간 인기 레시피',style: TextStyle(fontWeight: FontWeight.bold),),
                           const Divider(thickness: 0.5,color: Colors.white),
                           FutureBuilder(
-                              future: _getTop10(),
+                              future: top10Future,
                               builder: (BuildContext context, AsyncSnapshot snapshot) {
                                 if (snapshot.hasData == false) {
                                   return const SizedBox(
@@ -138,7 +161,7 @@ class _Recipe extends State<Home_Recipe>{
                                       height: 250,
                                     child: Swiper(
                                       itemBuilder: (BuildContext context,int idx){
-                                        return tmpTop[idx];
+                                        return snapshot.data[idx];
                                       },
                                       itemCount: 10,
                                       pagination: const SwiperPagination(
@@ -200,35 +223,55 @@ class _Recipe extends State<Home_Recipe>{
                                 ]
                             )
                           ),
-                          /*
-                          FutureBuilder(
-                            future: _getRecipe(_searchRecipeController.text),
-                            builder: (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData == false) {
-
-                              }
-                            }
-                          ),*/
                           Offstage(
                             offstage: _showRecipe,
-                            child:Container(
-                              padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Colors.grey),
-                              ),
-                              child: Column(
-                                children: [
-                                  Image.network('https://picsum.photos/seed/picsum/200/300',fit: BoxFit.fill,height: 100),
-                                  Text('감바스'),
-                                  Row(
-                                    children: [Text('재료 ',style: TextStyle(fontWeight: FontWeight.bold)),Text('Ingredients',style: TextStyle(color: Colors.grey[400]))],
-                                  ),
-                                  makeIngredient_con('돼지고기 항정살'),
-                                  makeIngredient_con('오일'),
-                                ],
-                              ),
+                            child:FutureBuilder(
+                                future: recommandIngredientFuture,
+                                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                  if (snapshot.hasData == false) {
+                                    return const Center(child: Text('ROADING..'));
+                                  }
+                                  else{
+                                    Recipe r = snapshot.data;
+                                    if(r.title=='NONE'){
+                                      return Center();
+                                    }
+                                    return Container(
+                                        padding: EdgeInsets.all(10),
+                                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          border: Border.all(color: Colors.grey),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              alignment: Alignment.centerRight,
+                                              child: IconButton(
+                                                  onPressed: ()=>setState(() {
+                                                    _showRecipe = true;
+                                                  }),
+                                                  icon: Icon(Icons.close_rounded),color: Colors.grey)
+                                            ),
+                                            Image.network(r.imgPath,fit:BoxFit.fitWidth,height: 100),
+                                            SizedBox(height: 10),
+                                            Text(r.title,textAlign:TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                                            SizedBox(height: 20),
+                                            Row(
+                                              children: [Text('재료 ',style: TextStyle(fontWeight: FontWeight.bold)),Text('Ingredients',style: TextStyle(color: Colors.grey[400]))],
+                                            ),
+                                            ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount: (r.ingredient).length,
+                                                itemBuilder: (BuildContext context,int idx){
+                                                  return makeIngredient_con(r.ingredient[idx]);
+                                                }
+                                            )
+                                          ],
+                                        )
+                                    );
+                                  }
+                                }
                             )
                           )
                         ],
@@ -284,11 +327,13 @@ class _Recipe extends State<Home_Recipe>{
     );
   }
   void _handleSubmitted(String text){
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+    if(text==null || text.length==0){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Plz PUTT')));
+      return;
+    }
     _searchRecipeController.clear();
-    _getRecipe(text);
-    print('============');
-    print(searchRecipe);
+    recommandIngredientFuture = _getRecipe(text);
+    //print(searchRecipe);
     setState(() {
       _showRecipe = false;
     });
