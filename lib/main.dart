@@ -1,6 +1,7 @@
 import 'package:baljachwi_project/screens/Mate/mate_home_screen.dart';
 import 'package:baljachwi_project/screens/catalog_list_screen.dart';
 import 'package:baljachwi_project/screens/after_login.dart';
+import 'package:baljachwi_project/widgets/dao.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
         children: [child!, DropdownAlert()],
       ),
 
-      //home: productDetails(productInform: testProduct),
+      //home: productDetails(product: testProduct, user: testUser),
       // home: catalogList(),
       // home: HomeScreen(),
       // home: Home(),
@@ -69,3 +70,7 @@ Product2 testProduct = new Product2("하림", "하림 닭가슴살 110g x 총 20
       "assets/images/chicken2.jpg",
       "assets/images/chicken3.jpg"
     ]);
+
+// *제품 상세페이지 테스트를 위한 임시 유저객체 --> 추후 삭제 *
+User testUser =
+    new User('email','pwd','Testname','phone','addr','grade','coupon');
