@@ -4,21 +4,23 @@ import 'package:baljachwi_project/screens/product_details/product.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry_view_screen.dart';
 
-class productInquiry extends StatefulWidget {
-  final Product2 productInform;
+import '../../widgets/dao.dart';
 
-  productInquiry({Key? key, required this.productInform}) : super(key: key);
+class productInquiry extends StatefulWidget {
+  final Product2 product;
+  final User user;
+  productInquiry({Key? key, required this.product, required this.user}) : super(key: key);
 
   @override
-  _productInquiry createState() => _productInquiry(productInform);
+  _productInquiry createState() => _productInquiry(product, user);
 }
 
 class _productInquiry extends State<productInquiry> {
-  // 문의글 가져오기
-  Product2 productInform;
+  final Product2 product; // 상품정보
+  final User user; // 유저 정보
   List<ProductInquiry> inquiries = [];
 
-  _productInquiry(this.productInform);
+  _productInquiry(this.product, this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class _productInquiry extends State<productInquiry> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      writeProductInquiry(productInform: this.productInform)),
+                      writeProductInquiry(product: this.product, user: this.user)),
           );
         },
         tooltip: '+',
@@ -73,7 +75,7 @@ class _productInquiry extends State<productInquiry> {
   InkWell contentsBox(ProductInquiry data) {
     String title = (data.isPrivate ? "비밀글입니다. " : data.title);
     String isResolved = (data.isResolved ? "답변완료" : "답변대기");
-    String userName = data.userName;
+    String userName = data.user.name;
     String date = data.date;
     int titleColor = (data.isPrivate ? 0x73000000 : 0xff000000);
     int statusColor = (data.isResolved ? 0xff1288e5 : 0x73000000);
@@ -137,10 +139,10 @@ class _productInquiry extends State<productInquiry> {
 
     for (int i = 1; i <= 3; i++) {
       ProductInquiry testInquire = new ProductInquiry(
-          this.productInform,
+          this.product,
           "비밀글 테스트 " + i.toString(),
           "환불해주세요;;",
-          "privateTest" + i.toString(),
+          new User('','',"privateTest" + i.toString(),'','','',''),
           "2022.04.23",
           false,
           true);
@@ -148,10 +150,10 @@ class _productInquiry extends State<productInquiry> {
     }
     for (int i = 1; i <= 3; i++) {
       ProductInquiry testInquire = new ProductInquiry(
-          this.productInform,
+          this.product,
           "답변대기 테스트 " + i.toString(),
           "환불해주세요;;",
-          "watingTest" + i.toString(),
+          new User('','',"watingTest" + i.toString(),'','','',''),
           "2022.04.23",
           false,
           false);
@@ -159,10 +161,10 @@ class _productInquiry extends State<productInquiry> {
     }
     for (int i = 1; i <= 3; i++) {
       ProductInquiry testInquire = new ProductInquiry(
-          this.productInform,
+          this.product,
           "답변완료 테스트 " + i.toString(),
           "환불해주세요;;",
-          "answerTest" + i.toString(),
+          new User('','',"answerTest" + i.toString(),'','','',''),
           "2022.04.23",
           true,
           false);

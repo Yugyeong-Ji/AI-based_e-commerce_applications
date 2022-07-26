@@ -11,11 +11,14 @@ import 'package:baljachwi_project/screens/product_details/add_to_wishlist.dart';
 import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 
+import '../../widgets/dao.dart';
+
 class productDetails extends StatefulWidget {
-  final Product2 productInform;
-  productDetails({Key? key, required this.productInform}) : super(key: key);
+  final Product2 product;
+  final User user;
+  productDetails({Key? key, required this.product, required this.user}) : super(key: key);
   @override
-  _productDetails createState() => _productDetails(productInform);
+  _productDetails createState() => _productDetails(product, user);
 }
 
 List<Widget> list = [
@@ -27,8 +30,9 @@ List<Widget> list = [
 ];
 
 class _productDetails extends State<productDetails> with TickerProviderStateMixin {
-  Product2 productInform;
-  _productDetails(this.productInform);
+  final Product2 product;
+  final User user;
+  _productDetails(this.product, this.user);
 
   int _selectedIndex = 0;
   late TabController _controller;
@@ -108,10 +112,10 @@ class _productDetails extends State<productDetails> with TickerProviderStateMixi
       body: TabBarView(
         controller: _controller,
         children: [
-          Center(child: productDescription(productInform: this.productInform)),
+          Center(child: productDescription(product: this.product)),
           Center(child: productInformation()),
           Center(child: productReview()),
-          Center(child: productInquiry(productInform: this.productInform))
+          Center(child: productInquiry(product: this.product, user: this.user))
         ],
       ),
       bottomNavigationBar: BottomAppBar(
