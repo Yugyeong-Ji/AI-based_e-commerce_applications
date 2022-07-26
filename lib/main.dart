@@ -49,14 +49,14 @@ class MyApp extends StatelessWidget {
 
       //home: productDetails(productInform: testProduct),
       // home: catalogList(),
-      // home: HomeScreen(),
-      // home: Home(),
+       home: HomeScreen(),
+      //home: Home(),
       // catalogList(),
       // home: HomeScreen(),
       // home: mateHomeScreen(),
       // home: barTestScreen(),
       // home: mypage(),
-      home: BaseWidget()
+      //home: BaseWidget()
       //home: mateTeamScreen(),
     );
   }
