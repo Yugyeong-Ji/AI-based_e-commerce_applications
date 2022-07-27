@@ -112,7 +112,7 @@ packages:
       name: dropdown_button2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.3"
+    version: "1.7.0"
   dropdown_search:
     dependency: "direct main"
     description:
@@ -223,6 +223,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  flutter_spinbox:
+    dependency: "direct main"
+    description:
+      name: flutter_spinbox
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -275,6 +282,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.4"
+  like_button:
+    dependency: "direct main"
+    description:
+      name: like_button
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
   lints:
     dependency: transitive
     description:
