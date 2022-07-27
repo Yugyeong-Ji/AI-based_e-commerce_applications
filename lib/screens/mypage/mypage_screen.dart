@@ -271,7 +271,7 @@ class mypage extends StatelessWidget {
                 children: <Widget>[
                   makeCol(0, '나의 쇼핑'),
                   makeList(context, orderHistory(), '주문 내역'),
-                  makeList(context, addressMange(), '배송지 관리'),
+                  makeList(context, addressManage(), '배송지 관리'),
                   makeList(context, review(), '리뷰'),
                   makeList(context, giftHistory(), '선물 내역'),
                   makeCol(30, '계정 설정'),
