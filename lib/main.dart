@@ -60,9 +60,9 @@ class MyApp extends StatelessWidget {
       // home: mateHomeScreen(),
       // home: barTestScreen(),
       // home: mypage(),
-      //home: BaseWidget()
+      home: BaseWidget()
       //home: mateTeamScreen(),
-      home: LoginAppScreen(),
+      //home: LoginAppScreen(),
     );
   }
 }

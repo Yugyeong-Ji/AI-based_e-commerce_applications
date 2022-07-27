@@ -1,4 +1,5 @@
 import 'package:baljachwi_project/screens/mypage/notice_screen.dart';
+import 'package:baljachwi_project/widgets/dao.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,10 +18,13 @@ class Coupon{
 }
 CollectionReference<Map<String,dynamic>> collectionReference = FirebaseFirestore.instance.collection('coupon');
 class MyPage_Coupon extends StatefulWidget {
+  final myInfo;
+  MyPage_Coupon(this.myInfo);
   @override
-  _coupon createState() => _coupon();
+  _couponPage createState() => _couponPage();
 }
-class _coupon extends State<MyPage_Coupon>{
+
+class _couponPage extends State<MyPage_Coupon>{
   final TextEditingController _textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
