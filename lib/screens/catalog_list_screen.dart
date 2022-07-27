@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:baljachwi_project/screens/catalog_main_screen.dart' as catalog;
 
 bool isChecked = false;
-
+int bigCategory = -1;
+List<int> selectCategory = [-1, 0, 10, 20, 30, 40, 50, 60, 70, 80];
 class catalogList extends StatefulWidget {
-  const catalogList({Key? key}) : super(key: key);
+  final String search;
+  final int bigCategory;
+  const catalogList(this.bigCategory, this.search);
+
   @override
   State<catalogList> createState() => _catalogList();
+
 }
 
 class Product{
@@ -16,17 +22,24 @@ class Product{
   var discountRate;
   var regularDelivery;
   var img;
+  var category;
 }
 
-class _catalogList extends State<catalogList> {
+class _catalogList extends State<catalogList> with TickerProviderStateMixin {
   CollectionReference productCol = FirebaseFirestore.instance.collection('products');
   late ScrollController _scrollController;
+  late TabController _tabController;
+
   @override
   void initState() {
+    selectCategory = catalog.selectCategory;
     super.initState();
     _scrollController = ScrollController();
+    _tabController = TabController(
+      length: 0,
+      vsync: this, //vsync에 this 형태로 전달해야 애니메이션이 정상 처리됨
+    );
   }
-
   final TextEditingController _controller = TextEditingController();
   void _clearTextField() {
     // Clear everything in the text field
@@ -35,129 +48,58 @@ class _catalogList extends State<catalogList> {
     setState(() {});
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset : false,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          '상품 목록',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.navigate_before),
-          color: Color(0xffffa511),
-          iconSize: 30,
-          onPressed: () {
-            //Navigator.pop(context);
-            print('BackPage');
-          }, // 페이지 연결
-        ),
-        actions: <Widget>[
-          Expanded(
-            child: Container(
-              height: 50,
-              child: TextField(
-                controller: _controller,
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
-                      color: Color(0xffa6a6a6),
-                    ),
-                  ),
-                  labelText: '내용을 입력해주세요.',
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: IconButton(
-                    onPressed: _clearTextField,
-                    icon: Icon(Icons.clear),
-                  ),
-                ),
-              ),
-              padding: const EdgeInsets.only(right: 5, left:53, top:10, bottom:7),
-            ),
-          ),
-          IconButton(
-            icon: Icon(Icons.room), // 아이콘 생성
-            color: Color(0xffffa511),
-            onPressed: () {
-              // 아이콘 버튼 실행
-              print('Button is clicked');
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.shopping_cart), // 장바구니 아이콘 생성
-            color: Color(0xffffa511),
-            onPressed: () {
-              // 아이콘 버튼 실행
-              print('Shopping cart button is clicked');
-            },
-          ),
-        ],
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Container(
-            color: Colors.white,
-            height: 33,
-            padding: const EdgeInsets.all(2.0),
-            margin: const EdgeInsets.all(4.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  height: 14,
-                  margin: const EdgeInsets.only(left: 3, top:3.5),
-                  alignment: Alignment.centerLeft,
-                  child: Row(children: [
-                    Checkbox(
-                        value: isChecked,
-                        onChanged: (value) {
-                          setState(() {
-                            if (value != null) isChecked = value;
-                          });
-                        }),
-                    Text(
-                      '정기구매',
-                      style: TextStyle(
-                        fontSize: 14,
-                        height: 0.95,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  ]),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            height: 1.2,
-            color: Color(0xffb4b7bb),
-          ),
-          Expanded(
+    return Container(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               controller: ScrollController(),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
+                  Container(
+                    color: Colors.white,
+                    height: 33,
+                    padding: const EdgeInsets.all(2.0),
+                    margin: const EdgeInsets.all(4.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          height: 14,
+                          margin: const EdgeInsets.only(left: 3, top:3.5),
+                          alignment: Alignment.centerLeft,
+                          child: Row(children: [
+                            Checkbox(
+                                value: isChecked,
+                                onChanged: (value) {
+                                  setState(() {
+                                    if (value != null) isChecked = value;
+                                  });
+                                }),
+                            Text(
+                              '정기구매',
+                              style: TextStyle(
+                                fontSize: 14,
+                                height: 0.95,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ]),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 1.1,
+                    color: Color(0xffb4b7bb),
+                  ),
                   FutureBuilder(
-                      future: _getProduct(),
+                      future: _getProduct(catalog.selectCategory),
                       builder:
                           (BuildContext context, AsyncSnapshot snapshot){
                         if (snapshot.hasError) {
+                          print('------------');
                           print(snapshot);
                           return Text("Something went wrong");
                         }
@@ -167,8 +109,13 @@ class _catalogList extends State<catalogList> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           List<Product> nList = snapshot.data;
                           List<ListTile> mainContainer = [];
-                          for(Product doc in nList)
-                            mainContainer.add(makeProduct(doc.name,doc.img, doc.price, doc.discountRate, doc.regularDelivery, context));
+                          if (isChecked == false)
+                            for(Product doc in nList)
+                              mainContainer.add(makeProduct(doc.name,doc.img, doc.price, doc.discountRate, doc.regularDelivery, doc.category, context));
+                          else if (isChecked == true)
+                            for(Product doc in nList)
+                              if (doc.regularDelivery == true)
+                                mainContainer.add(makeProduct(doc.name,doc.img, doc.price, doc.discountRate, doc.regularDelivery, doc.category, context));
                           return Container(
                             child: Column(
                               children: mainContainer.toList(),
@@ -181,31 +128,59 @@ class _catalogList extends State<catalogList> {
                 ],
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 }
 
-Future<List<Product>> _getProduct() async{
-  CollectionReference<Map<String,dynamic>> collectionReference = FirebaseFirestore.instance.collection('products');
-  QuerySnapshot<Map<String,dynamic>> querySnapshot = await collectionReference.get();
+Future<List<Product>> _getProduct(id) async{
+  print(id);
   List<Product> products = [];
-  for(var doc in querySnapshot.docs){
-    Product tmp = Product();
-    tmp.name = doc['name'];
-    tmp.img = doc['img'];
-    tmp.price = doc['price'];
-    tmp.discountRate = doc['discountRate'];
-    tmp.regularDelivery = doc['regularDelivery'];
-    products.add(tmp);
+  QuerySnapshot<Map<String,dynamic>> querySnapshot;
+  if (id == -1) {
+    querySnapshot = await FirebaseFirestore.instance.collection('products').get();
+    for(var doc in querySnapshot.docs){
+      Product tmp = Product();
+      tmp.name = doc['name'];
+      tmp.img = doc['img'];
+      tmp.price = doc['price'];
+      tmp.discountRate = doc['discountRate'];
+      tmp.regularDelivery = doc['regularDelivery'];
+      tmp.category = doc['category'];
+      products.add(tmp);
+    }
+  }
+  else if (id % 10 == 0) {
+    for (int doc = id; doc<id+10; doc++) {
+      querySnapshot = await FirebaseFirestore.instance.collection('products').where('category', isEqualTo: doc).get();
+      for (var doc in querySnapshot.docs) {
+        Product tmp = Product();
+        tmp.name = doc['name'];
+        tmp.img = doc['img'];
+        tmp.price = doc['price'];
+        tmp.discountRate = doc['discountRate'];
+        tmp.regularDelivery = doc['regularDelivery'];
+        tmp.category = doc['category'];
+        products.add(tmp);
+      }
+    }
+  }
+  else {
+      querySnapshot = await FirebaseFirestore.instance.collection('products').where('category', isEqualTo: id).get();
+      for (var doc in querySnapshot.docs) {
+        Product tmp = Product();
+        tmp.name = doc['name'];
+        tmp.img = doc['img'];
+        tmp.price = doc['price'];
+        tmp.discountRate = doc['discountRate'];
+        tmp.regularDelivery = doc['regularDelivery'];
+        tmp.category = doc['category'];
+        products.add(tmp);
+      }
   }
   return products;
 }
 
-
-ListTile makeProduct(String name,String img, int price, int discountRate, bool regularDelivery, BuildContext context){
+ListTile makeProduct(String name,String img, int price, int discountRate, bool regularDelivery, int category, BuildContext context){
   var f = NumberFormat('###,###,###,###원');
   return ListTile(
     onTap: (){
@@ -265,7 +240,7 @@ ListTile makeProduct(String name,String img, int price, int discountRate, bool r
                                 style: TextStyle(fontSize: 14.1, height: 1.6, fontWeight: FontWeight.bold, color:Color(0xffff8511)),
                               ),
                               Text(
-                                f.format(price)+'\t',
+                                f.format(price*(100-discountRate)*0.01)+'\t',
                                 style: TextStyle(fontSize: 14, height: 1.5, fontWeight: FontWeight.bold),
                               ),
                               Text(
