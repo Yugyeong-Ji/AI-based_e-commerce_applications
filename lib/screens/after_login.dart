@@ -10,7 +10,7 @@ class BaseWidget extends StatefulWidget{
   _BaseWidget createState() => _BaseWidget();
 }
 User tmp(){
-  return User('38231@naver.com','asd','nute11a','01055556666',['133','1333'],0,['133','1333']);
+  return User('38231@naver.com','asd','nute11a','01055556666',['133','1333'],0,['BZewREvWvaOGKMhrPvYw','5SfjLQ4ZyJf7HeuIkJPa']);
 }
 class _BaseWidget extends State<BaseWidget>{
   int _selectedIndex = 0; // 인덱싱

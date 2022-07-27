@@ -1,11 +1,11 @@
-import 'package:beautiful_soup_dart/beautiful_soup.dart%20';
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/custom_dropdown_button2.dart';
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:html/parser.dart' as parse;
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
-import 'package:beautiful_soup_dart/beautiful_soup.dart' as bs4;
+import 'package:card_swiper/card_swiper.dart';
+
 class Recipe{
   var title;
   var imgPath;
@@ -36,60 +36,55 @@ class _Recipe extends State<Home_Recipe>{
   final _searchRecipeController = TextEditingController();
   final _searchIngredientController = TextEditingController();
   bool _showRecipe = true;
+
   // TOP10 뽑는 메소드
-  Future<List<Container>> _getTop10() async {
-    List<Container> tmpTop = [];
-    http.Response response = await http.get(Uri.parse('https://www.10000recipe.com/ranking/home_new.html?dtype=d&rtype=r'));
+  Future<List<InkWell>> _getTop10() async {
+    List<InkWell> tmpTop = [];
+    http.Response response = await http.get(Uri.parse('https://www.10000recipe.com/index.html'));
     dom.Document document = parse.parse(response.body);
-    final recipes = document.getElementsByClassName('common_sp_list_li');
+    var t = document.getElementById('CarrouselBox3');
+    if(t==null) return [];
+    var boxes = t.getElementsByClassName('common_sp_list_li');
     for(var i=0;i<10;i++){
-      var title = recipes[i].getElementsByClassName('common_sp_caption_tit line2')[0].innerHtml;
-      var tmp = recipes[i].getElementsByClassName('common_sp_link')[0].getElementsByTagName('img');
-      var imgP = tmp[tmp.length-1].attributes.values.toString();
-      imgP = imgP.substring(1,imgP.length-1);
-      setState(() {
-        tmpTop.add(Container(
-          child: Column(
-            children: [
-              Image.network(imgP,fit: BoxFit.fill,height: 180),
-              const SizedBox(height: 10),
-              Text(title,style: TextStyle(fontWeight: FontWeight.bold))
-            ],
-          ),
-        ));
-      });
+      var path = 'https://www.10000recipe.com${boxes[i].getElementsByTagName('a')[0].attributes['href']}';
+      var imgP = boxes[i].getElementsByTagName('img')[0].attributes['src'].toString();
+      tmpTop.add(
+          InkWell(
+              onTap: () async => launchUrl(Uri.parse(path)),
+              child:
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(imgP,fit: BoxFit.fill,height: 150)
+              )
+          )
+      );
     }
    return tmpTop;
   }
 
   Future<Recipe> _getRecipe(recipeName) async{
+    // (1) 레시피 검색
     print('call _getRecipe'+recipeName);
-    var response = await http.get(Uri.parse('https://www.10000recipe.com/recipe/list.html?q='+recipeName));
+    var response = await http.get(Uri.parse('https://www.10000recipe.com/recipe/list.html?q=$recipeName'));
     dom.Document document = parse.parse(response.body);
     var isNone = document.getElementsByClassName('result_none');
     if(isNone.length!=0){
-      print(isNone[0].innerHtml);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(recipeName+"에 대한 검색결과가 없습니다.")));
-      setState(() {
-        _showRecipe = true;
-      });
+      setState(() =>_showRecipe = true);
       return Recipe('NONE','NONE', []);
     }else{
-      print('통과');
+      print('\'$recipeName\' 레시피 존재');
     }
-    var ul = document.getElementsByClassName('common_sp_list_ul')[1];
-    var li = ul.getElementsByClassName('common_sp_list_li');
-    String path = li[0].getElementsByClassName('common_sp_thumb')[0].getElementsByTagName('a')[0].attributes.values.toString();
-    path = 'https://www.10000recipe.com'+path.substring(1,path.indexOf(','));
-    print(path);
-    // 재료 추출
+    var ul = document.getElementsByClassName('common_sp_list_ul');
+    var li = ul[ul.length-1].getElementsByClassName('common_sp_list_li');
+    String path = li[0].getElementsByClassName('common_sp_thumb')[0].getElementsByTagName('a')[0].attributes['href'].toString();
+    path = 'https://www.10000recipe.com$path';
+    // (2) 재료 검색 & 추출
     var ingredient = [];
     response = await http.get(Uri.parse(path));
     document = parse.parse(response.body);
     // imgPath
     var img = (document.getElementsByClassName('centeredcrop')[0]).getElementsByTagName('img')[0].attributes['src'];
-    print("<<img>>");
-    print(img);
     // title
     var title = (document.getElementsByClassName('view2_summary st3')[0]).getElementsByTagName('h3')[0].innerHtml;
     print(title);
@@ -101,7 +96,6 @@ class _Recipe extends State<Home_Recipe>{
         for(var li in ul.getElementsByTagName('li')){
           String tmpIngredient;
           var tmp = li.getElementsByTagName('a');
-          //amount = li.getElementsByClassName('ingre_unit')[0].innerHtml;
           if(tmp==null || tmp.length==0){
             tmpIngredient = li.innerHtml;
             tmpIngredient = tmpIngredient.toString().substring(0,tmpIngredient.indexOf('<span')).trim();
@@ -117,7 +111,6 @@ class _Recipe extends State<Home_Recipe>{
     print(title.toString()+img.toString());
     print(ingredient);
     return Recipe(title,img,ingredient);
-
   }
   @override
   void initState() {
@@ -144,7 +137,7 @@ class _Recipe extends State<Home_Recipe>{
                               builder: (BuildContext context, AsyncSnapshot snapshot) {
                                 if (snapshot.hasData == false) {
                                   return const SizedBox(
-                                    height: 200,
+                                    height: 180,
                                   );
                                 }
                                 else if (snapshot.hasError) {
@@ -158,7 +151,7 @@ class _Recipe extends State<Home_Recipe>{
                                 }
                                 else{
                                   return SizedBox(
-                                      height: 250,
+                                      height: 200,
                                     child: Swiper(
                                       itemBuilder: (BuildContext context,int idx){
                                         return snapshot.data[idx];
@@ -173,7 +166,7 @@ class _Recipe extends State<Home_Recipe>{
                                       control: const SwiperControl(
                                           color: Color(0xffffa511)
                                       ),
-                                      //autoplay: true,
+                                      autoplay: true,
                                       duration: 1,
                                     )
                                   );
@@ -192,7 +185,12 @@ class _Recipe extends State<Home_Recipe>{
                               child:Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('재료 추천',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey[850],fontSize: 18)),
+                                    Row(
+                                      children: [
+                                        Text('재료 추천',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey[850],fontSize: 18)),
+                                        IconButton(onPressed: ()=>showHelpDialog(0), icon: Icon(Icons.help,color: Colors.orange[100]))
+                                      ],
+                                    ),
                                     Divider(thickness: 3,color: Colors.grey[850]),
                                     const Text('필요한 재료를 알려드립니다!',style: TextStyle(color: Colors.grey))
                                   ]
@@ -277,11 +275,17 @@ class _Recipe extends State<Home_Recipe>{
                         ],
                       ),
                     ),
+
                     Container(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('레시피 추천',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey[850],fontSize: 18)),
+                          Row(
+                            children: [
+                              Text('레시피 추천',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey[850],fontSize: 18)),
+                              IconButton(onPressed: ()=>showHelpDialog(1), icon: Icon(Icons.help,color: Colors.orange[100]))
+                            ],
+                          ),
                           Divider(thickness: 3,color: Colors.grey[850]),
                           const Text('보유중인 재료에 맞는 레시피를 추천해 드립니다!',style: TextStyle(color: Colors.grey)),
                           Container(
@@ -350,6 +354,38 @@ class _Recipe extends State<Home_Recipe>{
           const Divider(color: Colors.grey),
         ],
       ),
+    );
+  }
+  void showHelpDialog(idx){
+    var title = ['재료 추천 기능','레시피 추천 기능'];
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)
+            ),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(title[idx]),
+                IconButton(
+                    onPressed: ()=>Navigator.pop(context),
+                    icon: Icon(Icons.close_rounded),color: Colors.grey)
+              ],
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                children: const [
+                  Text('원하는 레시피에 필요한 재료를 입력해주세요!'),
+                  Divider(),
+                  Text('사용법',style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'),
+                ])
+             )
+          );
+        }
     );
   }
 }

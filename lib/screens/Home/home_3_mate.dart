@@ -1,9 +1,10 @@
-import 'dart:js';
-import 'package:meta/meta.dart';
+//import 'dart:js';
+//import 'package:meta/meta.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+//import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'size_config.dart';
+//import 'size_config.dart';
 
 final List<String> imgList = [
   'assets/images/함께배송Mate광고1.png',
@@ -14,6 +15,13 @@ class Home_Mate extends StatefulWidget {
   @override
   _MateContent createState() => _MateContent();
 }
+class _MateContent extends State<Home_Mate> {
+  @override
+  Widget build(BuildContext context) {
+    return Text('s');
+  }
+}
+/*
 class _MateContent extends State<Home_Mate> {
   const _MateContent({
     Key key,
@@ -205,4 +213,4 @@ Widget build(BuildContext context) {
     ),
   );
 }
-}
+}*/

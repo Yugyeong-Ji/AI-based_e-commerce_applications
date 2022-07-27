@@ -113,13 +113,6 @@ class mypage extends StatelessWidget {
                       child: Container(
                         margin: const EdgeInsets.only(left: 40, right: 40),
                         child: ElevatedButton(
-                          child: Text(
-                            '할인혜택 보기',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xffa6a6a6),
-                            ),
-                          ),
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
@@ -136,6 +129,13 @@ class mypage extends StatelessWidget {
                               ),
                             );
                           },
+                          child: const Text(
+                            '할인혜택 보기',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xffa6a6a6),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -170,7 +170,7 @@ class mypage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MyPage_Coupon(),
+                                builder: (context) => MyPage_Coupon(myInfo),
                               ),
                             );
                           },
