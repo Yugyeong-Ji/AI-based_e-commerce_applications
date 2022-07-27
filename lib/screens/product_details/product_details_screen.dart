@@ -5,7 +5,7 @@ import 'package:baljachwi_project/screens/product_details/product_information_sc
 import 'package:baljachwi_project/screens/product_details/product_inquiry_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product_review_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product.dart';
-import 'package:baljachwi_project/screens/product_details/cart_Button.dart';
+import 'package:baljachwi_project/screens/product_details/bottom_menu_screen.dart';
 import 'package:baljachwi_project/screens/product_details/add_to_wishlist.dart';
 
 import 'package:flutter_dropdown_alert/dropdown_alert.dart';
@@ -121,18 +121,10 @@ class _productDetails extends State<productDetails> with TickerProviderStateMixi
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: [
-            bottomMenu(),
+            bottomMenu(user: this.user, product: this.product),
           ],
         ),
       ),
     );
   }
-}
-// bottomMenu : 위시리스트 담기, 장바구니 담기
-Widget bottomMenu() {
-  return Container(
-      padding: EdgeInsets.symmetric(vertical: 20),
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: cartButton()
-  );
 }
