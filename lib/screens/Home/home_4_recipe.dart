@@ -63,33 +63,28 @@ class _Recipe extends State<Home_Recipe>{
   }
 
   Future<Recipe> _getRecipe(recipeName) async{
+    // (1) 레시피 검색
     print('call _getRecipe'+recipeName);
-    var response = await http.get(Uri.parse('https://www.10000recipe.com/recipe/list.html?q='+recipeName));
+    var response = await http.get(Uri.parse('https://www.10000recipe.com/recipe/list.html?q=$recipeName'));
     dom.Document document = parse.parse(response.body);
     var isNone = document.getElementsByClassName('result_none');
     if(isNone.length!=0){
-      print(isNone[0].innerHtml);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(recipeName+"에 대한 검색결과가 없습니다.")));
-      setState(() {
-        _showRecipe = true;
-      });
+      setState(() =>_showRecipe = true);
       return Recipe('NONE','NONE', []);
     }else{
-      print('\'${recipeName}\' 레시피 존재');
+      print('\'$recipeName\' 레시피 존재');
     }
     var ul = document.getElementsByClassName('common_sp_list_ul');
     var li = ul[ul.length-1].getElementsByClassName('common_sp_list_li');
-    String path = li[0].getElementsByClassName('common_sp_thumb')[0].getElementsByTagName('a')[0].attributes.values.toString();
-    path = 'https://www.10000recipe.com'+path.substring(1,path.indexOf(','));
-    print(path);
-    // 재료 추출
+    String path = li[0].getElementsByClassName('common_sp_thumb')[0].getElementsByTagName('a')[0].attributes['href'].toString();
+    path = 'https://www.10000recipe.com$path';
+    // (2) 재료 검색 & 추출
     var ingredient = [];
     response = await http.get(Uri.parse(path));
     document = parse.parse(response.body);
     // imgPath
     var img = (document.getElementsByClassName('centeredcrop')[0]).getElementsByTagName('img')[0].attributes['src'];
-    print("<<img>>");
-    print(img);
     // title
     var title = (document.getElementsByClassName('view2_summary st3')[0]).getElementsByTagName('h3')[0].innerHtml;
     print(title);
@@ -101,7 +96,6 @@ class _Recipe extends State<Home_Recipe>{
         for(var li in ul.getElementsByTagName('li')){
           String tmpIngredient;
           var tmp = li.getElementsByTagName('a');
-          //amount = li.getElementsByClassName('ingre_unit')[0].innerHtml;
           if(tmp==null || tmp.length==0){
             tmpIngredient = li.innerHtml;
             tmpIngredient = tmpIngredient.toString().substring(0,tmpIngredient.indexOf('<span')).trim();
@@ -117,7 +111,6 @@ class _Recipe extends State<Home_Recipe>{
     print(title.toString()+img.toString());
     print(ingredient);
     return Recipe(title,img,ingredient);
-
   }
   @override
   void initState() {
