@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -5,7 +6,7 @@ import 'package:baljachwi_project/screens/catalog_main_screen.dart' as catalog;
 
 bool isChecked = false;
 int bigCategory = -1;
-List<int> selectCategory = [-1, 0, 10, 20, 30, 40, 50, 60, 70, 80];
+List<int> selectCategory = [-1, 0, 10, 20, 30, 40, 50, 60, 70];
 class catalogList extends StatefulWidget {
   final String search;
   final int bigCategory;
@@ -33,6 +34,7 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
   @override
   void initState() {
     selectCategory = catalog.selectCategory;
+    bigCategory = widget.bigCategory+1;
     super.initState();
     _scrollController = ScrollController();
     _tabController = TabController(
@@ -50,6 +52,7 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    print(catalog.selectCategory);
     return Container(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -74,6 +77,8 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
                                 value: isChecked,
                                 onChanged: (value) {
                                   setState(() {
+                                    selectCategory = catalog.selectCategory;
+                                    bigCategory = widget.bigCategory+1;
                                     if (value != null) isChecked = value;
                                   });
                                 }),
@@ -132,11 +137,11 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
   }
 }
 
-Future<List<Product>> _getProduct(id) async{
-  print(id);
+Future<List<Product>> _getProduct(List<int> id) async{
+  int thisCat = id[bigCategory];
   List<Product> products = [];
   QuerySnapshot<Map<String,dynamic>> querySnapshot;
-  if (id == -1) {
+  if (thisCat == -1) {
     querySnapshot = await FirebaseFirestore.instance.collection('products').get();
     for(var doc in querySnapshot.docs){
       Product tmp = Product();
@@ -149,8 +154,8 @@ Future<List<Product>> _getProduct(id) async{
       products.add(tmp);
     }
   }
-  else if (id % 10 == 0) {
-    for (int doc = id; doc<id+10; doc++) {
+  else if (id[bigCategory] % 10 == 0) {
+    for (int doc = thisCat; doc<thisCat+10; doc++) {
       querySnapshot = await FirebaseFirestore.instance.collection('products').where('category', isEqualTo: doc).get();
       for (var doc in querySnapshot.docs) {
         Product tmp = Product();
@@ -165,7 +170,7 @@ Future<List<Product>> _getProduct(id) async{
     }
   }
   else {
-      querySnapshot = await FirebaseFirestore.instance.collection('products').where('category', isEqualTo: id).get();
+      querySnapshot = await FirebaseFirestore.instance.collection('products').where('category', isEqualTo: id[bigCategory]).get();
       for (var doc in querySnapshot.docs) {
         Product tmp = Product();
         tmp.name = doc['name'];
@@ -177,6 +182,7 @@ Future<List<Product>> _getProduct(id) async{
         products.add(tmp);
       }
   }
+  print(id[bigCategory]);
   return products;
 }
 

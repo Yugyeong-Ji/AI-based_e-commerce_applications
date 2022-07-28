@@ -5,7 +5,7 @@ import 'package:baljachwi_project/screens/catalog_list_screen.dart';
 
 
 bool isChecked = false;
-List<int> selectCategory = [-1, 0, 10, 20, 30, 40, 50, 60, 70, 80];
+List<int> selectCategory = [-1, 0, 10, 20, 30, 40, 50, 60, 70];
 String search = '';
 
 class catalogMain extends StatefulWidget {
@@ -209,7 +209,7 @@ class _catalogMain extends State<catalogMain> with TickerProviderStateMixin {
   ];
 
   Widget header(int category, BuildContext context){
-    if (category == -1) {return catalogList(category, 'context');}
+    if (category == -1) {return catalogList(-1, 'context');}
     else {
       return Column(
         children: [
@@ -238,21 +238,12 @@ class _catalogMain extends State<catalogMain> with TickerProviderStateMixin {
                                                 highlightColor: Colors.transparent,
                                                 splashColor: Colors.transparent,
                                                 onTap: () {
-                                                  if (smallCategory[category].indexOf(that) % 10 == 0) {
-                                                    selectCategory[category]= category*10;
-                                                    selectedCategory[category] = that;
-                                                    selectCategory[category] = category*10;
-                                                    setState(() {
-                                                    });
-                                                  }
-                                                  else {
-                                                    selectedCategory[category] = that;
-                                                    selectCategory[category] =
+                                                  selectedCategory[category] = that;
+                                                    selectCategory[category+1] =
                                                       category * 10 +
                                                           smallCategory[category]
                                                               .indexOf(that);
                                                     setState(() {});
-                                                  }
                                                 },
                                                 child: Container(
                                                   margin: EdgeInsets.only(left: 6.0),

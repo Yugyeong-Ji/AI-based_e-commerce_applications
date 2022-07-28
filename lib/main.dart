@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:baljachwi_project/screens/Login/login_app_screen.dart';
 import 'package:baljachwi_project/screens/Mate/mate_home_screen.dart';
-import 'package:baljachwi_project/screens/catalog_list_screen.dart';
+import 'package:baljachwi_project/screens/catalog_main_screen.dart';
 import 'package:baljachwi_project/screens/after_login.dart';
 import 'package:baljachwi_project/widgets/dao.dart';
 import 'package:flutter/material.dart';
@@ -54,8 +54,8 @@ class MyApp extends StatelessWidget {
       ),
 
       // home: productDetails(product: testProduct, user: testUser),
-      // home: catalogList(),
-      //  home: HomeScreen(),
+       home: catalogMain(),
+      // home: HomeScreen(),
       //home: Home(),
       // catalogList(),
       // home: HomeScreen(),
