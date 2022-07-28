@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -33,6 +34,7 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
   @override
   void initState() {
     selectCategory = catalog.selectCategory;
+    bigCategory = widget.bigCategory;
     super.initState();
     _scrollController = ScrollController();
     _tabController = TabController(
@@ -50,6 +52,7 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    print(catalog.selectCategory);
     return Container(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -132,11 +135,10 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
   }
 }
 
-Future<List<Product>> _getProduct(id) async{
-  print(id);
+Future<List<Product>> _getProduct(List<int> id) async{
   List<Product> products = [];
   QuerySnapshot<Map<String,dynamic>> querySnapshot;
-  if (id == -1) {
+  if (bigCategory == -1) {
     querySnapshot = await FirebaseFirestore.instance.collection('products').get();
     for(var doc in querySnapshot.docs){
       Product tmp = Product();
@@ -149,8 +151,9 @@ Future<List<Product>> _getProduct(id) async{
       products.add(tmp);
     }
   }
-  else if (id % 10 == 0) {
-    for (int doc = id; doc<id+10; doc++) {
+  else if (id[bigCategory] % 10 == 0) {
+    int thisCat = id[bigCategory];
+    for (int doc = thisCat; doc<thisCat+10; doc++) {
       querySnapshot = await FirebaseFirestore.instance.collection('products').where('category', isEqualTo: doc).get();
       for (var doc in querySnapshot.docs) {
         Product tmp = Product();
@@ -165,7 +168,7 @@ Future<List<Product>> _getProduct(id) async{
     }
   }
   else {
-      querySnapshot = await FirebaseFirestore.instance.collection('products').where('category', isEqualTo: id).get();
+      querySnapshot = await FirebaseFirestore.instance.collection('products').where('category', isEqualTo: id[bigCategory]).get();
       for (var doc in querySnapshot.docs) {
         Product tmp = Product();
         tmp.name = doc['name'];
