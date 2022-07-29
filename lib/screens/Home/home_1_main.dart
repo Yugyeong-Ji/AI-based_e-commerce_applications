@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import '../../widgets/product_item.dart';
 import 'home_banner.dart';
 import '../../widgets/product.dart';
+import 'home_recommend_review.dart';
 import 'package:google_fonts/google_fonts.dart'; //폰트들은 임의로 설정했음.나중에 변경할 예정
-
 
 class Home_Main extends StatefulWidget {
   @override
   _Main createState() => _Main();
 }
 
-class _Main extends State<Home_Main>{
+class _Main extends State<Home_Main> {
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -40,6 +40,29 @@ class _Main extends State<Home_Main>{
             ),
           ),
         ),
+        const SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0),
+          child: Text("자취에 진심인 후기 모음집",
+              style: GoogleFonts.nanumGothic(
+                  fontSize: 18.0, fontWeight: FontWeight.bold)),
+        ),
+        const SizedBox(height: 15),
+        Container(
+          height: 360,
+          child: ListView.builder(
+            padding: const EdgeInsets.only(bottom: 40),
+            scrollDirection: Axis.horizontal,
+            // 1
+            itemBuilder: (context, index) => SizedBox(
+              width: 320,
+              child: RecommendReview(
+                item: productList[index],
+              ),
+            ),
+            itemCount: productList.length,
+          ),
+        )
       ],
     );
   }
