@@ -1,18 +1,18 @@
 import 'package:baljachwi_project/screens/product_details/product_inquiry.dart';
 import 'package:flutter/material.dart';
 
-class productInquiryView extends StatefulWidget {
+class productInquiryDetail extends StatefulWidget {
   final ProductInquiry data;
 
-  productInquiryView({Key? key, required this.data}) : super(key: key);
+  productInquiryDetail({Key? key, required this.data}) : super(key: key);
 
   @override
-  _productInquiryView createState() => _productInquiryView(data);
+  _productInquiryDetail createState() => _productInquiryDetail(data);
 }
 
-class _productInquiryView extends State<productInquiryView> {
+class _productInquiryDetail extends State<productInquiryDetail> {
   ProductInquiry data; // 게시글 데이터
-  _productInquiryView(this.data);
+  _productInquiryDetail(this.data);
 
   @override
   Widget build(BuildContext context) {
