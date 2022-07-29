@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry_write_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry.dart';
-import 'package:baljachwi_project/screens/product_details/product_inquiry_view_screen.dart';
+import 'package:baljachwi_project/screens/product_details/product_inquiry_detail_screen.dart';
 
 import '../../widgets/dao.dart';
 
@@ -80,9 +80,6 @@ class _productInquiry extends State<productInquiry> {
     int titleColor = (data.isPrivate ? 0x73000000 : 0xff000000);
     int statusColor = (data.isResolved ? 0xff1288e5 : 0x73000000);
 
-    /*return Container(
-      color: Colors.white,
-      width: (MediaQuery.of(context).size.width) - 50,);*/
     return InkWell(
         hoverColor: Colors.white,
         onTap: () {
@@ -90,7 +87,7 @@ class _productInquiry extends State<productInquiry> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => productInquiryView(data: data),
+                builder: (context) => productInquiryDetail(data: data),
               ),
             );
           }

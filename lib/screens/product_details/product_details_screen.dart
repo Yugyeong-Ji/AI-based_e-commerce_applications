@@ -6,11 +6,6 @@ import 'package:baljachwi_project/screens/product_details/product_inquiry_screen
 import 'package:baljachwi_project/screens/product_details/product_review_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product.dart';
 import 'package:baljachwi_project/screens/product_details/bottom_menu_screen.dart';
-import 'package:baljachwi_project/screens/product_details/add_to_wishlist.dart';
-
-import 'package:flutter_dropdown_alert/dropdown_alert.dart';
-import 'package:flutter_dropdown_alert/alert_controller.dart';
-
 import '../../widgets/dao.dart';
 
 class productDetails extends StatefulWidget {
@@ -23,10 +18,10 @@ class productDetails extends StatefulWidget {
 
 List<Widget> list = [
   // 상단 탭바 이름
-  Tab(child: Text("상품설명", style: TextStyle(fontSize: 20, color: Colors.black26))),
-  Tab(child: Text("상세정보", style: TextStyle(fontSize: 20, color: Colors.black26))),
-  Tab(child: Text("리뷰", style: TextStyle(fontSize: 20, color: Colors.black26))),
-  Tab(child: Text("문의", style: TextStyle(fontSize: 20, color: Colors.black26)))
+  Text("상품설명", style: TextStyle(fontSize: 20)),
+  Text("상세정보", style: TextStyle(fontSize: 20)),
+  Text("리뷰", style: TextStyle(fontSize: 20)),
+  Text("문의", style: TextStyle(fontSize: 20))
 ];
 
 class _productDetails extends State<productDetails> with TickerProviderStateMixin {
@@ -105,6 +100,12 @@ class _productDetails extends State<productDetails> with TickerProviderStateMixi
             // Should not used it as it only called when tab options are clicked,
             // not when user swapped
           },
+          indicatorSize: TabBarIndicatorSize.label,
+          indicatorColor: Color(0xffffa511),
+          unselectedLabelColor: Colors.black26,
+          labelColor: Color(0xffffa511),
+          labelPadding: EdgeInsets.only(top: 16, bottom: 10),
+          indicatorWeight: 6.0,
           controller: _controller,
           tabs: list,
         ),
@@ -114,7 +115,7 @@ class _productDetails extends State<productDetails> with TickerProviderStateMixi
         children: [
           Center(child: productDescription(product: this.product)),
           Center(child: productInformation()),
-          Center(child: productReview()),
+          Center(child: productReview(product: this.product, user: this.user)),
           Center(child: productInquiry(product: this.product, user: this.user))
         ],
       ),
