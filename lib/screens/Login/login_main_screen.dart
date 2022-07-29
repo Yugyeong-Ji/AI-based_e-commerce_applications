@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:baljachwi_project/screens/Login/login_widget.dart';
-import 'package:baljachwi_project/screens/Login/login_home_page.dart';
-import 'package:baljachwi_project/screens/Login/auth_page.dart';
+import 'package:baljachwi_project/widgets/Login/login_widget.dart';
+import 'package:baljachwi_project/screens/Login/login_home_screen.dart';
+import 'package:baljachwi_project/widgets/Login/auth_page_widget.dart';
 
 class LoginMainScreen extends StatelessWidget {
   const LoginMainScreen({Key? key}) : super(key: key);

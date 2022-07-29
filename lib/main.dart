@@ -28,7 +28,7 @@ import 'package:baljachwi_project/screens/Mate/mate_team_screen.dart';
 import 'package:baljachwi_project/screens/bar_test_screen.dart';
 import 'package:baljachwi_project/screens/mypage/mypage_screen.dart';
 
-import 'package:baljachwi_project/screens/Login/login_main.dart';
+import 'package:baljachwi_project/screens/Login/login_main_screen.dart';
 
 void main() async {
   // => firebase 사용하기 위한 필수 코드

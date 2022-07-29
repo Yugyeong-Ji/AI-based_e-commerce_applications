@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:baljachwi_project/screens/Login/login_widget.dart';
-import 'package:baljachwi_project/screens/Login/signup_widget.dart';
+import 'package:baljachwi_project/widgets/Login/login_widget.dart';
+import 'package:baljachwi_project/widgets/Login/signup_widget.dart';
 
 class AuthPage extends StatefulWidget {
   @override
