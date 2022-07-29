@@ -45,41 +45,41 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //debugShowCheckedModeBanner: false,
+        //debugShowCheckedModeBanner: false,
 
-      // 제품 상세페이지 드롭다운 메뉴를 위한 builer *지우지 마시오*
-      builder: (context, child) => Stack(
-        children: [child!, DropdownAlert()],
-      ),
+        // 제품 상세페이지 드롭다운 메뉴를 위한 builer *지우지 마시오*
+        builder: (context, child) => Stack(
+              children: [child!, DropdownAlert()],
+            ),
 
-      // home: productDetails(product: testProduct, user: testUser),
-      //  home: catalogMain(),
-      // home: HomeScreen(),
-      //home: Home(),
-      // catalogList(),
-      // home: HomeScreen(),
-      // home: mateHomeScreen(),
-      // home: barTestScreen(),
-      // home: mypage(),
-      // home: BaseWidget()
-      //home: mateTeamScreen(),
-      //home: LoginAppScreen(),
-      // home: LoginMainScreen(),
-    );
+        // home: productDetails(product: testProduct, user: testUser),
+        //  home: catalogMain(),
+        // home: HomeScreen(),
+        //home: Home(),
+        // catalogList(),
+        // home: HomeScreen(),
+        // home: mateHomeScreen(),
+        // home: barTestScreen(),
+        // home: mypage(),
+        home: BaseWidget()
+        //home: mateTeamScreen(),
+        //home: LoginAppScreen(),
+        // home: LoginMainScreen(),
+        );
   }
 }
 
 // *제품 상세페이지 테스트를 위한 임시 상품객체 --> 추후 삭제 *
-Map<String, List> map = {'맛': ['오리지널', '핫양념치킨', '허니소이']};
+Map<String, List> map = {
+  '맛': ['오리지널', '핫양념치킨', '허니소이']
+};
 Product2 testProduct = new Product2("하림", "하림 닭가슴살 110g x 총 20팩 무료배송",
-    "CJ 대한통운", "주식회사 푸드킹", 40000, 30,
-    map,
-    "images/productDetailsExample.jpg",
-    ["assets/images/chicken1.jpg",
-      "assets/images/chicken2.jpg",
-      "assets/images/chicken3.jpg"]
-);
+    "CJ 대한통운", "주식회사 푸드킹", 40000, 30, map, "images/productDetailsExample.jpg", [
+  "assets/images/chicken1.jpg",
+  "assets/images/chicken2.jpg",
+  "assets/images/chicken3.jpg"
+]);
 
 // *제품 상세페이지 테스트를 위한 임시 유저객체 --> 추후 삭제 *
 User testUser =
-    new User('email','pwd','Testname','phone','addr','grade','coupon');
+    new User('email', 'pwd', 'Testname', 'phone', 'addr', 'grade', 'coupon');
