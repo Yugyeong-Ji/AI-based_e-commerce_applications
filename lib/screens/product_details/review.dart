@@ -10,7 +10,7 @@ class Review {
   List<String> image = [];
   int like = 0;
   int hate = 0;
-  int star = 0;
+  double star;
 
-  Review(this.product, this.user, this.title, this.contents, this.date);
+  Review(this.product, this.user, this.title, this.contents, this.date, this.star);
 }

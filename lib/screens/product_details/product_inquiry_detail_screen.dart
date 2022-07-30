@@ -1,4 +1,5 @@
 import 'package:baljachwi_project/screens/product_details/product_inquiry.dart';
+import 'package:baljachwi_project/screens/product_details/utils.dart';
 import 'package:flutter/material.dart';
 
 class productInquiryDetail extends StatefulWidget {
@@ -52,7 +53,7 @@ class _productInquiryDetail extends State<productInquiryDetail> {
                   title(),
                   smallLineSpacing(),
                   inquiryContents(),
-                  thinDividingLine(context),
+                  thinDividingLine(context, 19.0, 14.0),
                   InquiryAnswer(),
                 ],
               ),
@@ -157,25 +158,6 @@ class _productInquiryDetail extends State<productInquiryDetail> {
       ),
     );
   }
-}
-
-Widget thinDividingLine(context) {
-  return Container(
-      width: (MediaQuery.of(context).size.width) - 50,
-      child: Column(
-        children: [
-          SizedBox(
-            height: 19.0,
-          ),
-          Container(
-            height: 1.5,
-            color: Colors.black12,
-          ),
-          SizedBox(
-            height: 14.0,
-          ),
-        ],
-      ));
 }
 
 Widget bigLineSpacing() {

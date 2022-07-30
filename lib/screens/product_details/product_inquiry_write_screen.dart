@@ -134,12 +134,13 @@ class _writeProductInquiry extends State<writeProductInquiry> {
         Transform.scale(
           scale: 1.3,
           child: Checkbox(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)),
             activeColor: Color(0xffa6a6a6),
             value: isPrivate,
             onChanged: (value) {
               setState(
-                () {
+                    () {
                   if (isPrivate)
                     isPrivate = false;
                   else
@@ -166,8 +167,11 @@ class _writeProductInquiry extends State<writeProductInquiry> {
       child: MaterialButton(
         height: 70,
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        minWidth: (MediaQuery.of(context).size.width),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        minWidth: (MediaQuery
+            .of(context)
+            .size
+            .width),
         color: Color(0xffffa511),
         onPressed: () {
           isValid() ? showCompleteDialog(context) : showInvalidDialog(context);
@@ -228,7 +232,10 @@ class _writeProductInquiry extends State<writeProductInquiry> {
             ],
           ),
           content: Container(
-            width: (MediaQuery.of(context).size.width),
+            width: (MediaQuery
+                .of(context)
+                .size
+                .width),
             height: 100,
             decoration: new BoxDecoration(
               color: Colors.white,
@@ -288,7 +295,10 @@ class _writeProductInquiry extends State<writeProductInquiry> {
           actions: [
             MaterialButton(
               height: 70,
-              minWidth: (MediaQuery.of(context).size.width) - 35,
+              minWidth: (MediaQuery
+                  .of(context)
+                  .size
+                  .width) - 35,
               color: Color(0xffffa511),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -332,22 +342,5 @@ class _writeProductInquiry extends State<writeProductInquiry> {
     print('\n비밀글 여부: ' + inq.isPrivate.toString());
     print('\n제목: ' + inq.title);
     print('\n내용: ' + inq.contents);
-  }
-
-  Widget thinDividingLine(context) {
-    return Container(
-      width: (MediaQuery.of(context).size.width) - 50,
-      child: Column(
-        children: [
-          Container(
-            height: 1.5,
-            color: Colors.black12,
-          ),
-          SizedBox(
-            height: 25.0,
-          ),
-        ],
-      ),
-    );
   }
 }
