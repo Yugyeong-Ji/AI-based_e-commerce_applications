@@ -37,7 +37,7 @@ class ProductItem extends StatelessWidget {
             child: Text.rich(
               TextSpan(children: [
                 TextSpan(
-                    text: "${product.title} ${lineChange == true ? "\n" : ""}",
+                    text: "${product.name} ${lineChange == true ? "\n" : ""}",
                     style: GoogleFonts.nanumGothic(fontSize: 16.0)),
                 TextSpan(
                     text: "${product.discountRate}",
