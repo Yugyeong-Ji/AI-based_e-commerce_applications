@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:baljachwi_project/screens/product_details/product_description_screen.dart';
-import 'package:baljachwi_project/screens/product_details/product_details_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product_information_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product_review_screen.dart';

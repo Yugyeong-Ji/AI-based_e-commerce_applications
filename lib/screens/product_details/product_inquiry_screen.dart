@@ -1,3 +1,4 @@
+import 'package:baljachwi_project/screens/product_details/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry_write_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product.dart';
@@ -65,7 +66,7 @@ class _productInquiry extends State<productInquiry> {
     for (int i = 0; i < inquiries.length; i++) {
       children.add(contentsBox(inquiries[i]));
       if (i != inquiries.length - 1) // 마지막 게시글 밑에는 구분선 생략
-        children.add(thinDividingLine(context));
+        children.add(thinDividingLine(context, 19.0, 14.0));
     }
     return Column(
       children: children,
@@ -171,23 +172,4 @@ class _productInquiry extends State<productInquiry> {
 
     inquiries = testInquires;
   }
-}
-
-Widget thinDividingLine(context) {
-  return Container(
-      width: (MediaQuery.of(context).size.width) - 50,
-      child: Column(
-        children: [
-          SizedBox(
-            height: 19.0,
-          ),
-          Container(
-            height: 1.5,
-            color: Colors.black12,
-          ),
-          SizedBox(
-            height: 14.0,
-          ),
-        ],
-      ));
 }

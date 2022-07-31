@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:baljachwi_project/screens/product_details/product.dart';
+import 'package:baljachwi_project/screens/product_details/utils.dart';
 import 'package:intl/intl.dart';
-
-import '../../widgets/flutter_rating_bar/lib/flutter_rating_bar.dart';
 
 class productDescription extends StatefulWidget {
   final Product2 product;
@@ -16,7 +15,7 @@ class productDescription extends StatefulWidget {
 
 class _productDescription extends State<productDescription> {
   final Product2 product;
-
+  List starInform = [];
   _productDescription(this.product);
 
   @override
@@ -97,7 +96,7 @@ class _productDescription extends State<productDescription> {
     return Container(
       alignment: Alignment.centerLeft,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        starRatingBar(),
+        starRating(),
         SizedBox(height: 5),
         Text(
           "[" + this.product.manufacturer + "] " + this.product.name, // 상품 이름
@@ -108,7 +107,7 @@ class _productDescription extends State<productDescription> {
         ),
         SizedBox(height: 10),
         priceInform(),
-        thinDividingLine(),
+        thinDividingLine(context, 20.0, 20.0),
         Row(
           children: [
             Icon(Icons.fire_truck_outlined, color: Colors.black54),
@@ -121,7 +120,7 @@ class _productDescription extends State<productDescription> {
             ),
           ],
         ),
-        thinDividingLine(),
+        thinDividingLine(context, 20.0, 20.0),
         Row(
           children: [
             Icon(Icons.storefront_outlined, color: Colors.black54),
@@ -217,10 +216,9 @@ class _productDescription extends State<productDescription> {
     );
   }
 
-  final double rating = 3;
-  int evaluators = 19300; // 임시로 하드코딩
-  Widget starRatingBar() {
+  Widget starRating() {
     var commaFormat = NumberFormat('###,###,###,###');
+    starInform = getStarInform(this.product);
     return Container(
       alignment: Alignment.centerRight,
       padding: EdgeInsets.only(right: 5),
@@ -228,21 +226,9 @@ class _productDescription extends State<productDescription> {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          RatingBar.builder(
-            initialRating: rating,
-            ignoreGestures: true,
-            direction: Axis.horizontal,
-            itemCount: 5,
-            itemSize: 22.0,
-            itemBuilder: (context, _) =>
-                Icon(
-                  Icons.star_rounded,
-                  color: Colors.amber,
-                ),
-            onRatingUpdate: (rating) {},
-          ),
+          starRatingBar(22.0, starInform[0]),
           Text(
-            ' ('+commaFormat.format(evaluators)+')',
+            ' ('+commaFormat.format(starInform[1])+')',
             textAlign: TextAlign.right,
             style: TextStyle(
               color: Colors.blueAccent,
@@ -254,20 +240,3 @@ class _productDescription extends State<productDescription> {
     );
   }
 }
-
-  Widget thinDividingLine() {
-    return Column(
-      children: [
-        SizedBox(
-          height: 20.0,
-        ),
-        Container(
-          height: 1,
-          color: Colors.black12,
-        ),
-        SizedBox(
-          height: 20.0,
-        ),
-      ],
-    );
-  }
