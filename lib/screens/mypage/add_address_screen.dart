@@ -68,7 +68,24 @@ class _addAddressState extends State<addAddress> {
                       ),
                     ],
                   ),
-                  make_textfield("우편번호 찾기"),
+                  Container(
+                    height: 50,
+                    margin: const EdgeInsets.only(bottom: 5),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        suffixIcon: Icon(Icons.search),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xffd9d9d9)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: '우편번호 찾기',
+                        labelStyle: TextStyle(
+                          color: Color(0xffd9d9d9),
+                        ),
+                      ),
+                    ),
+                  ),
                   Row(
                     children: [
                       Expanded(

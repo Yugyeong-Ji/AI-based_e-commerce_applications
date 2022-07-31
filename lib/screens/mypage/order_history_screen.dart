@@ -12,8 +12,12 @@ class orderHistory extends StatefulWidget {
 class _orderHistoryState extends State<orderHistory> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
+    return Container(
+      constraints: BoxConstraints(
+          minHeight: MediaQuery.of(context).size.height *
+              MediaQuery.of(context).devicePixelRatio,
+          minWidth: MediaQuery.of(context).size.width *
+              MediaQuery.of(context).devicePixelRatio),
       child: Scaffold(
         appBar: AppBar(
           title: Text(
@@ -42,63 +46,13 @@ class _orderHistoryState extends State<orderHistory> {
               height: 2,
               color: Color(0xffd9d9d9),
             ),
-            TabBar(
-              indicatorColor: Color(0xffffa511),
-              labelColor: Color(0xffffa511),
-              unselectedLabelColor: Color(0xffa6a6a6),
-              unselectedLabelStyle: TextStyle(
-                decoration: TextDecoration.none,
-              ),
-              tabs: [
-                Container(
-                  height: 55,
-                  alignment: Alignment.center,
-                  child: Text(
-                    '주문 내역',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 55,
-                  alignment: Alignment.center,
-                  child: Text(
-                    '자주 사는 상품',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),
-                  ),
-                ),
-              ],
-            ),
             Container(
-              height: 2,
-              color: Color(0xffd9d9d9),
-            ),
-            Expanded(
-              child: TabBarView(
+              child: Column(
                 children: [
-                  Container(
-                    color: Color(0xfff2f2f2),
-                    child: Column(
-                      children: [
-                        make_orderList(12224, '[삼다수] 생수 500ml 30개입',
-                            '2022.02.10 16:32:10', '신용카드', 10920, '배송중'),
-                        make_orderList(14, '[삼다수] 생수 500ml 30개입',
-                            '2022.02.10 16:32:10', '신용카드', 10920, '취소'),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Container(
-                        child: Text('자주 사는 상품'),
-                      ),
-                    ),
-                  ),
+                  make_orderList(context, 12224, '[삼다수] 생수 500ml 30개입',
+                      '2022.02.10 16:32:10', '신용카드', 10920, 2, '배송중'),
+                  make_orderList(context, 14, '[삼다수] 생수 500ml 30개입',
+                      '2022.02.10 16:32:10', '신용카드', 10920, 1, '취소'),
                 ],
               ),
             ),
@@ -109,17 +63,12 @@ class _orderHistoryState extends State<orderHistory> {
   }
 }
 
-Container make_orderList(var _orderNum, String _product, String _time,
-    String _payment, var _price, String _state) {
+Container make_orderList(BuildContext context, var _orderNum, String _product,
+    String _time, String _payment, var _price, var _num, String _state) {
   return Container(
-    width: double.infinity,
     alignment: Alignment.centerLeft,
     child: Column(
       children: <Widget>[
-        Container(
-          height: 20,
-          color: Color(0xfff2f2f2),
-        ),
         Container(
           color: Colors.white,
           padding: const EdgeInsets.fromLTRB(35, 5, 35, 20),
@@ -160,12 +109,19 @@ Container make_orderList(var _orderNum, String _product, String _time,
                           size: 30,
                         ),
                         onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => orderHistoryDetail(),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => orderHistoryDetail(
+                                  _orderNum,
+                                  _product,
+                                  _time,
+                                  _payment,
+                                  _price,
+                                  _num,
+                                  _state),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -177,173 +133,59 @@ Container make_orderList(var _orderNum, String _product, String _time,
                 margin: const EdgeInsets.only(top: 5, bottom: 15),
                 color: Color(0xffd9d9d9),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Expanded(
-                    flex: 7,
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: Text(
-                        '상품명',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff7f7f7f),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 23,
-                    child: Container(
-                      width: 240,
-                      child: Text(
-                        _product,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              make_row('상품명', _product),
               Container(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Expanded(
-                    flex: 7,
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: Text(
-                        '결제 일시',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff7f7f7f),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 23,
-                    child: Container(
-                      width: 240,
-                      child: Text(
-                        _time,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // make_row('상품 가격', f.format(_price).toString() + '원'),
+              // Container(height: 10),
+              // make_row('상품 개수', _num.toString() + '개'),
+              // Container(height: 10),
+              make_row('결제 금액', f.format(_price * _num).toString() + '원'),
               Container(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Expanded(
-                    flex: 7,
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: Text(
-                        '결제 방법',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff7f7f7f),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 23,
-                    child: Container(
-                      width: 240,
-                      child: Text(
-                        _payment,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              make_row('결제 일시', _time),
               Container(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Expanded(
-                    flex: 7,
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: Text(
-                        '결제 금액',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff7f7f7f),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 23,
-                    child: Container(
-                      width: 240,
-                      child: Text(
-                        f.format(_price).toString() + '원',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Container(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Expanded(
-                    flex: 7,
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: Text(
-                        '주문 상태',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff7f7f7f),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 23,
-                    child: Container(
-                      width: 240,
-                      child: Text(
-                        _state,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // make_row('결제 방법', _payment),
+              // Container(height: 10),
+              make_row('주문 상태', _state),
             ],
           ),
+        ),
+        Container(
+          height: 2,
+          color: Color(0xffd9d9d9),
         ),
       ],
     ),
   );
 }
 
-/*
-1. 연동
-2. 연동 후 주문번호 조회해서 불러오기(위에서부터 최근~오래된 주문)
-3. mate 뜨도록
-4. 자주 사는 상품
-5. overflow?
-6. detail 연결
-*/
+Row make_row(String title, String content) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: <Widget>[
+      Expanded(
+        flex: 7,
+        child: Container(
+          margin: const EdgeInsets.only(right: 10),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xff7f7f7f),
+            ),
+          ),
+        ),
+      ),
+      Expanded(
+        flex: 23,
+        child: Container(
+          width: 240,
+          child: Text(
+            content,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    ],
+  );
+}
