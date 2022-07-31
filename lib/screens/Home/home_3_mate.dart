@@ -1,10 +1,10 @@
-//import 'dart:js';
 //import 'package:meta/meta.dart';
-import 'dart:io';
+// import 'dart:io';
+
 import 'package:flutter/material.dart';
-//import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:card_swiper/card_swiper.dart';
+//import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'size_config.dart';
 
 final List<String> imgList = [
   'assets/images/함께배송Mate광고1.png',
@@ -13,204 +13,208 @@ final List<String> imgList = [
 
 class Home_Mate extends StatefulWidget {
   @override
-  _MateContent createState() => _MateContent();
+  _MateContent createState()=> _MateContent();
 }
+
 class _MateContent extends State<Home_Mate> {
-  @override
-  Widget build(BuildContext context) {
-    return Text('s');
-  }
-}
-/*
-class _MateContent extends State<Home_Mate> {
-  const _MateContent({
-    Key key,
-}) : super(key: key);
+  // const _MateContent({
+  //   Key? key,
+  // }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(0),
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-          child: Column(
-            children: [
-              Container(
-                // height: 200.0,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                          height: 300,
-                            child: Swiper(
-                                control: SwiperControl(),
-                                pagination: SwiperPagination(),
-                                itemCount: imgList.length,
-                                itemBuilder: (BuildContext context, int index){
-                                  return Image.asset(imgList[index]);
-                                }
-                                ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0,0, 0, 0),
-                        // width: 260,
-                        // height: 40,
-                        child: DefaultTabController(
-                            length: 4,
-                            child: TabBar(
-                                tabs: [
-                                  Container(
-                                    height: 25,
-                                    alignment: Alignment.center,
-                                    child: const Text('전체')
-                                  ),
-                                  Container(
-                                      height: 25,
-                                      alignment: Alignment.center,
-                                      child: const Text('생필품')
-                                  ),
-                                  Container(
-                                      height: 25,
-                                      alignment: Alignment.center,
-                                      child: const Text('식재료')
-                                  ),
-                                  Container(
-                                      height: 25,
-                                      alignment: Alignment.center,
-                                      child: const Text('밀키트')
-                                  )
-                                  ],
-                                  indicator: const BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(color: Color(0xffffa511),width: 3))
-                                  ),
-                                  labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                                  labelColor: Color(0xffffa511),
-                                  unselectedLabelColor: Colors.grey,
-                                  // controller: _tabController,
-                              ),
-                            )
-                        ),
-                      Container(
-                        child: Column(
+          scrollDirection: Axis.vertical,
+          padding: const EdgeInsets.all(0),
+          child: Container(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: Column(
+                  children: [
+                    Container(
+                      //height: 200.0,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 10),
-                            StreamBuilder<QuerySnapshot>(
-                              stream: FirebaseFirestore.instance.collection('team').snapshots(),
-                              builder: (context, snapshot) {
-                                if(snapshot.connectionState==ConnectionState.waitng){
-                                  return CircularProgressIndicator();
-                                }
-                                return SizedBox(
-                                  height: 130,
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: snapshot.data.docs.length,
-                                    itemBuilder: (ctx, index) => Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Column(
-                                        children: [
-                                          SpecialOfferCard(
-                                            img: snapshot.data.docs[index].['img'],
-                                            date: snapshot.data.docs[index].['date'],
-                                            product: snapshot.data.docs[index].['product'],
-                                            participants: snapshot.data.docs[index].['participants'],
-                                          )
-                                        ],
+                            Container(
+                              height: 300,
+                              child: Swiper(
+                                  control: SwiperControl(),
+                                  pagination: SwiperPagination(),
+                                  itemCount: imgList.length,
+                                  itemBuilder: (BuildContext context, int index){
+                                    return Image.asset(imgList[index]);
+                                  }
+                              ),
+                            ),
+                            Container(
+                                width: MediaQuery.of(context).size.width ,
+                                height: 30,
+                                child: DefaultTabController(
+                                  length: 4,
+                                  child: TabBar(
+                                    tabs: [
+                                      Container(
+                                          height: 25,
+                                          alignment: Alignment.center,
+                                          child: const Text('전체')
+                                      ),
+                                      Container(
+                                          height: 25,
+                                          alignment: Alignment.center,
+                                          child: const Text('생필품')
+                                      ),
+                                      Container(
+                                          height: 25,
+                                          alignment: Alignment.center,
+                                          child: const Text('식재료')
+                                      ),
+                                      Container(
+                                          height: 25,
+                                          alignment: Alignment.center,
+                                          child: const Text('밀키트')
                                       )
-                                    )
+                                    ],
+                                    indicator: const BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(color: Color(0xffffa511),width: 3))
+                                    ),
+                                    labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                                    labelColor: Color(0xffffa511),
+                                    unselectedLabelColor: Colors.grey,
+                                    // controller: _tabController,
                                   ),
                                 )
-                              },
+                            ),
+                            //Expanded(child:
+                            Container(
+                              //height: 3000,
+                              child: Column(
+                                children: [
+                                  SizedBox(height: 5),
+                                  StreamBuilder<QuerySnapshot>(
+                                    stream: FirebaseFirestore.instance.collection('team').snapshots(),
+                                    builder: (context, snapshot) {
+                                      if(snapshot.connectionState==ConnectionState.waiting){
+                                        return CircularProgressIndicator();
+                                      }
+                                      return SizedBox(
+                                        //height: 1500,
+                                        child: ListView.builder(
+                                            scrollDirection: Axis.vertical,
+                                            shrinkWrap: true,
+                                            itemCount: snapshot.data!.docs.length,
+                                            itemBuilder: (ctx, index) => Container(
+                                                padding: EdgeInsets.all(8),
+                                                child: Column(
+                                                  children: [
+                                                    SpecialOfferCard(
+                                                      image: snapshot.data!.docs[index]['img'],
+                                                      date: snapshot.data!.docs[index]['date'],
+                                                      products: snapshot.data!.docs[index]['product'],
+                                                      participants: snapshot.data!.docs[index]['participants'],
+                                                    ),
+                                                  ],
+                                                )
+                                            )
+                                        ),
+                                      );
+                                    },
+                                  )
+                                ],
+                              ),
                             )
-                          ],
-                        ),
-                      )
+                            //   )
+                          ]
+                      ),
+                    )
 
-              ]
-          ),
-                      )
-                      ]
-                )
+                  ]
               )
-          ),
-        );
+          )
+      ),
+    );
   }
 }
 
-class SpecialOfferCard extends StatelessWidget{
-  const SpecialOfferCard({
-    Key key,
-    @required this.product,
-    @required this.img,
-    @required.this.date,
-    @required.this.participants,
-  }) : super(key: key);
+class SpecialOfferCard extends StatelessWidget {
 
-  final String? product, date, img;
-  final double? participants;
-@override
-Widget build(BuildContext context) {
-  return Padding(
-    padding: EdgeInsets.only(left: 20),
-    child: GestureDetector(
-      child: SizedBox(
-        width: 242,
-        height: 115,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Stack(
-            children: [
-              // Image.asset(
-              //   image,
-              //   fit: BoxFit.cover,
-              // ),
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF343434).withOpacity(0.4),
-                      Color(0xFF343434).withOpacity(0.15),
-                    ],
+  final int? participants;
+  final String? products;
+  final String? date;
+  final String? image;
+
+  SpecialOfferCard({
+    @required this.products,
+    @required this.date,
+    @required this.image,
+    @required this.participants,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return
+      GestureDetector(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: 120,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Stack(
+              children: [
+                Image.asset(
+                  "$image",
+                  // fit: BoxFit.cover,
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Color(0xffffcd7d),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 15.0,
-                  vertical: 10,
-                ),
-                child: Text.rich(
-                  TextSpan(
-                    style: TextStyle(color: Colors.white),
-                    children: [
-                      TextSpan(
-                        text: "$product\n",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 15.0,
+                    vertical: 10,
+                  ),
+                  child: Text.rich(
+                    TextSpan(
+                      style: TextStyle(color: Colors.white),
+                      children: [
+                        TextSpan(
+                          text: "$products",
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: "$date",
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
+                        TextSpan(
+                            text: "  현재 $participants명 참여\n",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black45,
+                            )
                         ),
-                      )
-                    ],
+                        TextSpan(
+                          text: "\n$date 배송예정",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepOrange,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    ),
-  );
+      );
+  }
 }
-}*/
