@@ -1,16 +1,17 @@
 import 'dart:async';
 
-import 'package:baljachwi_project/screens/product_details/product.dart';
+import 'package:baljachwi_project/screens/product_details/utils.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
-import '../../widgets/dao.dart';
+import '../../widgets/user.dart';
+import '../../widgets/product.dart';
 
 class bottomMenu extends StatefulWidget {
   final User user;
-  final Product2 product;
+  final Product product;
 
   bottomMenu({Key? key, required this.user, required this.product})
       : super(key: key);
@@ -21,7 +22,7 @@ class bottomMenu extends StatefulWidget {
 
 class _bottomMenu extends State<bottomMenu> {
   final User user;
-  final Product2 product;
+  final Product product;
 
   _bottomMenu(this.user, this.product);
 
@@ -120,9 +121,9 @@ class _bottomMenu extends State<bottomMenu> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                addToCartButton(),
-                SizedBox(width: 10),
-                immediateBuyButton(),
+                button(context, 0.48, null, null, '바로구매', 23, (){Navigator.pop(context);}),
+                SizedBox(width: 12),
+                button(context, 0.48, Colors.white, Colors.black87, '장바구니', 23, (){Navigator.pop(context);}),
               ],
             ),
           ],
@@ -176,7 +177,7 @@ class _bottomMenu extends State<bottomMenu> {
   }
 
   Widget purchaseInformation() {
-    int totalPrice = this.product.price;
+    int? totalPrice = this.product.price;
     var priceFormat = NumberFormat('###,###,###,###원');
 
     return Container(
@@ -243,46 +244,6 @@ class _bottomMenu extends State<bottomMenu> {
           max: maxValue,
           value: 1,
           spacing: 2),
-    );
-  }
-
-  Widget addToCartButton() {
-    return MaterialButton(
-      height: 65,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      minWidth: (MediaQuery.of(context).size.width) * 0.48,
-      color: Colors.white,
-      onPressed: () {
-        Navigator.pop(context);
-      },
-      child: Text(
-        '장바구니 담기',
-        style: TextStyle(
-          color: Colors.black87,
-          fontSize: 23,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-
-  Widget immediateBuyButton() {
-    return MaterialButton(
-      height: 65,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      minWidth: (MediaQuery.of(context).size.width) * 0.48,
-      color: Color(0xffffa511),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-      child: Text(
-        '바로구매',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 23,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
     );
   }
 

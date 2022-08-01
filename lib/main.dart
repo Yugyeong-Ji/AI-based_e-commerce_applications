@@ -1,9 +1,11 @@
 import 'dart:collection';
 
 import 'package:baljachwi_project/screens/Mate/mate_home_screen.dart';
-import 'package:baljachwi_project/screens/catalog_main_screen.dart';
+import 'package:baljachwi_project/screens/catalog_main_screen.dart'
+    as prefix; // * Product 자료형 충돌로 인해 임시조치
 import 'package:baljachwi_project/screens/after_login.dart';
-import 'package:baljachwi_project/widgets/dao.dart';
+import 'package:baljachwi_project/widgets/product.dart';
+import 'package:baljachwi_project/widgets/user.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
@@ -17,13 +19,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 //
 import 'package:baljachwi_project/screens/product_details/product_details_screen.dart';
-import 'package:baljachwi_project/screens/product_details/product.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
 
 import 'package:baljachwi_project/screens/Mate/mate_home_screen.dart';
 import 'package:baljachwi_project/screens/Mate/mate_team_screen.dart';
+
 // Navbar랑 Footbar 테스트 스크린 적용하기
 import 'package:baljachwi_project/screens/bar_test_screen.dart';
 import 'package:baljachwi_project/screens/mypage/mypage_screen.dart';
@@ -45,27 +47,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        //debugShowCheckedModeBanner: false,
+      //debugShowCheckedModeBanner: false,
 
-        // 제품 상세페이지 드롭다운 메뉴를 위한 builer *지우지 마시오*
-        builder: (context, child) => Stack(
-              children: [child!, DropdownAlert()],
-            ),
+      // 제품 상세페이지 드롭다운 메뉴를 위한 builer *지우지 마시오*
+      builder: (context, child) => Stack(
+        children: [child!, DropdownAlert()],
+      ),
 
-        // home: productDetails(product: testProduct, user: testUser),
-        //  home: catalogMain(),
-        // home: HomeScreen(),
-        //home: Home(),
-        // catalogList(),
-        // home: HomeScreen(),
-        // home: mateHomeScreen(),
-        // home: barTestScreen(),
-        // home: mypage(),
-        home: BaseWidget()
-        //home: mateTeamScreen(),
-        //home: LoginAppScreen(),
-        // home: LoginMainScreen(),
-        );
+      home: productDetails(product: testProduct, user: testUser),
+      //  home: catalogMain(),
+      // home: HomeScreen(),
+      //home: Home(),
+      // catalogList(),
+      // home: HomeScreen(),
+      // home: mateHomeScreen(),
+      // home: barTestScreen(),
+      // home: mypage(),
+      // home: BaseWidget()
+      //home: mateTeamScreen(),
+      //home: LoginAppScreen(),
+      // home: LoginMainScreen(),
+    );
   }
 }
 
@@ -73,12 +75,19 @@ class MyApp extends StatelessWidget {
 Map<String, List> map = {
   '맛': ['오리지널', '핫양념치킨', '허니소이']
 };
-Product2 testProduct = new Product2("하림", "하림 닭가슴살 110g x 총 20팩 무료배송",
-    "CJ 대한통운", "주식회사 푸드킹", 40000, 30, map, "images/productDetailsExample.jpg", [
-  "assets/images/chicken1.jpg",
-  "assets/images/chicken2.jpg",
-  "assets/images/chicken3.jpg"
-]);
+Product testProduct = new Product(
+    manufacturer: "하림",
+    name: "하림 닭가슴살 110g x 총 20팩 무료배송",
+    distributor: "CJ 대한통운",
+    seller: "주식회사 푸드킹",
+    price: 40000,
+    discountRate: 30,
+    thumbnail: "images/productDetailsExample.jpg",
+    image: [
+      "assets/images/chicken1.jpg",
+      "assets/images/chicken2.jpg",
+      "assets/images/chicken3.jpg"
+    ]);
 
 // *제품 상세페이지 테스트를 위한 임시 유저객체 --> 추후 삭제 *
 User testUser =

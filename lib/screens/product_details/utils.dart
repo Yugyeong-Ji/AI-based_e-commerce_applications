@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:baljachwi_project/screens/product_details/product.dart';
 import 'package:baljachwi_project/screens/product_details/review.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/dao.dart';
+import '../../widgets/product.dart';
+import '../../widgets/user.dart';
 import '../../widgets/flutter_rating_bar/lib/flutter_rating_bar.dart';
 
 double getStarAvg(List<Review> reviews) {
@@ -54,7 +54,7 @@ Widget thinDividingLine(context, double top, double bottom) {
 }
 
 // 데이터베이스에서 문의글을 가져오는 함수
-List<Review> getReviews(Product2 product) {
+List<Review> getReviews(Product product) {
   List<Review> testReviews = [];
   // ** 임시로 하드코딩 ** ---> 추후 수정
   // 1. 제품 정보를 받아 일치하는지 검사
@@ -69,6 +69,7 @@ List<Review> getReviews(Product2 product) {
         '테스트 리뷰입니다.',
         '2022.04.10',
         3.0);
+    testReview.image.add("images/chicken2.jpg");
     testReview.like = Random().nextInt(50);
     testReview.hate = Random().nextInt(10);
     testReviews.add(testReview);
@@ -88,7 +89,7 @@ List<Review> getReviews(Product2 product) {
   return testReviews;
 }
 
-List getStarInform(Product2 product) {
+List getStarInform(Product product) {
   List<Review> reviews = getReviews(product);
   double starAvg = getStarAvg(reviews);
   int evaluators = reviews.length;
@@ -108,5 +109,29 @@ Widget starRatingBar(double size, double initRating) {
       color: Colors.amber,
     ),
     onRatingUpdate: (rating) {},
+  );
+}
+
+Widget button(BuildContext context, double width,
+    Color? color, Color? textColor, String script,
+    double fontSize, Function()? onPressed){
+  return MaterialButton(
+    height: 70,
+    minWidth: (MediaQuery.of(context).size.width) * width,
+    color: color == null ? Color(0xffffa511) : color,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10.0),
+    ),
+    onPressed: () {
+      onPressed!();
+      //Navigator.pop(context);
+    },
+    child: Text(
+      script,
+      style: TextStyle(
+          color: textColor == null ? Colors.white : textColor,
+          fontSize: fontSize,
+          fontWeight: FontWeight.bold),
+    ),
   );
 }

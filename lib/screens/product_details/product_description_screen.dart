@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:baljachwi_project/screens/product_details/product.dart';
 import 'package:baljachwi_project/screens/product_details/utils.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/product.dart';
+
 class productDescription extends StatefulWidget {
-  final Product2 product;
+  final Product product;
 
   productDescription({Key? key, required this.product}) : super(key: key);
 
@@ -14,7 +15,7 @@ class productDescription extends StatefulWidget {
 }
 
 class _productDescription extends State<productDescription> {
-  final Product2 product;
+  final Product product;
   List starInform = [];
   _productDescription(this.product);
 
@@ -59,7 +60,7 @@ class _productDescription extends State<productDescription> {
       shrinkWrap: true,
       children: [
         Container(
-          child: Image.asset(this.product.detailsImagePath),
+          child: Image.asset(this.product.thumbnail as String),
         ),
       ],
     );
@@ -99,7 +100,7 @@ class _productDescription extends State<productDescription> {
         starRating(),
         SizedBox(height: 5),
         Text(
-          "[" + this.product.manufacturer + "] " + this.product.name, // 상품 이름
+          "[" + (this.product.manufacturer as String) + "] " + this.product.name, // 상품 이름
           style: TextStyle(
             fontSize: 23,
             color: Colors.black,
@@ -112,7 +113,7 @@ class _productDescription extends State<productDescription> {
           children: [
             Icon(Icons.fire_truck_outlined, color: Colors.black54),
             Text(
-              '  ' + this.product.distributor, // 유통사 정보
+              '  ' + (this.product.distributor as String), // 유통사 정보
               style: TextStyle(
                 fontSize: 15,
                 color: Colors.black,
@@ -125,7 +126,7 @@ class _productDescription extends State<productDescription> {
           children: [
             Icon(Icons.storefront_outlined, color: Colors.black54),
             Text(
-              '  ' + this.product.seller, // 판매자 정보
+              '  ' + (this.product.seller as String), // 판매자 정보
               style: TextStyle(
                 fontSize: 15,
                 color: Colors.black,
@@ -140,9 +141,9 @@ class _productDescription extends State<productDescription> {
   Widget priceInform() {
     var priceFormat = NumberFormat('###,###,###,###원');
     int sellingPrice =
-        product.price - (product.price * product.discount * 0.001).toInt();
+        product.price - (product.price * product.discountRate * 0.001).toInt();
 
-    if (product.discount == 0)
+    if (product.discountRate == 0)
       return Text(
         priceFormat.format(this.product.price),
         style: TextStyle(
@@ -158,7 +159,7 @@ class _productDescription extends State<productDescription> {
           Row(
             children: [
               Text(
-                product.discount.toString() + '% ',
+                product.discountRate.toString() + '% ',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.red,
@@ -188,7 +189,7 @@ class _productDescription extends State<productDescription> {
   }
 
   Widget imageSlider() {
-    List<String> imagePath = this.product.imagePath;
+    List<String> imagePath = (this.product.image) as List<String>;
 
     return CarouselSlider(
       options: CarouselOptions(

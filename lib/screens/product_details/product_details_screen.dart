@@ -3,12 +3,12 @@ import 'package:baljachwi_project/screens/product_details/product_description_sc
 import 'package:baljachwi_project/screens/product_details/product_information_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product_review_screen.dart';
-import 'package:baljachwi_project/screens/product_details/product.dart';
 import 'package:baljachwi_project/screens/product_details/bottom_menu_screen.dart';
-import '../../widgets/dao.dart';
+import '../../widgets/user.dart';
+import '../../widgets/product.dart';
 
 class productDetails extends StatefulWidget {
-  final Product2 product;
+  final Product product;
   final User user;
   productDetails({Key? key, required this.product, required this.user}) : super(key: key);
   @override
@@ -24,7 +24,7 @@ List<Widget> list = [
 ];
 
 class _productDetails extends State<productDetails> with TickerProviderStateMixin {
-  final Product2 product;
+  final Product product;
   final User user;
   _productDetails(this.product, this.user);
 
