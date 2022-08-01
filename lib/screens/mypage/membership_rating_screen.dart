@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
-class membershipRating extends StatelessWidget {
-  const membershipRating({Key? key}) : super(key: key);
+class membershipRating extends StatefulWidget {
+  final String _grade;
+  const membershipRating(this._grade);
 
+  @override
+  State<membershipRating> createState() => _membershipRatingState();
+}
+
+class _membershipRatingState extends State<membershipRating> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +54,7 @@ class membershipRating extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       margin: const EdgeInsets.all(5),
                       child: Text(
-                        'SILVER',
+                        widget._grade,
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,

@@ -1,8 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class orderHistoryDetail extends StatelessWidget {
-  const orderHistoryDetail({Key? key}) : super(key: key);
+var f = NumberFormat('###,###,###,###');
 
+class orderHistoryDetail extends StatefulWidget {
+  final _orderNum;
+  final String _product;
+  final String _time;
+  final String _payment;
+  final _price;
+  final _num;
+  final String _state;
+  orderHistoryDetail(
+      var this._orderNum,
+      String this._product,
+      String this._time,
+      String this._payment,
+      var this._price,
+      var this._num,
+      String this._state);
+
+  @override
+  State<orderHistoryDetail> createState() => _orderHistoryDetailState();
+}
+
+class _orderHistoryDetailState extends State<orderHistoryDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +68,7 @@ class orderHistoryDetail extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "주문 번호",
+                            '주문 번호',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -58,7 +80,7 @@ class orderHistoryDetail extends StatelessWidget {
                         flex: 2,
                         child: Container(
                           child: Text(
-                            "12224",
+                            widget._orderNum.toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -119,7 +141,7 @@ class orderHistoryDetail extends StatelessWidget {
                                   alignment: Alignment.centerLeft,
                                   margin: const EdgeInsets.only(bottom: 12),
                                   child: Text(
-                                    "[삼다수] 생수 500ml 30개입",
+                                    widget._product,
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ),
@@ -130,7 +152,8 @@ class orderHistoryDetail extends StatelessWidget {
                                       child: Container(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          "10,920원",
+                                          f.format(widget._price).toString() +
+                                              '원',
                                           style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold),
@@ -142,7 +165,7 @@ class orderHistoryDetail extends StatelessWidget {
                                       child: Container(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          "2개",
+                                          widget._num.toString() + "개",
                                           style: TextStyle(fontSize: 15),
                                         ),
                                       ),
@@ -152,7 +175,7 @@ class orderHistoryDetail extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "배송중",
+                                    widget._state,
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
@@ -168,18 +191,25 @@ class orderHistoryDetail extends StatelessWidget {
                 ],
               ),
             ),
+            make_blank(),
             Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+              child: ExpansionTile(
+                title: Text(
+                  '주문 정보',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(20),
+                  ),
+                ],
+              ),
             ),
-            Container(
-              height: 10,
-              color: Color(0xfff2f2f2),
-            ),
-            Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
-            ),
+            make_blank(),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
               child: ExpansionTile(
@@ -215,7 +245,7 @@ class orderHistoryDetail extends StatelessWidget {
                               child: Container(
                                 width: 240,
                                 child: Text(
-                                  '2022.02.10 16:32:10',
+                                  widget._time,
                                   style: TextStyle(fontSize: 16),
                                 ),
                               ),
@@ -244,7 +274,7 @@ class orderHistoryDetail extends StatelessWidget {
                               child: Container(
                                 width: 240,
                                 child: Text(
-                                  '신용카드',
+                                  widget._payment,
                                   style: TextStyle(fontSize: 16),
                                 ),
                               ),
@@ -274,7 +304,10 @@ class orderHistoryDetail extends StatelessWidget {
                               child: Container(
                                 width: 240,
                                 child: Text(
-                                  '10,920원',
+                                  f
+                                          .format(widget._price * widget._num)
+                                          .toString() +
+                                      '원',
                                   style: TextStyle(fontSize: 16),
                                 ),
                               ),
@@ -287,47 +320,7 @@ class orderHistoryDetail extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
-            ),
-            Container(
-              height: 10,
-              color: Color(0xfff2f2f2),
-            ),
-            Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
-              child: ExpansionTile(
-                title: Text(
-                  '주문 정보',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                ),
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(20),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
-            ),
-            Container(
-              height: 10,
-              color: Color(0xfff2f2f2),
-            ),
-            Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
-            ),
+            make_blank(),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
               child: ExpansionTile(
@@ -345,18 +338,7 @@ class orderHistoryDetail extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
-            ),
-            Container(
-              height: 10,
-              color: Color(0xfff2f2f2),
-            ),
-            Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
-            ),
+            make_blank(),
             Container(
               color: Colors.white,
               padding: const EdgeInsets.all(15),
@@ -404,4 +386,23 @@ class orderHistoryDetail extends StatelessWidget {
       ),
     );
   }
+}
+
+Column make_blank() {
+  return Column(
+    children: [
+      Container(
+        height: 2,
+        color: Color(0xffc0c0c0),
+      ),
+      Container(
+        height: 10,
+        color: Color(0xfff2f2f2),
+      ),
+      Container(
+        height: 2,
+        color: Color(0xffc0c0c0),
+      ),
+    ],
+  );
 }

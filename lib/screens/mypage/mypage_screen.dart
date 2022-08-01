@@ -14,7 +14,9 @@ import 'package:baljachwi_project/screens/mypage/notice_screen.dart';
 import 'package:baljachwi_project/screens/mypage/introduce_screen.dart';
 import 'package:baljachwi_project/screens/mypage/information_use_screen.dart';
 import 'package:baljachwi_project/widgets/dao.dart';
-List<String> grades = ['BRONZE','SILVER','GOLD','MASTER'];
+
+List<String> grades = ['BRONZE', 'SILVER', 'GOLD', 'MASTER'];
+
 class mypage extends StatelessWidget {
   final User myInfo;
   const mypage(this.myInfo, {Key? key}) : super(key: key);
@@ -64,8 +66,9 @@ class mypage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    myInfo.name+'님',
-                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    myInfo.name + '님',
+                    style: const TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -125,7 +128,8 @@ class mypage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => membershipRating(),
+                                builder: (context) =>
+                                    membershipRating(grades[myInfo.grade]),
                               ),
                             );
                           },
@@ -151,18 +155,11 @@ class mypage extends StatelessWidget {
                             vertical: 10, horizontal: 15),
                         decoration: const BoxDecoration(
                           border: Border(
-                            top: BorderSide(
-                              color: Color(0xffd9d9d9),
-                              width: 1,
-                            ),
-                            right: BorderSide(
-                              color: Color(0xffd9d9d9),
-                              width: 1,
-                            ),
-                            bottom: BorderSide(
-                              color: Color(0xffd9d9d9),
-                              width: 1,
-                            ),
+                            top: BorderSide(color: Color(0xffd9d9d9), width: 1),
+                            right:
+                                BorderSide(color: Color(0xffd9d9d9), width: 1),
+                            bottom:
+                                BorderSide(color: Color(0xffd9d9d9), width: 1),
                           ),
                         ),
                         child: InkWell(
@@ -354,11 +351,3 @@ Container makeList(BuildContext context, Widget path, String title) {
     ),
   );
 }
-/*
-1. 장바구니 로고 바꾸기 + 장바구니 담은 상품 개수
-2. 회원 정보 불러오기, 연동
-3. 프로필 사진 변경 기능
-4. 페이지 연결 확인
-5. 스크롤 시 onTap 활성화 된 부분은 스크롤되지 않는 문제
-6. 리뷰 - 배달 완료되어 리뷰를 작성할 수 있는 주문 내역이 있을 때 new가 뜨도록
-*/

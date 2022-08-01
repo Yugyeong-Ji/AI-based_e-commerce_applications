@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:baljachwi_project/screens/mypage/add_address_screen.dart';
 
 class addressManage extends StatelessWidget {
   const addressManage({Key? key}) : super(key: key);
@@ -39,7 +40,7 @@ class addressManage extends StatelessWidget {
                 "010-0000-0000"),
             manage_address("동방", "경기도 수원시 영통구 광교산로 154-42 2층 210호", "문 앞에 두세요",
                 "010-0000-0000"),
-            make_addButton(),
+            make_addButton(context),
           ],
         ),
       ),
@@ -159,7 +160,7 @@ Container make_deleteButton() {
   );
 }
 
-Container make_addButton() {
+Container make_addButton(BuildContext context) {
   return Container(
     width: double.infinity,
     height: 45,
@@ -179,7 +180,14 @@ Container make_addButton() {
           ),
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => addAddress(),
+          ),
+        );
+      },
     ),
   );
 }

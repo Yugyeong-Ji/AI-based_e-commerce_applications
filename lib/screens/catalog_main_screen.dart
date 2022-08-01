@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:baljachwi_project/screens/catalog_list_screen.dart';
 
-
 bool isChecked = false;
 List<int> selectCategory = [-1, 0, 10, 20, 30, 40, 50, 60, 70];
 String search = '';
@@ -74,7 +73,13 @@ class _catalogMain extends State<catalogMain> with TickerProviderStateMixin {
           Expanded(
             child: Container(
               height: 50,
-              child: TextField(
+              padding: const EdgeInsets.only(right: 5, left:53, top:10, bottom:7),
+              child:
+              TextField(
+                onSubmitted: (text){
+                  search = text;
+                  setState(() {});
+                },
                 controller: _controller,
                 style: TextStyle(
                   color: Colors.black,
@@ -94,7 +99,6 @@ class _catalogMain extends State<catalogMain> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-              padding: const EdgeInsets.only(right: 5, left:53, top:10, bottom:7),
             ),
           ),
           IconButton(
@@ -209,7 +213,7 @@ class _catalogMain extends State<catalogMain> with TickerProviderStateMixin {
   ];
 
   Widget header(int category, BuildContext context){
-    if (category == -1) {return catalogList(-1, 'context');}
+    if (category == -1) {return catalogList(-1, search);}
     else {
       return Column(
         children: [
@@ -275,7 +279,7 @@ class _catalogMain extends State<catalogMain> with TickerProviderStateMixin {
               ],
             ),
           ),
-          catalogList(category, ''),
+          catalogList(category, search),
         ],
       );
     }
