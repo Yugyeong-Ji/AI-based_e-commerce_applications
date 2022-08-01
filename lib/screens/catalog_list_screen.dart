@@ -6,6 +6,7 @@ import 'package:baljachwi_project/screens/catalog_main_screen.dart' as catalog;
 
 bool isChecked = false;
 int bigCategory = -1;
+String search = '';
 List<int> selectCategory = [-1, 0, 10, 20, 30, 40, 50, 60, 70];
 class catalogList extends StatefulWidget {
   final String search;
@@ -35,6 +36,7 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
   void initState() {
     selectCategory = catalog.selectCategory;
     bigCategory = widget.bigCategory+1;
+    search = widget.search;
     super.initState();
     _scrollController = ScrollController();
     _tabController = TabController(
@@ -52,7 +54,6 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print(catalog.selectCategory);
     return Container(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -77,6 +78,7 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
                                 value: isChecked,
                                 onChanged: (value) {
                                   setState(() {
+                                    search = widget.search;
                                     selectCategory = catalog.selectCategory;
                                     bigCategory = widget.bigCategory+1;
                                     if (value != null) isChecked = value;
@@ -104,8 +106,7 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
                       builder:
                           (BuildContext context, AsyncSnapshot snapshot){
                         if (snapshot.hasError) {
-                          print('------------');
-                          print(snapshot);
+                          //print(snapshot);
                           return Text("Something went wrong");
                         }
                         if (!snapshot.hasData) {
@@ -115,12 +116,15 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
                           List<Product> nList = snapshot.data;
                           List<ListTile> mainContainer = [];
                           if (isChecked == false)
-                            for(Product doc in nList)
-                              mainContainer.add(makeProduct(doc.name,doc.img, doc.price, doc.discountRate, doc.regularDelivery, doc.category, context));
-                          else if (isChecked == true)
-                            for(Product doc in nList)
-                              if (doc.regularDelivery == true)
+                            for(Product doc in nList) {
+                              if (doc.name.contains(widget.search))
                                 mainContainer.add(makeProduct(doc.name,doc.img, doc.price, doc.discountRate, doc.regularDelivery, doc.category, context));
+                              }
+                          else if (isChecked == true)
+                            for(Product doc in nList) {
+                              if (doc.regularDelivery == true && doc.name.contains(widget.search))
+                                mainContainer.add(makeProduct(doc.name,doc.img, doc.price, doc.discountRate, doc.regularDelivery, doc.category, context));
+                              }
                           return Container(
                             child: Column(
                               children: mainContainer.toList(),
@@ -135,29 +139,14 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
             ),
           );
   }
-}
 
-Future<List<Product>> _getProduct(List<int> id) async{
-  int thisCat = id[bigCategory];
-  List<Product> products = [];
-  QuerySnapshot<Map<String,dynamic>> querySnapshot;
-  if (thisCat == -1) {
-    querySnapshot = await FirebaseFirestore.instance.collection('products').get();
-    for(var doc in querySnapshot.docs){
-      Product tmp = Product();
-      tmp.name = doc['name'];
-      tmp.img = doc['img'];
-      tmp.price = doc['price'];
-      tmp.discountRate = doc['discountRate'];
-      tmp.regularDelivery = doc['regularDelivery'];
-      tmp.category = doc['category'];
-      products.add(tmp);
-    }
-  }
-  else if (id[bigCategory] % 10 == 0) {
-    for (int doc = thisCat; doc<thisCat+10; doc++) {
-      querySnapshot = await FirebaseFirestore.instance.collection('products').where('category', isEqualTo: doc).get();
-      for (var doc in querySnapshot.docs) {
+  Future<List<Product>> _getProduct(List<int> id) async{
+    int thisCat = id[bigCategory];
+    List<Product> products = [];
+    QuerySnapshot<Map<String,dynamic>> querySnapshot;
+    if (thisCat == -1) {
+      querySnapshot = await FirebaseFirestore.instance.collection('products').get();
+      for(var doc in querySnapshot.docs){
         Product tmp = Product();
         tmp.name = doc['name'];
         tmp.img = doc['img'];
@@ -168,8 +157,22 @@ Future<List<Product>> _getProduct(List<int> id) async{
         products.add(tmp);
       }
     }
-  }
-  else {
+    else if (id[bigCategory] % 10 == 0) {
+      for (int doc = thisCat; doc<thisCat+10; doc++) {
+        querySnapshot = await FirebaseFirestore.instance.collection('products').where('category', isEqualTo: doc).get();
+        for (var doc in querySnapshot.docs) {
+          Product tmp = Product();
+          tmp.name = doc['name'];
+          tmp.img = doc['img'];
+          tmp.price = doc['price'];
+          tmp.discountRate = doc['discountRate'];
+          tmp.regularDelivery = doc['regularDelivery'];
+          tmp.category = doc['category'];
+          products.add(tmp);
+        }
+      }
+    }
+    else {
       querySnapshot = await FirebaseFirestore.instance.collection('products').where('category', isEqualTo: id[bigCategory]).get();
       for (var doc in querySnapshot.docs) {
         Product tmp = Product();
@@ -181,97 +184,97 @@ Future<List<Product>> _getProduct(List<int> id) async{
         tmp.category = doc['category'];
         products.add(tmp);
       }
+    }
+    return products;
   }
-  print(id[bigCategory]);
-  return products;
-}
 
-ListTile makeProduct(String name,String img, int price, int discountRate, bool regularDelivery, int category, BuildContext context){
-  var f = NumberFormat('###,###,###,###원');
-  return ListTile(
-    onTap: (){
-      print(name);
-    },
-    title: Column(
-      children: [
-        Container(
-          width: double.infinity,
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Wrap(
-                children: <Widget>[
-                  Container(
-                    width: 100,
-                    height: 110,
-                    margin: const EdgeInsets.only(left: 3, right: 15),
-                    alignment: Alignment.centerLeft,
-                    child: Image.asset('assets/images/${img}',
-                        width: 100, height: 100),
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        width: 202 * (MediaQuery.of(context).size.width/360),
-                        height: 5,
-                      ),
-                      if (regularDelivery == true)
+  ListTile makeProduct(String name,String img, int price, int discountRate, bool regularDelivery, int category, BuildContext context){
+    var f = NumberFormat('###,###,###,###원');
+    return ListTile(
+      onTap: (){
+        print(name);
+      },
+      title: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Wrap(
+                  children: <Widget>[
+                    Container(
+                      width: 100,
+                      height: 110,
+                      margin: const EdgeInsets.only(left: 3, right: 15),
+                      alignment: Alignment.centerLeft,
+                      child: Image.asset('assets/images/${img}',
+                          width: 100, height: 100),
+                    ),
+                    Column(
+                      children: <Widget>[
                         Container(
                           width: 202 * (MediaQuery.of(context).size.width/360),
-                          margin: const EdgeInsets.only(bottom: 6),
-                          alignment: Alignment.centerLeft,
-                          child: Image.asset('assets/images/regularDelivery.png',
-                              width: 52),
+                          height: 5,
                         ),
-                      Container(
-                        width: 202 * (MediaQuery.of(context).size.width/360),
-                        child: Text(
-                          name,
-                          style: TextStyle(
-                              fontSize: 14),
-                        ),
-                      ),
-                      if (discountRate > 0)
-                        Container(
-                          width: 202 * (MediaQuery.of(context).size.width/360),
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                discountRate.toString()+'%\t',
-                                style: TextStyle(fontSize: 14.1, height: 1.6, fontWeight: FontWeight.bold, color:Color(0xffff8511)),
-                              ),
-                              Text(
-                                f.format(price*(100-discountRate)*0.01)+'\t',
-                                style: TextStyle(fontSize: 14, height: 1.5, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                f.format(price),
-                                style: TextStyle(fontSize: 12, height: 1.6, decoration: TextDecoration.lineThrough, color:Colors.grey),
-                              ),
-                            ],
+                        if (regularDelivery == true)
+                          Container(
+                            width: 202 * (MediaQuery.of(context).size.width/360),
+                            margin: const EdgeInsets.only(bottom: 6),
+                            alignment: Alignment.centerLeft,
+                            child: Image.asset('assets/images/regularDelivery.png',
+                                width: 52),
                           ),
-                        ),
-                      if (discountRate == 0)
                         Container(
                           width: 202 * (MediaQuery.of(context).size.width/360),
                           child: Text(
-                            f.format(price),
-                            style: TextStyle(fontSize: 14, height: 1.5, fontWeight: FontWeight.bold),
+                            name,
+                            style: TextStyle(
+                                fontSize: 14),
                           ),
                         ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+                        if (discountRate > 0)
+                          Container(
+                            width: 202 * (MediaQuery.of(context).size.width/360),
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  discountRate.toString()+'%\t',
+                                  style: TextStyle(fontSize: 14.1, height: 1.6, fontWeight: FontWeight.bold, color:Color(0xffff8511)),
+                                ),
+                                Text(
+                                  f.format(price*(100-discountRate)*0.01)+'\t',
+                                  style: TextStyle(fontSize: 14, height: 1.5, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  f.format(price),
+                                  style: TextStyle(fontSize: 12, height: 1.6, decoration: TextDecoration.lineThrough, color:Colors.grey),
+                                ),
+                              ],
+                            ),
+                          ),
+                        if (discountRate == 0)
+                          Container(
+                            width: 202 * (MediaQuery.of(context).size.width/360),
+                            child: Text(
+                              f.format(price),
+                              style: TextStyle(fontSize: 14, height: 1.5, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }
