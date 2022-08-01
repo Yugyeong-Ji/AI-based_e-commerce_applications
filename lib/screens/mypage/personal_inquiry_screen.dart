@@ -91,7 +91,7 @@ class personalInquiry extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => frequentQuestions(),
+                                builder: (context) => frequentQuestion(),
                               ),
                             );
                           },
@@ -123,7 +123,8 @@ class personalInquiry extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => writePersonalInquiry('userID'),
+                                builder: (context) =>
+                                    writePersonalInquiry('userID'),
                               ),
                             );
                           },
