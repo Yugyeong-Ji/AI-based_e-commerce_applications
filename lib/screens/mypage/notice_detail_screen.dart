@@ -42,6 +42,7 @@ class _noticeDetailState extends State<noticeDetail> {
           children: [
             Container(height: 2, color: const Color(0xffc0c0c0)),
             Container(
+              constraints: BoxConstraints(minHeight: 600),
               color: Colors.white,
               padding: const EdgeInsets.all(30),
               child: Column(
