@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'package:baljachwi_project/screens/product_details/review.dart';
+import 'package:baljachwi_project/widgets/review.dart';
 import 'package:baljachwi_project/screens/product_details/utils.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';

@@ -1,10 +1,10 @@
-import 'package:baljachwi_project/screens/product_details/product_review_dialog.dart';
-import 'package:baljachwi_project/screens/product_details/review.dart';
+import 'package:baljachwi_project/screens/product_details/report_review_dialog.dart';
+import 'package:baljachwi_project/widgets/review.dart';
 import 'package:baljachwi_project/screens/product_details/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/LikeHateButton.dart';
+import '../../widgets/likeHateButton.dart';
 import '../../widgets/user.dart';
 import '../../widgets/product.dart';
 
@@ -14,7 +14,10 @@ class productReviewDetail extends StatefulWidget {
   List starInform;
 
   productReviewDetail(
-      {Key? key, required this.review, required this.starInform, required this.user})
+      {Key? key,
+      required this.review,
+      required this.starInform,
+      required this.user})
       : super(key: key);
 
   @override
@@ -35,7 +38,7 @@ class _productReviewDetail extends State<productReviewDetail> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          '리뷰 상세',
+          '상품 리뷰',
           style: TextStyle(
               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
         ),
@@ -58,6 +61,7 @@ class _productReviewDetail extends State<productReviewDetail> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               pageOfTop(),
+              if (this.review.image.isNotEmpty) reviewImage(this.review),
               pageOfMiddle(),
               pageOfBottom(),
             ],
@@ -68,6 +72,8 @@ class _productReviewDetail extends State<productReviewDetail> {
   }
 
   Widget pageOfTop() {
+    String nameFormat =
+        this.review.user.name[0] + '*' + this.review.user.name[2];
     Product product = this.review.product;
     return Container(
       width: (MediaQuery.of(context).size.width) * 0.90,
@@ -76,25 +82,48 @@ class _productReviewDetail extends State<productReviewDetail> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 25),
+          Text(nameFormat,
+              style: TextStyle(fontSize: 20, color: Colors.black),
+              textAlign: TextAlign.left),
+          SizedBox(height: 3.0),
+          Row(
+            children: <Widget>[
+              starRatingBar(15, this.review.star),
+              SizedBox(width: 10),
+              Text(this.review.date,
+                  style: TextStyle(fontSize: 16.5, color: Colors.black),
+                  textAlign: TextAlign.left)
+            ],
+          ),
+          SizedBox(height: 10.0),
           Text(
-            "[" + (product.manufacturer as String) + "] " + product.name,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            this.review.product.name,
+            style: TextStyle(fontSize: 16.5, color: Color(0xff1288e5)),
             textAlign: TextAlign.left,
           ),
-          thinDividingLine(context, 10, 10),
-          if (this.review.image.isNotEmpty) reviewImage(this.review),
+          SizedBox(height: 15.0),
+        ],
+      ),
+    );
+  }
+
+  Widget pageOfMiddle() {
+    return Container(
+      width: (MediaQuery.of(context).size.width) * 0.90,
+      alignment: Alignment.centerLeft,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Text(
             review.title,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.left,
           ),
-          SizedBox(height: 5),
+          SizedBox(height: 3),
           Text(
             review.contents,
             style: TextStyle(
@@ -102,71 +131,49 @@ class _productReviewDetail extends State<productReviewDetail> {
             ),
             textAlign: TextAlign.left,
           ),
+          SizedBox(height: 15),
         ],
       ),
-    );
-  }
-
-  Widget pageOfMiddle() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          width: (MediaQuery.of(context).size.width) * 0.705,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 15),
-              starRatingBar(25.0, starInform[0]),
-              Padding(
-                  padding: EdgeInsets.only(top: 2, left: 3),
-                  child: Text(
-                    review.date + " 작성",
-                    style: TextStyle(fontSize: 16.5, color: Colors.black54),
-                    textAlign: TextAlign.left,
-                  ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          alignment: Alignment.centerRight,
-          width: (MediaQuery.of(context).size.width) * 0.20,
-          child: LikeHateButton(
-              pressedColor: Color(0xff1288e5),
-              initColor: Colors.black26,
-              iconSize: 20,
-              iconDensity: 5,
-              review: this.review),
-        ),
-      ],
     );
   }
 
   Widget pageOfBottom() {
     return Container(
       width: (MediaQuery.of(context).size.width) * 0.90,
-      alignment: Alignment.centerRight,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          IconButton(
-            tooltip: '신고',
-            onPressed: () {
-              showReportDialog(context, this.user, this.review);
-            },
-            icon: Icon(Icons.report_problem_outlined, color: Colors.black54,),
+          Container(
+            alignment: Alignment.center,
+            child: LikeHateButton(
+                pressedColor: Color(0xff1288e5),
+                initColor: Colors.black26,
+                iconSize: 25,
+                iconDensity: 30,
+                review: this.review),
           ),
-          Text(
-            "신고",
-            style: TextStyle(fontSize: 16.5, color: Colors.black54),
-            textAlign: TextAlign.left,
+          thinDividingLine(context, 15, 0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                onPressed: () {
+                  showReportDialog(context, user, review);
+                },
+                icon: Icon(
+                  Icons.report_problem_outlined,
+                  color: Colors.black54,
+                ),
+              ),
+              Text(
+                "신고하기",
+                style: TextStyle(fontSize: 16.5, color: Colors.black54),
+                textAlign: TextAlign.left,
+              ),
+            ],
           ),
         ],
-      )
+      ),
     );
   }
 
@@ -181,6 +188,7 @@ class _productReviewDetail extends State<productReviewDetail> {
           borderRadius: BorderRadius.all(Radius.circular(7)),
           image: DecorationImage(image: AssetImage(url), fit: BoxFit.cover),
         ),
-    ),);
+      ),
+    );
   }
 }

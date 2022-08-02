@@ -1,5 +1,5 @@
-import '../../widgets/product.dart';
-import '../../widgets/user.dart';
+import 'product.dart';
+import 'user.dart';
 
 class Review {
   final Product product;

@@ -1,5 +1,5 @@
-import '../../widgets/user.dart';
-import '../../widgets/product.dart';
+import 'user.dart';
+import 'product.dart';
 
 class Order {
   User user;

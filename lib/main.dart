@@ -55,9 +55,9 @@ class MyApp extends StatelessWidget {
       ),
 
       // home: productDetails(product: testProduct, user: testUser),
-      //  home: catalogMain(),
-      home: HomeScreen(),
-      //home: Home(),
+      // home: catalogMain(),
+      // home: HomeScreen(),
+      // home: Home(),
       // catalogList(),
       // home: HomeScreen(),
       // home: mateHomeScreen(),

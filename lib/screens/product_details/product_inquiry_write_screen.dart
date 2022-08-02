@@ -1,11 +1,10 @@
-import 'package:baljachwi_project/screens/mypage/write_personal_inquiry_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry_dialog.dart';
+import 'package:baljachwi_project/screens/product_details/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/user.dart';
 import '../../widgets/product.dart';
-import '../mypage/product_inquiry_screen.dart';
 
 class writeProductInquiry extends StatefulWidget {
   final Product product;
@@ -26,8 +25,6 @@ class _writeProductInquiry extends State<writeProductInquiry> {
   bool isPrivate = false;
 
   _writeProductInquiry(this.product, this.user);
-
-  //** 테스트를 위한 임시 객체 **
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +164,8 @@ class _writeProductInquiry extends State<writeProductInquiry> {
     return (titleEditController.text.length >= minLength &&
         contentsEditController.text.length >= minLength);
   }
-
+  String dialogTitle = '상품관련 문의가 접수되었습니다.';
+  String dialogContent = '문의하신 내역은\n마이페이지 > 고객센터 > 문의내역에서 확인하실 수 있습니다.';
   Widget postButton(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20),
@@ -181,7 +179,8 @@ class _writeProductInquiry extends State<writeProductInquiry> {
             .width),
         color: Color(0xffffa511),
         onPressed: () {
-          isValid() ? showCompleteDialog(context) : showInvalidDialog(context, minLength);
+          isValid() ? showCompleteDialog(context, dialogTitle, dialogContent)
+              : showTextSizeInvalidDialog(context, minLength);
           saveInquiry();
         },
         child: Text(
@@ -200,8 +199,6 @@ class _writeProductInquiry extends State<writeProductInquiry> {
     super.dispose();
   }
 
-//ProductInquiry(this.product, this.title, this.contents,
-// this.userName, this.date, this.isResolved, this.isPrivate);
   void saveInquiry() {
     ProductInquiry newInquiry = new ProductInquiry(
       this.product,

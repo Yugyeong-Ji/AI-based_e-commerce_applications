@@ -1,15 +1,14 @@
 import 'package:baljachwi_project/screens/product_details/product_review_detail_screen.dart';
-import 'package:baljachwi_project/screens/product_details/review.dart';
-import 'package:baljachwi_project/screens/product_details/star_bar_chart.dart';
+import 'package:baljachwi_project/widgets/review.dart';
+import 'package:baljachwi_project/widgets/star_bar_chart.dart';
 import 'package:baljachwi_project/screens/product_details/utils.dart';
-import 'package:baljachwi_project/widgets/LikeHateButton.dart';
+import 'package:baljachwi_project/widgets/likeHateButton.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../widgets/accordion.dart';
 import '../../widgets/product.dart';
 import '../../widgets/user.dart';
-import '../../widgets/flutter_rating_bar/lib/flutter_rating_bar.dart';
 
 class productReview extends StatefulWidget {
   final Product product;
