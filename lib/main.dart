@@ -29,7 +29,7 @@ import 'package:baljachwi_project/screens/Mate/mate_team_screen.dart';
 // Navbar랑 Footbar 테스트 스크린 적용하기
 import 'package:baljachwi_project/screens/bar_test_screen.dart';
 import 'package:baljachwi_project/screens/mypage/mypage_screen.dart';
-
+import 'package:baljachwi_project/screens/nonmember_home_screen.dart';
 import 'package:baljachwi_project/screens/Login/login_main_screen.dart';
 
 void main() async {
@@ -62,8 +62,8 @@ class MyApp extends StatelessWidget {
       // home: HomeScreen(),
       // home: mateHomeScreen(),
       // home: barTestScreen(),
-      // home: mypage(),
-      // home: BaseWidget()
+      // home: nonmemberHome(),
+      home: BaseWidget(),
       //home: mateTeamScreen(),
       //home: LoginAppScreen(),
       // home: LoginMainScreen(),

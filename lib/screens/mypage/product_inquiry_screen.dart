@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
 
 class productInquiry extends StatefulWidget {
   const productInquiry({Key? key}) : super(key: key);
@@ -55,7 +56,7 @@ class _productInquiryState extends State<productInquiry> {
                   alignment: Alignment.topLeft,
                   child: Column(
                     children: <Widget>[
-                      make_boldText('문의 유형'),
+                      make_inquiryText('문의 유형'),
                       Container(
                         width: 310,
                         margin: const EdgeInsets.only(bottom: 20),
@@ -82,10 +83,10 @@ class _productInquiryState extends State<productInquiry> {
                           isExpanded: true,
                         ),
                       ),
-                      make_boldText('주문 번호'),
-                      make_textField('주문 번호를 입력해주세요'),
-                      make_boldText('작성란'),
-                      make_textField('제목을 입력해주세요'),
+                      make_inquiryText('주문 번호'),
+                      make_inquiryTextField('주문 번호를 입력해주세요'),
+                      make_inquiryText('작성란'),
+                      make_inquiryTextField('제목을 입력해주세요'),
                       Container(
                         height: 200,
                         padding: const EdgeInsets.all(7),
@@ -144,38 +145,4 @@ class _productInquiryState extends State<productInquiry> {
       ),
     );
   }
-}
-
-Container make_boldText(String _text) {
-  return Container(
-    alignment: Alignment.topLeft,
-    child: Text(
-      _text,
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-  );
-}
-
-Container make_textField(String _hintText) {
-  return Container(
-    height: 40,
-    margin: const EdgeInsets.only(top: 5, bottom: 30),
-    child: TextField(
-      decoration: InputDecoration(
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Color(0xffa6a6a6)),
-        ),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Color(0xffa6a6a6)),
-        ),
-        hintText: _hintText,
-        hintStyle: TextStyle(
-          color: Color(0xffa6a6a6),
-        ),
-      ),
-    ),
-  );
 }

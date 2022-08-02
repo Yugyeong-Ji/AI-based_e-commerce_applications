@@ -1,3 +1,4 @@
+import 'package:baljachwi_project/screens/mypage/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:baljachwi_project/screens/nonmember_order_screen.dart';
 
@@ -26,7 +27,6 @@ class nonmemberHome extends StatelessWidget {
       body: Column(
         children: <Widget>[
           Container(
-            width: double.infinity,
             child: Column(
               children: <Widget>[
                 Container(
@@ -45,13 +45,12 @@ class nonmemberHome extends StatelessWidget {
                     onPressed: null,
                     style: TextButton.styleFrom(
                         elevation: 0,
-                        primary: Color(0xffffa511),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         side: BorderSide(
                           color: Colors.black,
-                          width: 3,
+                          width: 2,
                         )),
                     child: Text(
                       '로그인 / 회원가입',
@@ -71,48 +70,8 @@ class nonmemberHome extends StatelessWidget {
             margin: const EdgeInsets.all(25),
             child: Column(
               children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  child: Text(
-                    '나의 쇼핑',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff7f7f7f),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 5, bottom: 10),
-                  height: 5,
-                  color: Color(0xff7f7f7f),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => nonmemberOrder(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.all(5),
-                    child: Text(
-                      '비회원 주문 내역',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xffa6a6a6),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 8, bottom: 8),
-                  height: 1,
-                  color: Color(0xffd9d9d9),
-                ),
+                makeCol(0, '나의 쇼핑'),
+                makeList(context, nonmemberOrder(), '비회원 주문 내역'),
               ],
             ),
           ),
@@ -121,9 +80,3 @@ class nonmemberHome extends StatelessWidget {
     );
   }
 }
-
-/*
-1. 장바구니 로고 바꾸기
-2. 뒤로가기 onPressed -> 홈 페이지 연결
-3. 로그인/회원가입 페이지 연결
-*/
