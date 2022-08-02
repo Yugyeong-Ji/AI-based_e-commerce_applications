@@ -54,9 +54,9 @@ class MyApp extends StatelessWidget {
         children: [child!, DropdownAlert()],
       ),
 
-      home: productDetails(product: testProduct, user: testUser),
+      //home: productDetails(product: testProduct, user: testUser),
       //  home: catalogMain(),
-      // home: HomeScreen(),
+      home: HomeScreen(),
       //home: Home(),
       // catalogList(),
       // home: HomeScreen(),
