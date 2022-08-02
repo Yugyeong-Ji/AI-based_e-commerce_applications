@@ -1,4 +1,4 @@
-import 'package:baljachwi_project/screens/product_details/review.dart';
+import 'package:baljachwi_project/widgets/review.dart';
 import 'package:flutter/material.dart';
 
 class LikeHateButton extends StatefulWidget {
@@ -35,9 +35,9 @@ class _LikeHateButton extends State<LikeHateButton> {
   Widget build(BuildContext context) {
     init();
     return Container(
-      alignment: Alignment.centerRight,
+      alignment: Alignment.center,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(
             children: [
