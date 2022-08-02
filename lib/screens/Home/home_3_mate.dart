@@ -17,17 +17,14 @@ class Home_Mate extends StatefulWidget {
 }
 
 class _MateContent extends State<Home_Mate> {
-  // const _MateContent({
-  //   Key? key,
-  // }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: ListView(
           scrollDirection: Axis.vertical,
           padding: const EdgeInsets.all(0),
-          child: Container(
+          children: [Container(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Column(
                   children: [
@@ -132,6 +129,7 @@ class _MateContent extends State<Home_Mate> {
                   ]
               )
           )
+    ]
       ),
     );
   }
