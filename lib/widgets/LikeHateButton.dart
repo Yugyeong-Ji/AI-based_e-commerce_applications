@@ -1,6 +1,3 @@
-
-//import 'dart:html';
-
 import 'package:baljachwi_project/screens/product_details/review.dart';
 import 'package:flutter/material.dart';
 
