@@ -1,4 +1,4 @@
-import 'package:baljachwi_project/widgets/dao.dart';
+import 'package:baljachwi_project/widgets/user.dart';
 import 'package:flutter/material.dart';
 import 'package:baljachwi_project/screens/mypage/edit_member_info2_screen.dart';
 class EditMemberInfo extends StatefulWidget {

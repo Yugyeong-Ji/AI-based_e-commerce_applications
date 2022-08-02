@@ -24,7 +24,7 @@ class ProductItem extends StatelessWidget {
           child: InkWell(
             onTap: () {},
             child: Image.network(
-              product.image ?? "assets/images/home_banner0.jpg",
+              product.thumbnail ?? "assets/images/home_banner0.jpg",
               fit: BoxFit.cover,
             ),
           ),

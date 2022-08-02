@@ -1,4 +1,4 @@
-import 'package:baljachwi_project/widgets/dao.dart';
+import 'package:baljachwi_project/widgets/user.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 class EditMemberInfo2 extends StatefulWidget {

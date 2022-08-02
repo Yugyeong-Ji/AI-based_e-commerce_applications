@@ -4,7 +4,7 @@ import 'package:baljachwi_project/widgets/nav_bar.dart';
 import 'package:baljachwi_project/screens/Home/home_screen.dart';
 import 'package:baljachwi_project/screens/mypage/mypage_screen.dart';
 import 'package:baljachwi_project/screens/category_screen.dart';
-import 'package:baljachwi_project/widgets/dao.dart';
+import 'package:baljachwi_project/widgets/user.dart';
 class BaseWidget extends StatefulWidget{
   @override
   _BaseWidget createState() => _BaseWidget();

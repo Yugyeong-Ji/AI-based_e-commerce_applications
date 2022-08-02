@@ -68,7 +68,7 @@ class _productInquiryDetail extends State<productInquiryDetail> {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
-        "[" + data.product.manufacturer + "] " + data.product.name,
+        "[" + (data.product.manufacturer as String) + "] " + data.product.name,
         style: TextStyle(
           fontSize: 17,
           color: Colors.black45,
@@ -147,7 +147,7 @@ class _productInquiryDetail extends State<productInquiryDetail> {
           ),
           if (data.isResolved)
             Text(
-              data.product.seller,
+              (data.product.seller as String),
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: 17,

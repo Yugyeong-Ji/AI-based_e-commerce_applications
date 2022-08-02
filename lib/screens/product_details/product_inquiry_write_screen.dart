@@ -1,13 +1,14 @@
 import 'package:baljachwi_project/screens/mypage/write_personal_inquiry_screen.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry.dart';
+import 'package:baljachwi_project/screens/product_details/product_inquiry_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:baljachwi_project/screens/product_details/product.dart';
 
-import '../../widgets/dao.dart';
+import '../../widgets/user.dart';
+import '../../widgets/product.dart';
 import '../mypage/product_inquiry_screen.dart';
 
 class writeProductInquiry extends StatefulWidget {
-  final Product2 product;
+  final Product product;
   final User user;
 
   writeProductInquiry({Key? key, required this.product, required this.user})
@@ -20,7 +21,7 @@ class writeProductInquiry extends StatefulWidget {
 class _writeProductInquiry extends State<writeProductInquiry> {
   final titleEditController = TextEditingController();
   final contentsEditController = TextEditingController();
-  final Product2 product; // 상품 정보 가져오기
+  final Product product; // 상품 정보 가져오기
   final User user; // 유저 정보 가져오기
   bool isPrivate = false;
 
@@ -80,7 +81,7 @@ class _writeProductInquiry extends State<writeProductInquiry> {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
-        "[" + this.product.manufacturer + "] " + this.product.name,
+        "[" + (this.product.manufacturer as String) + "] " + this.product.name,
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -160,6 +161,12 @@ class _writeProductInquiry extends State<writeProductInquiry> {
       ],
     );
   }
+  final int minLength = 4;
+
+  bool isValid() {
+    return (titleEditController.text.length >= minLength &&
+        contentsEditController.text.length >= minLength);
+  }
 
   Widget postButton(BuildContext context) {
     return Container(
@@ -174,7 +181,8 @@ class _writeProductInquiry extends State<writeProductInquiry> {
             .width),
         color: Color(0xffffa511),
         onPressed: () {
-          isValid() ? showCompleteDialog(context) : showInvalidDialog(context);
+          isValid() ? showCompleteDialog(context) : showInvalidDialog(context, minLength);
+          saveInquiry();
         },
         child: Text(
           '등록',
@@ -190,135 +198,6 @@ class _writeProductInquiry extends State<writeProductInquiry> {
     titleEditController.dispose();
     contentsEditController.dispose();
     super.dispose();
-  }
-
-  final int minLength = 4;
-
-  bool isValid() {
-    return (titleEditController.text.length >= minLength &&
-        contentsEditController.text.length >= minLength);
-  }
-
-  void showInvalidDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext ctx) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(const Radius.circular(10.0)),
-          ),
-          titlePadding: const EdgeInsets.only(right: 10, top: 3, bottom: 3),
-          contentPadding: const EdgeInsets.all(0),
-          backgroundColor: Color(0xffffa511),
-          alignment: Alignment.center,
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  visualDensity: VisualDensity.compact,
-                  icon: Icon(
-                    Icons.close,
-                    color: Colors.white,
-                    size: 25,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ],
-          ),
-          content: Container(
-            width: (MediaQuery
-                .of(context)
-                .size
-                .width),
-            height: 100,
-            decoration: new BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                bottomLeft: const Radius.circular(10.0),
-                bottomRight: const Radius.circular(10.0),
-              ),
-            ),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 32,
-                ),
-                Text(
-                  '제목과 내용은 최소 ' + minLength.toString() + '자 이상이어야 합니다.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void showCompleteDialog(BuildContext context) {
-    saveInquiry();
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext ctx) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(const Radius.circular(10.0)),
-          ),
-          buttonPadding: const EdgeInsets.all(18),
-          backgroundColor: Colors.white,
-          alignment: Alignment.center,
-          title: Text(
-            '상품관련 문의가 접수되었습니다.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: Text(
-            '문의하신 내역은' + "\n" + '마이페이지 > 고객센터 > 문의내역에서 확인하실 수 있습니다.',
-            style: TextStyle(color: Color(0x73000000), fontSize: 14),
-            textAlign: TextAlign.center,
-          ),
-          actions: [
-            MaterialButton(
-              height: 70,
-              minWidth: (MediaQuery
-                  .of(context)
-                  .size
-                  .width) - 35,
-              color: Color(0xffffa511),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: Text(
-                '확인',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        );
-      },
-    );
   }
 
 //ProductInquiry(this.product, this.title, this.contents,

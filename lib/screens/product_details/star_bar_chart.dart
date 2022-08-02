@@ -40,7 +40,6 @@ class _starBarChart extends State<starBarChart> {
     touchTooltipData: BarTouchTooltipData(
       tooltipBgColor: Colors.transparent,
       tooltipPadding: const EdgeInsets.all(0),
-      tooltipMargin: 8,
       getTooltipItem: (
           BarChartGroupData group,
           int groupIndex,

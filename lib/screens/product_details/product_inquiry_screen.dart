@@ -1,14 +1,14 @@
 import 'package:baljachwi_project/screens/product_details/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry_write_screen.dart';
-import 'package:baljachwi_project/screens/product_details/product.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry.dart';
 import 'package:baljachwi_project/screens/product_details/product_inquiry_detail_screen.dart';
 
-import '../../widgets/dao.dart';
+import '../../widgets/user.dart';
+import '../../widgets/product.dart';
 
 class productInquiry extends StatefulWidget {
-  final Product2 product;
+  final Product product;
   final User user;
   productInquiry({Key? key, required this.product, required this.user}) : super(key: key);
 
@@ -17,7 +17,7 @@ class productInquiry extends StatefulWidget {
 }
 
 class _productInquiry extends State<productInquiry> {
-  final Product2 product; // 상품정보
+  final Product product; // 상품정보
   final User user; // 유저 정보
   List<ProductInquiry> inquiries = [];
 

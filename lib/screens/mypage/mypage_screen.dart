@@ -1,4 +1,4 @@
-import 'package:baljachwi_project/widgets/dao.dart';
+import 'package:baljachwi_project/widgets/user.dart';
 import 'package:flutter/material.dart';
 import 'package:baljachwi_project/screens/mypage/membership_rating_screen.dart';
 import 'package:baljachwi_project/screens/mypage/coupon_screen.dart';
@@ -13,7 +13,7 @@ import 'package:baljachwi_project/screens/mypage/product_inquiry_screen.dart';
 import 'package:baljachwi_project/screens/mypage/notice_screen.dart';
 import 'package:baljachwi_project/screens/mypage/introduce_screen.dart';
 import 'package:baljachwi_project/screens/mypage/information_use_screen.dart';
-import 'package:baljachwi_project/widgets/dao.dart';
+import 'package:baljachwi_project/widgets/user.dart';
 
 List<String> grades = ['BRONZE', 'SILVER', 'GOLD', 'MASTER'];
 

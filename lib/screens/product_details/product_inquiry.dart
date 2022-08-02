@@ -1,9 +1,8 @@
-import 'package:baljachwi_project/screens/product_details/product.dart';
-
-import '../../widgets/dao.dart';
+import '../../widgets/user.dart';
+import '../../widgets/product.dart';
 
 class ProductInquiry {
-  Product2 product;
+  Product product;
   String title;
   String contents;
   String answer = '';

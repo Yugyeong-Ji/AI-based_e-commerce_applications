@@ -40,6 +40,7 @@ class _LikeHateButton extends State<LikeHateButton> {
     return Container(
       alignment: Alignment.centerRight,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Column(
             children: [
