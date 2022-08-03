@@ -56,7 +56,8 @@ Container makeList(BuildContext context, Widget path, String title) {
   return Container(
     child: Column(
       children: [
-        InkWell(
+        GestureDetector(
+          onVerticalDragUpdate: (DragUpdateDetails details) {},
           onTap: () {
             Navigator.push(
               context,
