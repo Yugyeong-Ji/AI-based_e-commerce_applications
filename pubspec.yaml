@@ -88,8 +88,10 @@ flutter:
     - assets/images/productDetailsExample.jpg
     - assets/images/함께배송Mate광고1.png
     - assets/images/함께배송Mate광고2.png
+    - assets/images/membershipGrade/
     - assets/icon/
     - assets/icon/favorite.png
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

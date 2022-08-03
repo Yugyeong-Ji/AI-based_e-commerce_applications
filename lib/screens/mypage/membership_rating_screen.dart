@@ -43,7 +43,10 @@ class _membershipRatingState extends State<membershipRating> {
                 color: Color(0xffc0c0c0),
               ),
               Container(
-                height: 250,
+                margin: const EdgeInsets.only(top: 30),
+                padding: const EdgeInsets.all(20),
+                child: Image.asset(
+                    'assets/images/membershipGrade/${widget._grade}.png'),
               ),
               Container(
                 padding:
@@ -145,8 +148,3 @@ class _membershipRatingState extends State<membershipRating> {
     );
   }
 }
-
-/*
-1. 이미지 추가
-2. 정보 연동 - 등급 이미지, 조건, 혜택
-*/

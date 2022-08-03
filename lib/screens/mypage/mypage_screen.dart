@@ -13,6 +13,7 @@ import 'package:baljachwi_project/screens/mypage/product_inquiry_screen.dart';
 import 'package:baljachwi_project/screens/mypage/notice_screen.dart';
 import 'package:baljachwi_project/screens/mypage/introduce_screen.dart';
 import 'package:baljachwi_project/screens/mypage/information_use_screen.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
 import 'package:baljachwi_project/widgets/user.dart';
 
 List<String> grades = ['BRONZE', 'SILVER', 'GOLD', 'MASTER'];
@@ -25,12 +26,6 @@ class mypage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.navigate_before),
-          color: Colors.black,
-          iconSize: 30,
-          onPressed: () {}, // 페이지 연결
-        ),
         actions: [
           IconButton(
             icon: Image.asset('assets/logo/logo.png'), // 나중에 장바구니 로고로 변경
@@ -290,64 +285,4 @@ class mypage extends StatelessWidget {
       ),
     );
   }
-}
-
-Column makeCol(double m, String title) {
-  return Column(
-    children: [
-      Container(height: m),
-      Container(
-        alignment: Alignment.centerLeft,
-        margin: const EdgeInsets.all(5),
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Color(0xff7f7f7f),
-          ),
-        ),
-      ),
-      Container(
-        margin: const EdgeInsets.only(top: 5, bottom: 10),
-        height: 5,
-        color: const Color(0xff7f7f7f),
-      ),
-    ],
-  );
-}
-
-Container makeList(BuildContext context, Widget path, String title) {
-  return Container(
-    child: Column(
-      children: [
-        InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => path,
-              ),
-            );
-          },
-          child: Container(
-            alignment: Alignment.centerLeft,
-            margin: const EdgeInsets.all(5),
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Color(0xffa6a6a6),
-              ),
-            ),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 8, bottom: 8),
-          height: 1,
-          color: const Color(0xffd9d9d9),
-        )
-      ],
-    ),
-  );
 }

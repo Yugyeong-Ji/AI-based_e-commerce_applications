@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
+
 class writePersonalInquiry extends StatefulWidget {
   final String userID;
 
@@ -8,6 +10,7 @@ class writePersonalInquiry extends StatefulWidget {
   @override
   State<writePersonalInquiry> createState() => _writePersonalInquiryState();
 }
+
 class _writePersonalInquiryState extends State<writePersonalInquiry> {
   final _valueList = ['배송', '주문 취소', '배송지 변경', '반품/교환', '기타 문의'];
   String? _selectedValue;
@@ -71,10 +74,10 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
                       items: _valueList
                           .map(
                             (value) => DropdownMenuItem(
-                          child: Text(value),
-                          value: value,
-                        ),
-                      )
+                              child: Text(value),
+                              value: value,
+                            ),
+                          )
                           .toList(),
                       onChanged: (value) {
                         setState(() {
@@ -104,7 +107,8 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
                     child: TextField(
                       controller: _titleController,
                       style: const TextStyle(color: Color(0xffa6a6a6)),
-                      decoration: const InputDecoration(hintText: ' 제목을 입력해주세요'),
+                      decoration:
+                          const InputDecoration(hintText: ' 제목을 입력해주세요'),
                     ),
                   ),
                   Container(
@@ -152,7 +156,7 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
               ),
               onPressed: () {
                 print('onPressed');
-                if(vaildCheck()){
+                if (vaildCheck()) {
                   print('valid check');
                   createNewInquiry();
                 }
@@ -163,23 +167,29 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
       ),
     );
   }
-  bool vaildCheck(){
-    if(_selectedValue=="" || _titleController.text=="" || _titleController.text=="") {
+
+  bool vaildCheck() {
+    if (_selectedValue == "" ||
+        _titleController.text == "" ||
+        _titleController.text == "") {
       return false;
     }
     return true;
   }
+
   void createNewInquiry() {
-    Inquiry newInquiry = Inquiry(0, _selectedValue,_titleController.text,_titleController.text,widget.userID, DateTime.now(),false);
+    Inquiry newInquiry = Inquiry(0, _selectedValue, _titleController.text,
+        _titleController.text, widget.userID, DateTime.now(), false);
     FirebaseFirestore db = FirebaseFirestore.instance;
     db.collection('inquiry').add(newInquiry.toFirestore()).then((value) => {
-      print('문의가 접수되었습니다!')
-      //Scaffold.of(context).showSnackBar(const SnackBar(content:Text('문의가 접수되었습니다!')))
-    });
+          print('문의가 접수되었습니다!')
+          //Scaffold.of(context).showSnackBar(const SnackBar(content:Text('문의가 접수되었습니다!')))
+        });
     //
   }
 }
-class Inquiry{
+
+class Inquiry {
   var type;
   var category;
   var title;
@@ -188,7 +198,8 @@ class Inquiry{
   var date;
   var isReply;
   var reply;
-  Inquiry(this.type,this.category,this.title,this.content,this.writer,this.date,this.isReply);
+  Inquiry(this.type, this.category, this.title, this.content, this.writer,
+      this.date, this.isReply);
   Map<String, dynamic> toFirestore() {
     return {
       if (type != null) "type": type,
