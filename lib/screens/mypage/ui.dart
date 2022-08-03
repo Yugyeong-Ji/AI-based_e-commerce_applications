@@ -1,6 +1,30 @@
 import 'package:flutter/material.dart';
 import 'order_history_detail_screen.dart';
 
+//AppBar
+AppBar makeAppBar(BuildContext context, String title) {
+  return AppBar(
+    title: Text(
+      title,
+      style: TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    centerTitle: true,
+    leading: IconButton(
+      icon: Icon(Icons.navigate_before),
+      color: Colors.black,
+      iconSize: 30,
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    ),
+    backgroundColor: Colors.white,
+    elevation: 0,
+  );
+}
+
 //mypage, nonmember_home
 Column makeCol(double m, String title) {
   return Column(
