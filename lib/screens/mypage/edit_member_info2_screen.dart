@@ -1,13 +1,16 @@
 import 'package:baljachwi_project/widgets/user.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
+
 class EditMemberInfo2 extends StatefulWidget {
   final User myInfo;
   const EditMemberInfo2(this.myInfo, {Key? key}) : super(key: key);
   @override
   _EditInfo createState() => _EditInfo();
 }
-class _EditInfo extends State<EditMemberInfo2>{
+
+class _EditInfo extends State<EditMemberInfo2> {
   final _pwdController = TextEditingController();
   final _pwdCheckController = TextEditingController();
   final _nameController = TextEditingController();
@@ -16,26 +19,7 @@ class _EditInfo extends State<EditMemberInfo2>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          '회원 정보 수정',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.navigate_before),
-          color: Colors.black,
-          iconSize: 30,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
+      appBar: makeAppBar(context, '회원 정보 수정'),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
@@ -183,19 +167,26 @@ class _EditInfo extends State<EditMemberInfo2>{
                   color: const Color(0xfff2f2f2),
                   child: ElevatedButton(
                     onPressed: () {
-                      if(pwdCheck()){
+                      if (pwdCheck()) {
                         Map<String, dynamic> tmp = createUpdateData();
-                        if(tmp.isEmpty){
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("업데이트할 정보가 없습니다.")));
-                        }else{
+                        if (tmp.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("업데이트할 정보가 없습니다.")));
+                        } else {
                           print(tmp);
-                          db.collection('user').doc(widget.myInfo.email).update(tmp).then((value)=>{
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text( "접수가 완료되었습니다.")))
-                          });
+                          db
+                              .collection('user')
+                              .doc(widget.myInfo.email)
+                              .update(tmp)
+                              .then((value) => {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(content: Text("접수가 완료되었습니다.")))
+                                  });
                           Navigator.pop(context);
                         }
-                      }else{
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text( "비밀번호가 일치하지 않습니다.")));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("비밀번호가 일치하지 않습니다.")));
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -221,17 +212,22 @@ class _EditInfo extends State<EditMemberInfo2>{
       ),
     );
   }
-  bool pwdCheck(){
-    if(_pwdController.text != _pwdCheckController.text){
+
+  bool pwdCheck() {
+    if (_pwdController.text != _pwdCheckController.text) {
       return false;
     }
     return true;
   }
-  Map<String, dynamic> createUpdateData(){
+
+  Map<String, dynamic> createUpdateData() {
     return {
-      if (_pwdController.text != null && _pwdController.text!="") "pwd": _pwdController.text,
-      if (_nameController.text != null && _nameController.text!="") "name": _nameController.text,
-      if (_phoneController.text != null && _phoneController.text!="") "phone": _phoneController.text,
+      if (_pwdController.text != null && _pwdController.text != "")
+        "pwd": _pwdController.text,
+      if (_nameController.text != null && _nameController.text != "")
+        "name": _nameController.text,
+      if (_phoneController.text != null && _phoneController.text != "")
+        "phone": _phoneController.text,
     };
   }
 }

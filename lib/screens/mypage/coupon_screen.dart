@@ -3,6 +3,7 @@ import 'package:baljachwi_project/widgets/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
 import 'dart:ui';
 
 class Coupon {
@@ -50,26 +51,7 @@ class _couponPage extends State<MyPage_Coupon> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'My Coupon',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.navigate_before),
-            color: Colors.black,
-            iconSize: 30,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
+        appBar: makeAppBar(context, 'My Coupon'),
         body: SingleChildScrollView(
           child: Container(
             constraints: BoxConstraints(

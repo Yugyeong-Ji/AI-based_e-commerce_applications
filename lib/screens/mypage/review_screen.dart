@@ -10,26 +10,7 @@ class review extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            '리뷰',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.navigate_before),
-            color: Colors.black,
-            iconSize: 30,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
+        appBar: makeAppBar(context, '리뷰'),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[

@@ -1,4 +1,5 @@
 import 'package:baljachwi_project/screens/mypage/review_screen.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
 import 'package:flutter/material.dart';
 
 class writeReview extends StatelessWidget {
@@ -7,26 +8,7 @@ class writeReview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '리뷰 쓰기',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.navigate_before),
-          color: Colors.black,
-          iconSize: 30,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
+      appBar: makeAppBar(context, '리뷰 쓰기'),
       body: Container(
         color: Colors.white,
         child: Column(

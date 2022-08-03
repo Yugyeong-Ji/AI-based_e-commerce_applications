@@ -26,30 +26,12 @@ class nonmemberOrder extends StatefulWidget {
 class _nonmemberOrderState extends State<nonmemberOrder> {
   CollectionReference noticeCol =
       FirebaseFirestore.instance.collection('nonmemberOrder');
+  final TextEditingController _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '비회원 주문 내역',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.navigate_before),
-          color: Colors.black,
-          iconSize: 30,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
+      appBar: makeAppBar(context, '비회원 주문 내역'),
       body: Container(
         color: Colors.grey[200],
         constraints: BoxConstraints(
@@ -63,6 +45,7 @@ class _nonmemberOrderState extends State<nonmemberOrder> {
               color: Color(0xffc0c0c0),
             ),
             GestureDetector(
+              onVerticalDragUpdate: (DragUpdateDetails details) {},
               onTap: () {
                 FocusScope.of(context).unfocus();
               },
@@ -91,6 +74,8 @@ class _nonmemberOrderState extends State<nonmemberOrder> {
                           child: Container(
                             height: 50,
                             child: TextField(
+                              controller: _textController,
+                              onSubmitted: _handlesubmitted,
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
@@ -134,7 +119,7 @@ class _nonmemberOrderState extends State<nonmemberOrder> {
                                 primary: Color(0xffffa511),
                                 fixedSize: Size(80, 50),
                               ),
-                              onPressed: () {},
+                              onPressed: () => _handlesubmitted,
                             ),
                           ),
                         ),
@@ -155,7 +140,7 @@ class _nonmemberOrderState extends State<nonmemberOrder> {
                   child: Column(
                     children: <Widget>[
                       FutureBuilder(
-                          future: _getNMOrder(),
+                          future: _getNMOrder(_textController.text),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasError) {
@@ -202,11 +187,16 @@ class _nonmemberOrderState extends State<nonmemberOrder> {
   }
 }
 
-Future<List<NMOrder>> _getNMOrder() async {
+void _handlesubmitted(String text) {
+  _getNMOrder(text);
+}
+
+Future<List<NMOrder>> _getNMOrder(var orderNumber) async {
   CollectionReference<Map<String, dynamic>> collectionReference =
       FirebaseFirestore.instance.collection('nonmemberOrder');
-  QuerySnapshot<Map<String, dynamic>> querySnapshot =
-      await collectionReference.get();
+  QuerySnapshot<Map<String, dynamic>> querySnapshot = await collectionReference
+      .where('orderNumber', isEqualTo: orderNumber)
+      .get();
   List<NMOrder> nmOrder = [];
   for (var doc in querySnapshot.docs) {
     NMOrder tmp = new NMOrder();

@@ -1,4 +1,5 @@
 import 'package:baljachwi_project/screens/product_details/product_review_detail_screen.dart';
+import 'package:baljachwi_project/screens/product_details/view_only_images_screen.dart';
 import 'package:baljachwi_project/widgets/review.dart';
 import 'package:baljachwi_project/widgets/star_bar_chart.dart';
 import 'package:baljachwi_project/screens/product_details/utils.dart';
@@ -55,6 +56,8 @@ class _productReview extends State<productReview> {
                   children: [
                     SizedBox(height: 15.0),
                     reviewHeader(),
+                    smallGridview(context, user, reviews),
+                    thinDividingLine(context, 15, 20),
                     loadReviews(),
                     SizedBox(height: 20.0),
                   ],
@@ -84,7 +87,7 @@ class _productReview extends State<productReview> {
           style: TextStyle(
               fontSize: 22, fontWeight: FontWeight.bold, letterSpacing: 1.8),
         ),
-        thinDividingLine(context, 10, 10)
+        thinDividingLine(context, 10, 15)
       ],
     );
   }
@@ -105,8 +108,7 @@ class _productReview extends State<productReview> {
     return Column(
       children: [
         starRating(),
-        starRatingDetail(),
-        viewImagesOnly(),
+        starRatingDetail()
       ],
     );
   }
@@ -201,15 +203,6 @@ class _productReview extends State<productReview> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget viewImagesOnly() {
-    return Container(
-      height: 100,
-      width: (MediaQuery.of(context).size.width) * 0.90,
-      color: Colors.black12,
-      child: Text('이미지만 보기'),
     );
   }
 

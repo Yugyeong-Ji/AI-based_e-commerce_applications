@@ -82,6 +82,7 @@ List<Review> getReviews(Product product) {
         '테스트 리뷰입니다.',
         '2022.04.10',
         5);
+    testReview.image.add("images/chicken3.jpg");
     testReview.like = Random().nextInt(50);
     testReview.hate = Random().nextInt(10);
     testReviews.add(testReview);

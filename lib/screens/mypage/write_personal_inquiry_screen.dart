@@ -19,26 +19,7 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          '1:1 문의 작성',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.navigate_before),
-          color: Colors.black,
-          iconSize: 30,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
+      appBar: makeAppBar(context, '1:1 문의 작성'),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[

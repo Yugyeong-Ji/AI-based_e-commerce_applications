@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
 
 var f = NumberFormat('###,###,###,###');
 
@@ -28,26 +29,7 @@ class _orderHistoryDetailState extends State<orderHistoryDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '주문 내역 상세',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.navigate_before),
-          color: Colors.black,
-          iconSize: 30,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
+      appBar: makeAppBar(context, '주문 내역 상세'),
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.max,

@@ -20,26 +20,7 @@ class _orderHistoryState extends State<orderHistory> {
           minWidth: MediaQuery.of(context).size.width *
               MediaQuery.of(context).devicePixelRatio),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            '주문 내역',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.navigate_before),
-            color: Colors.black,
-            iconSize: 30,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
+        appBar: makeAppBar(context, '주문 내역'),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
