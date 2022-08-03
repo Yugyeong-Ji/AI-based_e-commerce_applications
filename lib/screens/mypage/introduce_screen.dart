@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
 
 class introduce extends StatelessWidget {
   const introduce({Key? key}) : super(key: key);
@@ -6,26 +7,7 @@ class introduce extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '회사 소개',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.navigate_before),
-          color: Colors.black,
-          iconSize: 30,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Color(0xffffa511),
-        elevation: 0,
-      ),
+      appBar: makeAppBar(context, '회사 소개'),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
 
 class informationUse extends StatelessWidget {
   const informationUse({Key? key}) : super(key: key);
@@ -6,26 +7,7 @@ class informationUse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '이용 안내',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.navigate_before),
-          color: Colors.black,
-          iconSize: 30,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
+      appBar: makeAppBar(context, '이용 안내'),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(

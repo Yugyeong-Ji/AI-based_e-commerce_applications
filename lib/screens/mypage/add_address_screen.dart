@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
 
 bool isDefalutAddree = false;
 int _val = -1;
@@ -14,26 +15,7 @@ class _addAddressState extends State<addAddress> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '배송지 추가',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.navigate_before),
-          color: Colors.black,
-          iconSize: 30,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
+      appBar: makeAppBar(context, '배송지 추가'),
       body: Container(
         color: Colors.white,
         child: Column(

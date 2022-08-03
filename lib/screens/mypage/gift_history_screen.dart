@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
 import 'package:intl/intl.dart';
 
 var f = NumberFormat('###,###,###,###');
@@ -15,26 +16,7 @@ class _giftHistory extends State<giftHistory> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            '선물 내역',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.navigate_before),
-            color: Colors.black,
-            iconSize: 30,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
+        appBar: makeAppBar(context, '선물 내역'),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[

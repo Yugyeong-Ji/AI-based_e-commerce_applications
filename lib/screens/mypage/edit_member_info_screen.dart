@@ -1,38 +1,21 @@
 import 'package:baljachwi_project/widgets/user.dart';
 import 'package:flutter/material.dart';
 import 'package:baljachwi_project/screens/mypage/edit_member_info2_screen.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
+
 class EditMemberInfo extends StatefulWidget {
   final User myInfo;
   const EditMemberInfo(this.myInfo, {Key? key}) : super(key: key);
   @override
-  _EditMemberInfo createState()=> _EditMemberInfo();
+  _EditMemberInfo createState() => _EditMemberInfo();
 }
 
-class _EditMemberInfo extends State<EditMemberInfo>{
+class _EditMemberInfo extends State<EditMemberInfo> {
   final _pwdController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          '회원 정보 수정',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.navigate_before),
-          color: Colors.black,
-          iconSize: 30,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
+      appBar: makeAppBar(context, '회원 정보 수정'),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
@@ -88,17 +71,18 @@ class _EditMemberInfo extends State<EditMemberInfo>{
                   color: const Color(0xfff2f2f2),
                   child: ElevatedButton(
                     onPressed: () {
-                      if(pwdCheck()){
+                      if (pwdCheck()) {
                         _pwdController.clear();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EditMemberInfo2(widget.myInfo),
+                            builder: (context) =>
+                                EditMemberInfo2(widget.myInfo),
                           ),
                         );
-                      }
-                      else{
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('비번 일치 X')));
+                      } else {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: Text('비번 일치 X')));
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -131,7 +115,7 @@ class _EditMemberInfo extends State<EditMemberInfo>{
   }
 
   bool pwdCheck() {
-    if(_pwdController.text==widget.myInfo.pwd){
+    if (_pwdController.text == widget.myInfo.pwd) {
       return true;
     }
     return false;

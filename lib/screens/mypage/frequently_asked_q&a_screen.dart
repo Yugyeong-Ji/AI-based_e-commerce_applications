@@ -22,26 +22,7 @@ class _frequentQuestionState extends State<frequentQuestion> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            '자주하는 질문',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.navigate_before),
-            color: Colors.black,
-            iconSize: 30,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
+        appBar: makeAppBar(context, '자주하는 질문'),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[

@@ -1,32 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:baljachwi_project/screens/mypage/frequently_asked_q&a_screen.dart';
 import 'package:baljachwi_project/screens/mypage/write_personal_inquiry_screen.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
 
 class personalInquiry extends StatelessWidget {
   const personalInquiry({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '1:1 문의',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.navigate_before),
-          color: Colors.black,
-          iconSize: 30,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
+      appBar: makeAppBar(context, '1:1 문의'),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
