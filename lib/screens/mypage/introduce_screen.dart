@@ -160,12 +160,13 @@ Container make_introduce(
           color: Color(0xffc0c0c0),
         ),
         Container(
-          margin: const EdgeInsets.only(bottom: 20),
+          margin: const EdgeInsets.symmetric(vertical: 10),
           padding: const EdgeInsets.all(15),
           child: Column(
             children: <Widget>[
               Container(
                 alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 margin: const EdgeInsets.all(5),
                 child: Text(
                   '설립 취지',
@@ -183,7 +184,7 @@ Container make_introduce(
               ),
               Container(
                 alignment: Alignment.topLeft,
-                margin: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(13),
                 child: Text(
                   purpose,
                   style: TextStyle(fontSize: 17),
@@ -199,6 +200,7 @@ Container make_introduce(
             children: <Widget>[
               Container(
                 alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 margin: const EdgeInsets.all(5),
                 child: Text(
                   '목표',
@@ -216,7 +218,7 @@ Container make_introduce(
               ),
               Container(
                 alignment: Alignment.topLeft,
-                margin: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(13),
                 child: Text(
                   goal,
                   style: TextStyle(fontSize: 17),
