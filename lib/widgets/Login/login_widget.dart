@@ -40,57 +40,108 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: 40),
-          TextFormField(
-            controller: emailController,
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(labelText: 'Email'),
-          ),
-          SizedBox(height: 4),
-          TextFormField(
-            controller: passwordController,
-            textInputAction: TextInputAction.done,
-            decoration: InputDecoration(labelText: 'Password'),
-            obscureText: true,
-          ),
-          SizedBox(height: 20),
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size.fromHeight(50),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            '로그인',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
             ),
-            icon: Icon(Icons.lock_open, size: 32),
-            label: Text(
-              'Sign In',
-              style: TextStyle(fontSize: 24),
-            ),
-            onPressed: signIn,
           ),
-          SizedBox(height: 24),
-          RichText(
-              text: TextSpan(
-                style: TextStyle(color: Colors.black, fontSize: 16),
-                text:'No account?  ',
-                children: [
-                  TextSpan(
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = widget.onClickedSignUp,
-                    text: 'Sign Up',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Theme.of(context).colorScheme.secondary,
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+        ),
+        body: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Colors.black12
+              ),
+            ),
+          ),
+          padding:EdgeInsets.all(10),
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              TextFormField(
+                controller: emailController,
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  hintText: '이메일을 입력해주세요',
+                  hintStyle: TextStyle(
+                      color: Colors.black12
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                      color: Colors.black12
                     ),
                   ),
-                ],
+                ),
               ),
+              SizedBox(height: 10),
+              TextFormField(
+                controller: passwordController,
+                textInputAction: TextInputAction.done,
+                decoration: InputDecoration(
+                  hintText: '비밀번호를 입력해주세요',
+                  hintStyle: TextStyle(
+                    color: Colors.black12
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: Colors.black12
+                    ),
+                  ),
+                ),
+                obscureText: true,
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size.fromHeight(50),
+                  primary: Colors.amber,
+                  elevation: 0.0
+                ),
+                child: Text(
+                  '로그인',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20
+                  ),
+                ),
+                onPressed: signIn,
+              ),
+              SizedBox(height: 24),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size.fromHeight(50),
+                  primary: Colors.white,
+                  elevation: 0.0,
+                  side: BorderSide(
+                    color: Colors.amber
+                  ),
+                ),
+                child: RichText(
+                  text: TextSpan(
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = widget.onClickedSignUp,
+                    text: '회원가입',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.amber
+                    ),
+                  ),
+                ),
+                onPressed: signIn,
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
     );
   }
 }
