@@ -113,7 +113,7 @@ class _productDetails extends State<productDetails> with TickerProviderStateMixi
         controller: _controller,
         children: [
           Center(child: productDescription(product: this.product)),
-          Center(child: productInformation()),
+          Center(child: productInformation(product: this.product, user: this.user)),
           Center(child: productReview(product: this.product, user: this.user)),
           Center(child: productInquiry(product: this.product, user: this.user))
         ],

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:baljachwi_project/screens/product_details/product_inquiry.dart';
 import 'package:baljachwi_project/widgets/review.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -232,4 +233,50 @@ void showTextSizeInvalidDialog(BuildContext context, int minLength) {
       );
     },
   );
+}
+
+// 데이터베이스에서 문의글을 가져오는 함수
+List<ProductInquiry> getInquiries(Product product) {
+  List<ProductInquiry> inquiryList = [];
+  // ** 임시로 하드코딩 ** ---> 추후 수정
+  // 1. 제품 정보를 받아 일치하는지 검사
+  // 2. 일치하는 데이터만 받아오기
+  // 3. 문의글 리스트 생성 후 null 검사를 통과하면 반환
+
+  for (int i = 1; i <= 3; i++) {
+    ProductInquiry testInquire = new ProductInquiry(
+        product,
+        "비밀글 테스트 " + i.toString(),
+        "환불해주세요;;",
+        new User('','',"privateTest" + i.toString(),'','','',''),
+        "2022.04.23",
+        false,
+        true);
+    inquiryList.add(testInquire);
+  }
+  for (int i = 1; i <= 3; i++) {
+    ProductInquiry testInquire = new ProductInquiry(
+        product,
+        "답변대기 테스트 " + i.toString(),
+        "환불해주세요;;",
+        new User('','',"watingTest" + i.toString(),'','','',''),
+        "2022.04.23",
+        false,
+        false);
+    inquiryList.add(testInquire);
+  }
+  for (int i = 1; i <= 3; i++) {
+    ProductInquiry testInquire = new ProductInquiry(
+        product,
+        "답변완료 테스트 " + i.toString(),
+        "환불해주세요;;",
+        new User('','',"answerTest" + i.toString(),'','','',''),
+        "2022.04.23",
+        true,
+        false);
+    testInquire.answer = "고객님 죄송하지만 환불은 어렵습니다..^^";
+    inquiryList.add(testInquire);
+  }
+
+  return inquiryList;
 }

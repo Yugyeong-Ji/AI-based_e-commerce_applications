@@ -44,7 +44,7 @@ class _viewOnlyImages extends State<viewOnlyImages> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: imageGridview(imageList, 3, 3),
+      body: imageGridview(imageList, null, 3, 3),
     );
   }
 }
@@ -52,24 +52,23 @@ class _viewOnlyImages extends State<viewOnlyImages> {
 List<String> loadImages(List<Review> reviews, int count){
   List<String> imageList = [];
   int cnt = 0;
-  while(cnt < count) {
-    for (Review review in reviews) {
-      if (review.image != null) {
-        for (int i = 0; i < review.image.length; i++) {
-          imageList.add(review.image[i]);
-          cnt++;
-        }
+  for (Review review in reviews) {
+    if (review.image != null) {
+      for (int i = 0; i < review.image.length; i++) {
+        imageList.add(review.image[i]);
+        cnt++;
       }
     }
   }
   return imageList;
 }
+
 int maxSize = 4;
 Widget smallGridview(BuildContext context, User user, List<Review> reviews) {
   List<String> imageList = loadImages(reviews, maxSize);
   int imageListSize = imageList.length;
   return Container(
-    height: (MediaQuery.of(context).size.width) * 0.22,
+    height: (MediaQuery.of(context).size.width) * 0.2238,
     width: (MediaQuery.of(context).size.width) * 0.90,
     color: Colors.black12,
     child: Stack(
@@ -78,7 +77,7 @@ Widget smallGridview(BuildContext context, User user, List<Review> reviews) {
         fit: StackFit.loose,
         clipBehavior: Clip.hardEdge,
         children: <Widget>[
-          imageGridview(imageList, 4, 1),
+          imageGridview(imageList, 4, 4, 1),
           if(imageListSize > maxSize)
             Positioned(
               top: 0,
@@ -112,8 +111,8 @@ Widget smallGridview(BuildContext context, User user, List<Review> reviews) {
                     Text(
                       "더보기",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
+                        color: Colors.white,
+                        fontSize: 18,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -126,9 +125,9 @@ Widget smallGridview(BuildContext context, User user, List<Review> reviews) {
   );
 }
 
-Widget imageGridview(List<String> imageList, int numOfItems, double padding) {
+Widget imageGridview(List<String> imageList, int? itemCount, int numOfItems, double padding) {
   return GridView.builder(
-    itemCount: imageList!.length, //item 개수
+    itemCount: itemCount!=null ? itemCount : imageList.length, //item 개수
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: numOfItems, //1 개의 행에 보여줄 item 개수
       childAspectRatio: 1 / 1, //item 의 가로 1, 세로 2 의 비율
@@ -141,7 +140,7 @@ Widget imageGridview(List<String> imageList, int numOfItems, double padding) {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(imageList!.elementAt(index)),
+              image: AssetImage(imageList.elementAt(index)),
               fit: BoxFit.cover
           ),
         ),
