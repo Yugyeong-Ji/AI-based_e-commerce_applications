@@ -9,6 +9,7 @@ class Product {
   final List<String>? image; // 제품 이미지
   final String? detailsImage; // 상세이미지 경로
   final bool? regularDelivery; //정기배송상품
+  final Map<String, String>? information;
   var uploadDate; // 날짜(신상품순정렬용)
 
   Product(
@@ -22,7 +23,8 @@ class Product {
       required this.discountRate,
       this.image,
       this.regularDelivery,
-      this.uploadDate}); // 생성자
+      this.uploadDate,
+      this.information}); // 생성자
 }
 
 List<Product> productList = [

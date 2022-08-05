@@ -44,68 +44,116 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Container(
       padding: EdgeInsets.all(16),
       child: Form(
         key: formKey,
-        child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: 40),
-          TextFormField(
-            controller: emailController,
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(labelText: 'Email'),
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (email) => email != null && EmailValidator.validate(email)
-                ? 'Enter a valid email'
-                : null,
-          ),
-          SizedBox(height: 4),
-          TextFormField(
-            controller: passwordController,
-            textInputAction: TextInputAction.done,
-            decoration: InputDecoration(labelText: 'Password'),
-            obscureText: true,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (value) => value != null && value.length < 6
-              ? 'Enter min. 6 characters'
-              : null,
-          ),
-          SizedBox(height: 20),
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size.fromHeight(50),
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              '회원가입',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            icon: Icon(Icons.arrow_forward, size: 32),
-            label: Text(
-              'Sign Up',
-              style: TextStyle(fontSize: 24),
-            ),
-            onPressed: SignUp,
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            elevation: 0.0,
           ),
-          SizedBox(height: 24),
-          RichText(
-            text: TextSpan(
-              style: TextStyle(color: Colors.black, fontSize: 16),
-              text:'Already have an account?  ',
-              children: [
-                TextSpan(
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = widget.onClickedSignIn,
-                  text: 'Log In',
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: Theme.of(context).colorScheme.secondary,
+          body: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(8),
+                alignment: Alignment.topLeft,
+                child: Text(
+                  '이메일',
+                ),
+              ),
+              TextFormField(
+                controller: emailController,
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  hintText: '이메일을 입력해주세요',
+                  hintStyle: TextStyle(
+                      color: Colors.black12
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: Colors.black12
+                    ),
                   ),
                 ),
-              ],
-            ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (email) => email != null && EmailValidator.validate(email)
+                    ? 'Enter a valid email'
+                    : null,
+              ),
+              Container(
+                padding: EdgeInsets.all(8),
+                alignment: Alignment.topLeft,
+                child: Text(
+                  '비밀번호',
+                ),
+              ),
+              TextFormField(
+                controller: passwordController,
+                textInputAction: TextInputAction.done,
+                decoration: InputDecoration(
+                  hintText: '비밀번호를 입력해주세요',
+                  hintStyle: TextStyle(
+                      color: Colors.black12
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: Colors.black12
+                    ),
+                  ),
+                ),
+                obscureText: true,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) => value != null && value.length < 6
+                    ? 'Enter min. 6 characters'
+                    : null,
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size.fromHeight(50),
+                  primary: Colors.amber,
+                  elevation: 0.0
+                ),
+                child: Text(
+                  '회원가입',
+                  style: TextStyle(fontSize: 24),
+                ),
+                onPressed: SignUp,
+              ),
+              SizedBox(height: 24),
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  text:'이미 회원이신가요?  ',
+                  children: [
+                    TextSpan(
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = widget.onClickedSignIn,
+                      text: '로그인으로 돌아가기',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
-    ),
     );
   }
 }

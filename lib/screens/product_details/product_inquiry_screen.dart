@@ -61,7 +61,10 @@ class _productInquiry extends State<productInquiry> {
   }
 
   Widget loadInquiries() {
-    getInquiries();
+    inquiries = getInquiries(this.product);
+    if(inquiries == null){
+      print('inquiry list is empty');
+    }
     final children = <Widget>[];
     for (int i = 0; i < inquiries.length; i++) {
       children.add(contentsBox(inquiries[i]));
@@ -125,51 +128,5 @@ class _productInquiry extends State<productInquiry> {
             ],
           ),
         ));
-  }
-
-  // 데이터베이스에서 문의글을 가져오는 함수
-  void getInquiries() {
-    List<ProductInquiry> testInquires = [];
-    // ** 임시로 하드코딩 ** ---> 추후 수정
-    // 1. 제품 정보를 받아 일치하는지 검사
-    // 2. 일치하는 데이터만 받아오기
-    // 3. 문의글 리스트 생성 후 null 검사를 통과하면 반환
-
-    for (int i = 1; i <= 3; i++) {
-      ProductInquiry testInquire = new ProductInquiry(
-          this.product,
-          "비밀글 테스트 " + i.toString(),
-          "환불해주세요;;",
-          new User('','',"privateTest" + i.toString(),'','','',''),
-          "2022.04.23",
-          false,
-          true);
-      testInquires.add(testInquire);
-    }
-    for (int i = 1; i <= 3; i++) {
-      ProductInquiry testInquire = new ProductInquiry(
-          this.product,
-          "답변대기 테스트 " + i.toString(),
-          "환불해주세요;;",
-          new User('','',"watingTest" + i.toString(),'','','',''),
-          "2022.04.23",
-          false,
-          false);
-      testInquires.add(testInquire);
-    }
-    for (int i = 1; i <= 3; i++) {
-      ProductInquiry testInquire = new ProductInquiry(
-          this.product,
-          "답변완료 테스트 " + i.toString(),
-          "환불해주세요;;",
-          new User('','',"answerTest" + i.toString(),'','','',''),
-          "2022.04.23",
-          true,
-          false);
-      testInquire.answer = "고객님 죄송하지만 환불은 어렵습니다..^^";
-      testInquires.add(testInquire);
-    }
-
-    inquiries = testInquires;
   }
 }
