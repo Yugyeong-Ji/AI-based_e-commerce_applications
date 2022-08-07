@@ -21,10 +21,6 @@ class informationUse extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
-            ),
             FutureBuilder(
                 future: _getUseGuide(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {

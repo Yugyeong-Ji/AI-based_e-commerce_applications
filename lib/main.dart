@@ -32,12 +32,12 @@ import 'package:baljachwi_project/screens/mypage/mypage_screen.dart';
 import 'package:baljachwi_project/screens/nonmember_home_screen.dart';
 import 'package:baljachwi_project/screens/Login/login_main_screen.dart';
 
-void main() /*async {
+void main() async {
   // => firebase 사용하기 위한 필수 코드
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );*/{
+  );
   runApp(const MyApp());
 }
 
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         children: [child!, DropdownAlert()],
       ),
 
-      home: productDetails(product: testProduct, user: testUser),
+      // home: productDetails(product: testProduct, user: testUser),
       // home: catalogMain(),
       // home: HomeScreen(),
       // home: Home(),
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
       // home: mateHomeScreen(),
       // home: barTestScreen(),
       // home: nonmemberHome(),
-      // home: BaseWidget(),
+      home: BaseWidget(),
       //home: mateTeamScreen(),
       //home: LoginAppScreen(),
       // home: LoginMainScreen(),
@@ -73,11 +73,11 @@ class MyApp extends StatelessWidget {
 
 // *제품 상세페이지 테스트를 위한 임시 상품객체 --> 추후 삭제 *
 Map<String, String> inform = {
-  '제품명':'하림 닭가슴살',
-  '판매단위':'1팩',
-  '유통기한':'구매 후 1년 안에 섭취',
-  '보관방법':'냉동보관',
-  '원산지':'청주',
+  '제품명': '하림 닭가슴살',
+  '판매단위': '1팩',
+  '유통기한': '구매 후 1년 안에 섭취',
+  '보관방법': '냉동보관',
+  '원산지': '청주',
 };
 Product testProduct = new Product(
     manufacturer: "하림",

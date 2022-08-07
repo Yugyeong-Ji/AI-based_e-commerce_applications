@@ -16,9 +16,6 @@ class introduce extends StatefulWidget {
 }
 
 class _introduceState extends State<introduce> {
-  CollectionReference noticeCol =
-      FirebaseFirestore.instance.collection('nonmemberOrder');
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +55,6 @@ class _introduceState extends State<introduce> {
                     }
                     if (snapshot.connectionState == ConnectionState.done) {
                       List<Introduce> qList = snapshot.data;
-
                       List<Container> mainContainer = [];
                       for (Introduce doc in qList) {
                         mainContainer.add(make_introduce(

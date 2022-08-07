@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
@@ -16,14 +17,11 @@ class _giftHistory extends State<giftHistory> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Colors.grey[200],
         appBar: makeAppBar(context, '선물 내역'),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Container(
-              height: 2,
-              color: Color(0xffd9d9d9),
-            ),
             TabBar(
               indicatorColor: Color(0xffffa511),
               labelColor: Color(0xffffa511),
@@ -32,48 +30,16 @@ class _giftHistory extends State<giftHistory> {
                 decoration: TextDecoration.none,
               ),
               tabs: [
-                Container(
-                  height: 55,
-                  color: Colors.white,
-                  alignment: Alignment.center,
-                  child: Text(
-                    'MY 선물함(1)',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 55,
-                  color: Colors.white,
-                  alignment: Alignment.center,
-                  child: Text(
-                    '선물한 내역(24)',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),
-                  ),
-                ),
+                make_tap('MY 선물함'),
+                make_tap('선물한 내역'),
               ],
             ),
-            Container(
-              height: 2,
-              color: Color(0xffd9d9d9),
-            ),
+            Container(height: 2, color: Color(0xffd9d9d9)),
             Expanded(
               child: TabBarView(
                 children: [
-                  make_giftFrom('SSS', '삼다수', '생수 2L 3개입'),
-                  Container(
-                    child: Column(
-                      children: [
-                        make_giftTo('SSS', '삼다수', '생수 2L 3개입', 10000, 5),
-                        make_giftTo('SSS', '삼다수', '생수 2L 3개입', 10000, 5),
-                      ],
-                    ),
-                  ),
+                  make_myGiftS(),
+                  make_giftHistoryS(),
                 ],
               ),
             ),
@@ -84,18 +50,63 @@ class _giftHistory extends State<giftHistory> {
   }
 }
 
-Container make_giftFrom(String _by, String _company, String _product) {
+class myG {
+  var by;
+  var company;
+  var product;
+}
+
+Future<List<myG>> _getMyG() async {
+  CollectionReference<Map<String, dynamic>> collectionReference =
+      FirebaseFirestore.instance
+          .collection('/gift/nNQWAya8zJI9K336unYo/myGift');
+  QuerySnapshot<Map<String, dynamic>> querySnapshot =
+      await collectionReference.get();
+  List<myG> my = [];
+  for (var doc in querySnapshot.docs) {
+    myG tmp = myG();
+    tmp.by = doc['by'];
+    tmp.company = doc['company'];
+    tmp.product = doc['product'];
+    my.add(tmp);
+  }
+  return my;
+}
+
+Widget make_myGiftS() {
+  return SingleChildScrollView(
+    child: Container(
+      constraints: BoxConstraints(minHeight: 600),
+      child: FutureBuilder(
+          future: _getMyG(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return const Text("Something went wrong");
+            }
+            if (!snapshot.hasData) {
+              return const Text("불러오는 중..");
+            }
+            if (snapshot.connectionState == ConnectionState.done) {
+              List<myG> qList = snapshot.data;
+              List<Container> mainContainer = [];
+              for (myG doc in qList) {
+                mainContainer
+                    .add(make_myGiftB(doc.by, doc.company, doc.product));
+              }
+              return Container(child: Column(children: mainContainer.toList()));
+            }
+            return const Text("불러오는 중..");
+          }),
+    ),
+  );
+}
+
+Container make_myGiftB(String _by, String _company, String _product) {
   return Container(
     child: Column(
       children: [
-        Container(
-          height: 10,
-          color: Color(0xfff2f2f2),
-        ),
-        Container(
-          height: 2,
-          color: Color(0xffd9d9d9),
-        ),
+        Container(height: 7, color: Color(0xfff2f2f2)),
+        Container(height: 2, color: Color(0xffd9d9d9)),
         Container(
           color: Colors.white,
           padding: const EdgeInsets.all(10),
@@ -137,6 +148,8 @@ Container make_giftFrom(String _by, String _company, String _product) {
                           margin: const EdgeInsets.only(left: 10),
                           child: Text(
                             _product,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 22,
@@ -176,14 +189,7 @@ Container make_giftFrom(String _by, String _company, String _product) {
                     elevation: 0,
                     primary: Color(0xffffa511),
                   ),
-                  onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) =>(),
-                    //   ),
-                    // );
-                  },
+                  onPressed: () {},
                 ),
               ),
             ],
@@ -198,7 +204,62 @@ Container make_giftFrom(String _by, String _company, String _product) {
   );
 }
 
-Container make_giftTo(
+class gHistory {
+  var to;
+  var company;
+  var product;
+  var price;
+  var num;
+}
+
+Future<List<gHistory>> _getGHistory() async {
+  CollectionReference<Map<String, dynamic>> collectionReference =
+      FirebaseFirestore.instance
+          .collection('/gift/nNQWAya8zJI9K336unYo/giftHistory');
+  QuerySnapshot<Map<String, dynamic>> querySnapshot =
+      await collectionReference.get();
+  List<gHistory> his = [];
+  for (var doc in querySnapshot.docs) {
+    gHistory tmp = gHistory();
+    tmp.to = doc['to'];
+    tmp.company = doc['company'];
+    tmp.product = doc['product'];
+    tmp.price = doc['price'];
+    tmp.num = doc['num'];
+    his.add(tmp);
+  }
+  return his;
+}
+
+Widget make_giftHistoryS() {
+  return SingleChildScrollView(
+    child: Container(
+      constraints: BoxConstraints(minHeight: 600),
+      child: FutureBuilder(
+          future: _getGHistory(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return const Text("Something went wrong");
+            }
+            if (!snapshot.hasData) {
+              return const Text("불러오는 중..");
+            }
+            if (snapshot.connectionState == ConnectionState.done) {
+              List<gHistory> qList = snapshot.data;
+              List<Container> mainContainer = [];
+              for (gHistory doc in qList) {
+                mainContainer.add(make_giftHistoryB(
+                    doc.to, doc.company, doc.product, doc.price, doc.num));
+              }
+              return Container(child: Column(children: mainContainer.toList()));
+            }
+            return const Text("불러오는 중..");
+          }),
+    ),
+  );
+}
+
+Container make_giftHistoryB(
     String _to, String _company, String _product, var _price, var _num) {
   var _sum = _price * _num;
   return Container(
@@ -207,14 +268,8 @@ Container make_giftTo(
         Container(
           child: Column(
             children: [
-              Container(
-                height: 10,
-                color: Color(0xfff2f2f2),
-              ),
-              Container(
-                height: 2,
-                color: Color(0xffd9d9d9),
-              ),
+              Container(height: 7, color: Color(0xfff2f2f2)),
+              Container(height: 2, color: Color(0xffd9d9d9)),
               Container(
                 color: Colors.white,
                 padding: const EdgeInsets.all(10),
@@ -257,6 +312,8 @@ Container make_giftTo(
                                 margin: const EdgeInsets.only(left: 10),
                                 child: Text(
                                   _product,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
@@ -342,9 +399,3 @@ Container make_giftTo(
     ),
   );
 }
-
-/*
-1. 파라미터 받게 구현했지만 DB 연동은 아직
-2. 연동 후 tapbar의 숫자 수정되도록
-3. overflow - 나중에 수정
-*/

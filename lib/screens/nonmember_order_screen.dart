@@ -24,8 +24,6 @@ class nonmemberOrder extends StatefulWidget {
 }
 
 class _nonmemberOrderState extends State<nonmemberOrder> {
-  CollectionReference noticeCol =
-      FirebaseFirestore.instance.collection('nonmemberOrder');
   final TextEditingController _textController = TextEditingController();
 
   @override
@@ -33,7 +31,6 @@ class _nonmemberOrderState extends State<nonmemberOrder> {
     return Scaffold(
       appBar: makeAppBar(context, '비회원 주문 내역'),
       body: Container(
-        color: Colors.grey[200],
         constraints: BoxConstraints(
             minHeight: MediaQuery.of(context).size.height *
                 MediaQuery.of(context).devicePixelRatio),

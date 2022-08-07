@@ -10,11 +10,11 @@ class review extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Colors.grey[200],
         appBar: makeAppBar(context, '리뷰'),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Container(height: 2, color: Color(0xffd9d9d9)),
             TabBar(
               indicatorColor: Color(0xffffa511),
               labelColor: Color(0xffffa511),
@@ -35,8 +35,8 @@ class review extends StatelessWidget {
                     color: Color(0xfff2f2f2),
                     child: Column(
                       children: [
-                        make_reviewableProducts('삼다수', '생수 2L 3개입'),
-                        make_reviewableProducts('삼다수', '생수 2L 3개입'),
+                        make_reviewableProducts(context, '삼다수', '생수 2L 3개입'),
+                        make_reviewableProducts(context, '삼다수', '생수 2L 3개입'),
                       ],
                     ),
                   ),
@@ -57,7 +57,8 @@ class review extends StatelessWidget {
   }
 }
 
-Container make_reviewableProducts(String _company, String _productName) {
+Container make_reviewableProducts(
+    BuildContext context, String _company, String _productName) {
   return Container(
     child: Column(
       children: [
@@ -97,7 +98,35 @@ Container make_reviewableProducts(String _company, String _productName) {
                   ),
                 ],
               ),
-              make_writeButton(),
+              Container(
+                height: 45,
+                width: double.infinity,
+                margin: const EdgeInsets.only(top: 20),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => writeReview(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    elevation: 0,
+                    primary: const Color(0xffffa511),
+                  ),
+                  child: const Text(
+                    '리뷰 쓰기',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -109,12 +138,13 @@ Container make_reviewableProducts(String _company, String _productName) {
 
 Container make_myReview(String _company, String _productName, String _content) {
   return Container(
+    color: Colors.white,
     child: Column(
       children: [
         Container(
           child: Column(
             children: [
-              Container(height: 10, color: Color(0xfff2f2f2)),
+              Container(height: 7, color: Color(0xfff2f2f2)),
               Container(height: 2, color: Color(0xffd9d9d9)),
             ],
           ),
@@ -172,9 +202,27 @@ Container make_myReview(String _company, String _productName, String _content) {
               Row(
                 children: [
                   Expanded(
-                    flex: 1,
-                    child: make_editButton(),
-                  ),
+                      flex: 1,
+                      child: Container(
+                        margin: const EdgeInsets.all(2),
+                        child: TextButton(
+                          child: Text('수정',
+                              style: TextStyle(
+                                color: Color(0xffa6a6a6),
+                              )),
+                          style: ButtonStyle(
+                            side: MaterialStateProperty.all(
+                              const BorderSide(
+                                width: 2,
+                                color: Color(
+                                  0xffa6a6a6,
+                                ),
+                              ),
+                            ),
+                          ),
+                          onPressed: () {},
+                        ),
+                      )),
                   Expanded(
                     flex: 1,
                     child: make_deleteButton(),
@@ -240,57 +288,6 @@ Container make_contentText(String _name) {
     child: Text(
       _name,
       style: TextStyle(fontSize: 14),
-    ),
-  );
-}
-
-Container make_writeButton() {
-  return Container(
-    width: double.infinity,
-    height: 45,
-    margin: const EdgeInsets.only(top: 20),
-    color: Colors.white,
-    child: TextButton(
-      child: Text('리뷰 쓰기',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          )),
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Color(0xffffa511)),
-        side: MaterialStateProperty.all(
-          const BorderSide(
-            width: 2,
-            color: Color(0xffc0c0c0),
-          ),
-        ),
-      ),
-      onPressed: () {
-        // writeReview();
-      },
-    ),
-  );
-}
-
-Container make_editButton() {
-  return Container(
-    margin: const EdgeInsets.all(2),
-    child: TextButton(
-      child: Text('수정',
-          style: TextStyle(
-            color: Color(0xffa6a6a6),
-          )),
-      style: ButtonStyle(
-        side: MaterialStateProperty.all(
-          const BorderSide(
-            width: 2,
-            color: Color(
-              0xffa6a6a6,
-            ),
-          ),
-        ),
-      ),
-      onPressed: () {},
     ),
   );
 }

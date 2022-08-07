@@ -15,21 +15,16 @@ class frequentQuestion extends StatefulWidget {
 }
 
 class _frequentQuestionState extends State<frequentQuestion> {
-  CollectionReference noticeCol = FirebaseFirestore.instance.collection('QA');
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: makeAppBar(context, '자주하는 질문'),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Container(
-              height: 2,
-              color: Color(0xffd9d9d9),
-            ),
             TabBar(
               indicatorColor: Color(0xffffa511),
               labelColor: Color(0xffffa511),
@@ -44,10 +39,7 @@ class _frequentQuestionState extends State<frequentQuestion> {
                 make_tap('취소/환불')
               ],
             ),
-            Container(
-              height: 2,
-              color: Color(0xffd9d9d9),
-            ),
+            Container(height: 2, color: Color(0xffd9d9d9)),
             Expanded(
               child: TabBarView(
                 children: [
@@ -72,7 +64,7 @@ Future<List<QA>> _getQA() async {
       await collectionReference.get();
   List<QA> qa = [];
   for (var doc in querySnapshot.docs) {
-    QA tmp = new QA();
+    QA tmp = QA();
     tmp.category = doc['category'];
     tmp.title = doc['title'];
     tmp.content = doc['content'];
@@ -100,36 +92,28 @@ Future<List<QA>> _getQAcategory(String _category) async {
 Widget make_screen1() {
   return SingleChildScrollView(
     child: Container(
-      color: Colors.white,
       constraints: BoxConstraints(minHeight: 600),
-      child: Column(
-        children: [
-          Container(
-            child: FutureBuilder(
-                future: _getQA(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasError) {
-                    return const Text("Something went wrong");
-                  }
-                  if (!snapshot.hasData) {
-                    return const Text("불러오는 중..");
-                  }
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    List<QA> qList = snapshot.data;
-
-                    List<Container> mainContainer = [];
-                    for (QA doc in qList) {
-                      mainContainer.add(make_bestScreen(
-                          context, doc.category, doc.title, doc.content));
-                    }
-                    return Container(
-                        child: Column(children: mainContainer.toList()));
-                  }
-                  return const Text("불러오는 중..");
-                }),
-          ),
-        ],
-      ),
+      child: FutureBuilder(
+          future: _getQA(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return const Text("Something went wrong");
+            }
+            if (!snapshot.hasData) {
+              return const Text("불러오는 중..");
+            }
+            if (snapshot.connectionState == ConnectionState.done) {
+              List<QA> qList = snapshot.data;
+              List<Container> mainContainer = [];
+              for (QA doc in qList) {
+                mainContainer.add(make_bestScreen(
+                    context, doc.category, doc.title, doc.content));
+              }
+              return SingleChildScrollView(
+                  child: ListBody(children: mainContainer.toList()));
+            }
+            return const Text("불러오는 중..");
+          }),
     ),
   );
 }
@@ -137,36 +121,27 @@ Widget make_screen1() {
 Widget make_screen2(String _category) {
   return SingleChildScrollView(
     child: Container(
-      color: Colors.white,
       constraints: BoxConstraints(minHeight: 600),
-      child: Column(
-        children: [
-          Container(
-            child: FutureBuilder(
-                future: _getQAcategory(_category),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasError) {
-                    return const Text("Something went wrong");
-                  }
-                  if (!snapshot.hasData) {
-                    return const Text("불러오는 중..");
-                  }
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    List<QA> qList = snapshot.data;
-
-                    List<Container> mainContainer = [];
-                    for (QA doc in qList) {
-                      mainContainer
-                          .add(make_etcScreen(context, doc.title, doc.content));
-                    }
-                    return Container(
-                        child: Column(children: mainContainer.toList()));
-                  }
-                  return const Text("불러오는 중..");
-                }),
-          ),
-        ],
-      ),
+      child: FutureBuilder(
+          future: _getQAcategory(_category),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return const Text("Something went wrong");
+            }
+            if (!snapshot.hasData) {
+              return const Text("불러오는 중..");
+            }
+            if (snapshot.connectionState == ConnectionState.done) {
+              List<QA> qList = snapshot.data;
+              List<Container> mainContainer = [];
+              for (QA doc in qList) {
+                mainContainer
+                    .add(make_etcScreen(context, doc.title, doc.content));
+              }
+              return Container(child: Column(children: mainContainer.toList()));
+            }
+            return const Text("불러오는 중..");
+          }),
     ),
   );
 }
@@ -177,7 +152,6 @@ Container make_bestScreen(
     child: Column(
       children: [
         Container(
-          color: Colors.white,
           padding: const EdgeInsets.all(10),
           alignment: Alignment.topLeft,
           child: Theme(
@@ -218,7 +192,6 @@ Container make_etcScreen(BuildContext context, String _title, String _content) {
     child: Column(
       children: [
         Container(
-          color: Colors.white,
           padding: const EdgeInsets.all(10),
           alignment: Alignment.topLeft,
           child: Theme(
@@ -226,10 +199,7 @@ Container make_etcScreen(BuildContext context, String _title, String _content) {
             child: make_tabTile(_title, _content),
           ),
         ),
-        Container(
-          height: 1,
-          color: Color(0xffd9d9d9),
-        ),
+        Container(height: 1, color: Color(0xffd9d9d9)),
       ],
     ),
   );

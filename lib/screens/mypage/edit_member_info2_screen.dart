@@ -19,196 +19,116 @@ class _EditInfo extends State<EditMemberInfo2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: makeAppBar(context, '회원 정보 수정'),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Container(
-            height: 2,
-            color: const Color(0xffc0c0c0),
+      appBar: AppBar(
+        title: Text(
+          '회원 정보 수정',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 27),
-            alignment: Alignment.topLeft,
-            child: Column(
-              children: [
-                Container(
-                  alignment: Alignment.topLeft,
-                  margin: const EdgeInsets.fromLTRB(10, 10, 10, 5),
-                  child: const Text(
-                    '이메일',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.all(10),
-                  child: Text(
-                    widget.myInfo.email,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Color(0xffa6a6a6),
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  margin: const EdgeInsets.fromLTRB(10, 15, 10, 10),
-                  child: const Text(
-                    '비밀번호',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 50,
-                  child: TextField(
-                    controller: _pwdController,
-                    style: const TextStyle(
-                      color: Color(0xffa6a6a6),
-                    ),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: (widget.myInfo.pwd),
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  margin: const EdgeInsets.fromLTRB(10, 15, 10, 10),
-                  child: const Text(
-                    '비밀번호 확인',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 50,
-                  child: TextField(
-                    controller: _pwdCheckController,
-                    style: const TextStyle(
-                      color: Color(0xffa6a6a6),
-                    ),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: (widget.myInfo.pwd),
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  margin: const EdgeInsets.fromLTRB(10, 15, 10, 10),
-                  child: const Text(
-                    '이름',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 50,
-                  child: TextField(
-                    controller: _nameController,
-                    style: const TextStyle(
-                      color: Color(0xffa6a6a6),
-                    ),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: (widget.myInfo.name),
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  margin: const EdgeInsets.fromLTRB(10, 15, 10, 10),
-                  child: const Text(
-                    '휴대폰',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 50,
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: TextField(
-                    controller: _nameController,
-                    style: const TextStyle(
-                      color: Color(0xffa6a6a6),
-                    ),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: (widget.myInfo.phone),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 50,
-                  margin: const EdgeInsets.only(top: 20),
-                  width: double.infinity,
-                  color: const Color(0xfff2f2f2),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (pwdCheck()) {
-                        Map<String, dynamic> tmp = createUpdateData();
-                        if (tmp.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("업데이트할 정보가 없습니다.")));
-                        } else {
-                          print(tmp);
-                          db
-                              .collection('user')
-                              .doc(widget.myInfo.email)
-                              .update(tmp)
-                              .then((value) => {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(content: Text("접수가 완료되었습니다.")))
-                                  });
-                          Navigator.pop(context);
-                        }
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("비밀번호가 일치하지 않습니다.")));
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      elevation: 0,
-                      primary: const Color(0xffffa511),
-                    ),
-                    child: const Text(
-                      '수정 완료',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.navigate_before),
+          color: Colors.black,
+          iconSize: 30,
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: Colors.white,
+        shape: Border(bottom: BorderSide(color: Color(0xffc0c0c0), width: 2)),
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        child: GestureDetector(
+          onVerticalDragUpdate: (DragUpdateDetails details) {},
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Container(
+                color: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 17, horizontal: 27),
+                alignment: Alignment.topLeft,
+                child: Column(
+                  children: [
+                    make_title('이메일'),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      margin: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+                      child: Text(
+                        widget.myInfo.email,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Color(0xffa6a6a6),
+                        ),
                       ),
                     ),
-                  ),
+                    make_title('비밀번호'),
+                    make_textField(widget.myInfo.pwd, _pwdController),
+                    make_title('비밀번호 확인'),
+                    make_textField(widget.myInfo.pwd, _pwdCheckController),
+                    make_title('이름'),
+                    make_textField(widget.myInfo.name, _nameController),
+                    make_title('전화번호'),
+                    make_textField(widget.myInfo.phone, _phoneController),
+                    Container(
+                      height: 50,
+                      margin: const EdgeInsets.only(top: 30),
+                      width: double.infinity,
+                      color: const Color(0xfff2f2f2),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (pwdCheck()) {
+                            Map<String, dynamic> tmp = createUpdateData();
+                            if (tmp.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("업데이트할 정보가 없습니다.")));
+                            } else {
+                              print(tmp);
+                              db
+                                  .collection('user')
+                                  .doc(widget.myInfo.email)
+                                  .update(tmp)
+                                  .then((value) => {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content: Text("접수가 완료되었습니다.")))
+                                      });
+                              Navigator.pop(context);
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("비밀번호가 일치하지 않습니다.")));
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 0,
+                          primary: const Color(0xffffa511),
+                        ),
+                        child: const Text(
+                          '수정 완료',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -230,4 +150,18 @@ class _EditInfo extends State<EditMemberInfo2> {
         "phone": _phoneController.text,
     };
   }
+}
+
+Widget make_title(String text) {
+  return Container(
+    alignment: Alignment.topLeft,
+    margin: const EdgeInsets.fromLTRB(5, 15, 5, 10),
+    child: Text(
+      text,
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  );
 }
