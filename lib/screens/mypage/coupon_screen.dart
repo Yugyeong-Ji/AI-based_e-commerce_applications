@@ -1,10 +1,8 @@
-import 'package:baljachwi_project/screens/mypage/notice_screen.dart';
 import 'package:baljachwi_project/widgets/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
-import 'dart:ui';
 
 class Coupon {
   final String? title;
@@ -47,6 +45,7 @@ class _couponPage extends State<MyPage_Coupon> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onVerticalDragUpdate: (DragUpdateDetails details) {},
       onTap: () {
         FocusScope.of(context).unfocus();
       },
@@ -66,12 +65,8 @@ class _couponPage extends State<MyPage_Coupon> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Container(
-                        height: 2,
-                        color: const Color(0xffc0c0c0),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(5.0),
-                        margin: const EdgeInsets.fromLTRB(25, 50, 25, 40),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 40, horizontal: 30),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -81,9 +76,7 @@ class _couponPage extends State<MyPage_Coupon> {
                               child: const Text(
                                 '쿠폰 등록',
                                 style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                    fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                             ),
                             Container(
@@ -92,9 +85,7 @@ class _couponPage extends State<MyPage_Coupon> {
                               child: const Text(
                                 '상품권 및 쿠폰 번호를 입력하세요.',
                                 style: TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xffa6a6a6),
-                                ),
+                                    fontSize: 12, color: Color(0xffa6a6a6)),
                               ),
                             ),
                             Container(
@@ -120,14 +111,12 @@ class _couponPage extends State<MyPage_Coupon> {
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
-                                              color: Color(0xffffa511),
-                                              width: 2,
-                                            ),
+                                                color: Color(0xffffa511),
+                                                width: 2),
                                           ),
                                           hintText: 'YYYY-MMMMMM',
                                           hintStyle: TextStyle(
-                                            color: Color(0xffa6a6a6),
-                                          ),
+                                              color: Color(0xffa6a6a6)),
                                         ),
                                       ),
                                       margin: const EdgeInsets.only(right: 10),
@@ -151,9 +140,8 @@ class _couponPage extends State<MyPage_Coupon> {
                                         child: const Text(
                                           '받기',
                                           style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ),
                                     ),
@@ -167,9 +155,7 @@ class _couponPage extends State<MyPage_Coupon> {
                               child: const Text(
                                 '•  쿠폰의 발급 기간 / 마일리지 적립 기간을 꼭 확인해주세요!',
                                 style: TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xffa6a6a6),
-                                ),
+                                    fontSize: 12, color: Color(0xffa6a6a6)),
                               ),
                             ),
                           ],
@@ -287,14 +273,11 @@ Container make_coupon(String _deadline, String _title, String _content) {
           alignment: Alignment.centerLeft,
           child: Text(
             _deadline,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Color(0xffa6a6a6),
-            ),
+            style: const TextStyle(fontSize: 14, color: Color(0xffa6a6a6)),
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 5, bottom: 10),
+          margin: const EdgeInsets.only(top: 12, bottom: 3),
           alignment: Alignment.centerLeft,
           child: Text(
             _title,
@@ -309,10 +292,7 @@ Container make_coupon(String _deadline, String _title, String _content) {
           alignment: Alignment.centerLeft,
           child: Text(
             _content,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black,
-            ),
+            style: const TextStyle(fontSize: 14, color: Colors.black),
           ),
         )
       ],

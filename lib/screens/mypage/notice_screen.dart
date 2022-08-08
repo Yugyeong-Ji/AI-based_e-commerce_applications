@@ -26,7 +26,6 @@ class _Notice extends State<MyPage_Notice> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Container(height: 2, color: const Color(0xffc0c0c0)),
             FutureBuilder(
                 future: _getNotice(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {

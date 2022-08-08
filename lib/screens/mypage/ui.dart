@@ -1,3 +1,4 @@
+import 'package:baljachwi_project/screens/mypage/write_personal_inquiry_screen.dart';
 import 'package:flutter/material.dart';
 import 'order_history_detail_screen.dart';
 
@@ -21,6 +22,7 @@ AppBar makeAppBar(BuildContext context, String title) {
       },
     ),
     backgroundColor: Colors.white,
+    shape: Border(bottom: BorderSide(color: Color(0xffc0c0c0), width: 2)),
     elevation: 0,
   );
 }
@@ -200,6 +202,28 @@ Row make_orderRow(String title, String content) {
   );
 }
 
+Widget make_textField(String _hint, TextEditingController _controller) {
+  return Container(
+    height: 50,
+    margin: const EdgeInsets.only(bottom: 7),
+    child: TextField(
+      controller: _controller,
+      decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Color(0xffd9d9d9), width: 2),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Color(0xffd9d9d9), width: 2),
+        ),
+        hintText: _hint,
+        hintStyle: TextStyle(color: Color(0xffa6a6a6)),
+      ),
+    ),
+  );
+}
+
 Container make_tap(String _tap) {
   return Container(
     color: Colors.white,
@@ -228,23 +252,28 @@ Container make_inquiryText(String _text) {
   );
 }
 
-Container make_inquiryTextField(String _hintText) {
-  return Container(
-    height: 40,
-    margin: const EdgeInsets.only(top: 5, bottom: 30),
-    child: TextField(
-      decoration: InputDecoration(
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Color(0xffa6a6a6)),
+Widget make_inquiryTextForm(String _title, TextFormField _form) {
+  return Column(
+    children: [
+      make_inquiryText(_title),
+      Container(
+        height: 40,
+        margin: const EdgeInsets.only(top: 5, bottom: 20),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: Color(0xffa6a6a6), width: 1),
+          ),
         ),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Color(0xffa6a6a6)),
-        ),
-        hintText: _hintText,
-        hintStyle: TextStyle(
-          color: Color(0xffa6a6a6),
-        ),
+        child: _form,
       ),
-    ),
+    ],
+  );
+}
+
+InputDecoration inquiryFieldDeco(String _hint) {
+  return InputDecoration(
+    border: InputBorder.none,
+    hintText: _hint,
+    hintStyle: TextStyle(color: Color(0xffa6a6a6)),
   );
 }

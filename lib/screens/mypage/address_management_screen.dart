@@ -14,10 +14,6 @@ class addressManage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
-            ),
             manage_address("HOME", "경기도 강남구 강남대로 100길 10, 1층", "문 앞에 두세요",
                 "010-0000-0000"),
             manage_address("동방", "경기도 수원시 영통구 광교산로 154-42 2층 210호", "문 앞에 두세요",

@@ -128,11 +128,9 @@ class _inviteFriendState extends State<inviteFriend> {
 
   void addFriend() {
     friend newFriend = friend(_inviteController.text);
+
     FirebaseFirestore db = FirebaseFirestore.instance;
-    db
-        .collection('freinds')
-        .add(newFriend.toFirestore())
-        .then((value) => {print('문의가 접수되었습니다!')});
+    db.collection('freinds').add(newFriend.toFirestore()).then((value) => {});
     //
   }
 }

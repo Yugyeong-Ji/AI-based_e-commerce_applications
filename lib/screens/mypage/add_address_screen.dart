@@ -22,10 +22,6 @@ class _addAddressState extends State<addAddress> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
-            ),
-            Container(
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [

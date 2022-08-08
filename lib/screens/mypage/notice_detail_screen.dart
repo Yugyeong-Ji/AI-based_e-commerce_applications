@@ -22,7 +22,6 @@ class _noticeDetailState extends State<noticeDetail> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(height: 2, color: const Color(0xffc0c0c0)),
             Container(
               constraints: BoxConstraints(minHeight: 600),
               color: Colors.white,

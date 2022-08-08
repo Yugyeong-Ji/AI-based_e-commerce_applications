@@ -8,113 +8,114 @@ class writeReview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: makeAppBar(context, '리뷰 쓰기'),
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
-            ),
-            make_product('삼다수', '생수 2L 3개입'),
-            Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
-            ),
-            Container(
-              margin: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 40),
-                    alignment: Alignment.center,
-                    child: Text(
-                      '상품은 어떠셨나요?',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body: SingleChildScrollView(
+        child: GestureDetector(
+          onVerticalDragUpdate: (DragUpdateDetails details) {},
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Column(
+            children: <Widget>[
+              make_product('삼다수', '생수 2L 3개입'),
+              Container(
+                height: 2,
+                color: Color(0xffc0c0c0),
+              ),
+              Container(
+                margin: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 40),
+                      alignment: Alignment.center,
+                      child: Text(
+                        '상품은 어떠셨나요?',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          margin: const EdgeInsets.only(right: 10),
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: Color(0xfff2f2f2),
-                            border: Border.all(
-                              width: 1,
-                              color: Color(0xffd9d9d9),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          margin: const EdgeInsets.only(right: 10),
-                          height: 70,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Color(0xffffa511),
-                            border: Border.all(
-                              width: 1,
-                              color: Color(0xffd9d9d9),
-                            ),
-                          ),
-                          child: Text(
-                            '+',
-                            style: TextStyle(color: Colors.white, fontSize: 24),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Container(),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 50),
-                    child: Row(
+                    Row(
                       children: [
-                        make_star(),
-                        make_star(),
-                        make_star(),
-                        make_star(),
-                        make_star(),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            height: 70,
+                            decoration: BoxDecoration(
+                              color: Color(0xfff2f2f2),
+                              border: Border.all(
+                                width: 1,
+                                color: Color(0xffd9d9d9),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            height: 70,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Color(0xffffa511),
+                              border: Border.all(
+                                width: 1,
+                                color: Color(0xffd9d9d9),
+                              ),
+                            ),
+                            child: Text(
+                              '+',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 24),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Container(),
+                        ),
                       ],
                     ),
-                  ),
-                  Container(
-                    height: 200,
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: const Color(0xffd9d9d9),
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 50),
+                      child: Row(
+                        children: [
+                          make_star(),
+                          make_star(),
+                          make_star(),
+                          make_star(),
+                          make_star(),
+                        ],
                       ),
                     ),
-                    child: TextField(
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      style: const TextStyle(color: Color(0xffa6a6a6)),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        labelText: '최소 15자 이상 작성해 주세요.',
-                        labelStyle: TextStyle(
-                          color: Color(0xffa6a6a6),
+                    Container(
+                      height: 200,
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: const Color(0xffd9d9d9),
+                        ),
+                      ),
+                      child: TextField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        style: const TextStyle(color: Color(0xffa6a6a6)),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: '최소 15자 이상 작성해 주세요.',
+                          hintStyle: TextStyle(color: Color(0xffa6a6a6)),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

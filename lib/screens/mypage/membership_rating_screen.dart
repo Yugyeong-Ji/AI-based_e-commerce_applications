@@ -28,7 +28,6 @@ class _membershipRatingState extends State<membershipRating> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Container(height: 2, color: Color(0xffc0c0c0)),
               FutureBuilder(
                 future: _getMembership(widget._grade),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
