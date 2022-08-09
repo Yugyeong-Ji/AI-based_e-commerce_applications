@@ -17,7 +17,7 @@ class _giftHistory extends State<giftHistory> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.white,
         appBar: makeAppBar(context, '선물 내역'),
         body: Column(
           mainAxisSize: MainAxisSize.max,

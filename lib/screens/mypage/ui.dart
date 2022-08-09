@@ -277,3 +277,86 @@ InputDecoration inquiryFieldDeco(String _hint) {
     hintStyle: TextStyle(color: Color(0xffa6a6a6)),
   );
 }
+
+void makeDialog(BuildContext context, String text) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      Future.delayed(Duration(seconds: 3), () {
+        Navigator.pop(context);
+      });
+      return AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        content: Container(
+          alignment: Alignment.center,
+          width: 200,
+          height: 50,
+          child: Text(text, style: TextStyle(fontSize: 18)),
+        ),
+      );
+    },
+  );
+}
+
+Container make_title(String _title) {
+  // address(add, edit)
+  return Container(
+    margin: const EdgeInsets.fromLTRB(10, 10, 0, 3),
+    alignment: Alignment.centerLeft,
+    child: Text(
+      _title,
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  );
+}
+
+Widget make_textbox(String _title, String _text, TextEditingController _c) {
+  // address(add, edit)
+  return Column(
+    children: [
+      Container(
+        margin: const EdgeInsets.fromLTRB(10, 10, 0, 3),
+        alignment: Alignment.centerLeft,
+        child: Text(
+          _title,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      Container(
+        height: 50,
+        margin: const EdgeInsets.only(bottom: 5),
+        child: TextField(
+          controller: _c,
+          decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Color(0xffd9d9d9)),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Color(0xffd9d9d9)),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            hintText: _text,
+            hintStyle: TextStyle(
+              color: Color(0xffd9d9d9),
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+bool vaildCheck(bool B) {
+  if (B) {
+    return false;
+  }
+  return true;
+}

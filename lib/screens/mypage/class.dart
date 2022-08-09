@@ -47,3 +47,40 @@ class productInq {
     };
   }
 }
+
+class Address {
+  var isDefault;
+  var name;
+  var address;
+  var message;
+  var phone;
+  Address(this.isDefault, this.name, this.address, this.message, this.phone);
+  Map<String, dynamic> toFirestore() {
+    return {
+      if (isDefault != null) "isDefault": isDefault,
+      if (name != null) "name": name,
+      if (address != null) "address": address,
+      if (message != null) "content": message,
+      if (phone != null) "phone": phone,
+    };
+  }
+}
+
+class Order {
+  var orderNumber;
+  var company;
+  var product;
+  var date;
+  var payment;
+  var price;
+  var num;
+  var state;
+}
+
+class Review {
+  var orderNumber;
+  var stars;
+  var company;
+  var product;
+  var content;
+}
