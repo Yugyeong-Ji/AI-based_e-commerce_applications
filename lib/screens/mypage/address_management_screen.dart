@@ -1,24 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:baljachwi_project/screens/mypage/add_address_screen.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
+import 'package:baljachwi_project/screens/mypage/class.dart';
+import 'package:baljachwi_project/screens/mypage/edit_address_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class addressManage extends StatelessWidget {
-  const addressManage({Key? key}) : super(key: key);
+class addressManage extends StatefulWidget {
+  @override
+  State<addressManage> createState() => _addressManageState();
+}
 
+class _addressManageState extends State<addressManage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: makeAppBar(context, '배송지 관리'),
-      body: Container(
-        color: Colors.white,
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            manage_address("HOME", "경기도 강남구 강남대로 100길 10, 1층", "문 앞에 두세요",
-                "010-0000-0000"),
-            manage_address("동방", "경기도 수원시 영통구 광교산로 154-42 2층 210호", "문 앞에 두세요",
-                "010-0000-0000"),
-            make_addButton(context),
+          children: [
+            FutureBuilder(
+                future: _getAddress(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasError) {
+                    return const Text("Something went wrong");
+                  }
+                  if (!snapshot.hasData) {
+                    return const Text("불러오는 중..");
+                  }
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    List<Address> qList = snapshot.data;
+
+                    List<Container> mainContainer = [];
+                    for (Address doc in qList) {
+                      mainContainer.add(manage_address(
+                        context,
+                        doc.isDefault,
+                        doc.name,
+                        doc.address,
+                        doc.message,
+                        doc.phone,
+                      ));
+                    }
+                    return Container(
+                        child: Column(children: mainContainer.toList()));
+                  }
+                  return const Text("불러오는 중..");
+                }),
+            Container(
+              width: double.infinity,
+              height: 45,
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              color: Colors.white,
+              child: TextButton(
+                child: Text('+ 배송지 추가',
+                    style: TextStyle(
+                      color: Color(0xffffa511),
+                      fontWeight: FontWeight.bold,
+                    )),
+                style: ButtonStyle(
+                  side: MaterialStateProperty.all(
+                    const BorderSide(
+                      width: 1,
+                      color: Color(0xffc0c0c0),
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => addAddress(),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -26,8 +83,34 @@ class addressManage extends StatelessWidget {
   }
 }
 
-Container manage_address(
-    String _adrName, String _address, String _message, String _phoneNum) {
+class Address {
+  var isDefault;
+  var name;
+  var address;
+  var message;
+  var phone;
+}
+
+Future<List<Address>> _getAddress() async {
+  CollectionReference<Map<String, dynamic>> collectionReference =
+      FirebaseFirestore.instance.collection('address');
+  QuerySnapshot<Map<String, dynamic>> querySnapshot =
+      await collectionReference.get();
+  List<Address> adrs = [];
+  for (var doc in querySnapshot.docs) {
+    Address tmp = new Address();
+    tmp.isDefault = doc['isDefault'];
+    tmp.name = doc['name'];
+    tmp.address = doc['address'];
+    tmp.message = doc['message'];
+    tmp.phone = doc['phone'];
+    adrs.add(tmp);
+  }
+  return adrs;
+}
+
+Container manage_address(BuildContext context, bool isDefault, String name,
+    String address, String message, String phone) {
   return Container(
     child: Column(
       children: [
@@ -36,19 +119,32 @@ Container manage_address(
           padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 35),
           child: Column(
             children: [
-              make_title(_adrName),
-              make_content(_address),
-              make_content(_message),
-              make_content(_phoneNum),
+              Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  name,
+                  style: TextStyle(
+                    color: Color(0xffffa511),
+                    fontSize: 18,
+                    fontWeight:
+                        (isDefault ? FontWeight.bold : FontWeight.normal),
+                  ),
+                ),
+              ),
+              make_content(address),
+              make_content(message),
+              make_content(phone),
               Row(
                 children: [
                   Expanded(
                     flex: 1,
-                    child: make_editButton(),
+                    child: make_editButton(
+                        context, isDefault, name, address, message, phone),
                   ),
                   Expanded(
                     flex: 1,
-                    child: make_deleteButton(),
+                    child: make_deleteButton(context, name),
                   ),
                   Expanded(
                     flex: 2,
@@ -68,21 +164,6 @@ Container manage_address(
   );
 }
 
-Container make_title(String _title) {
-  return Container(
-    margin: const EdgeInsets.only(bottom: 8),
-    alignment: Alignment.centerLeft,
-    child: Text(
-      _title,
-      style: TextStyle(
-        color: Color(0xffffa511),
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-  );
-}
-
 Container make_content(String _content) {
   return Container(
     margin: const EdgeInsets.only(bottom: 5),
@@ -94,7 +175,8 @@ Container make_content(String _content) {
   );
 }
 
-Container make_editButton() {
+Container make_editButton(BuildContext context, bool isDefault, String name,
+    String address, String message, String phone) {
   return Container(
     margin: const EdgeInsets.all(2),
     child: TextButton(
@@ -112,12 +194,20 @@ Container make_editButton() {
           ),
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                editAddress(isDefault, name, address, message, phone),
+          ),
+        );
+      },
     ),
   );
 }
 
-Container make_deleteButton() {
+Container make_deleteButton(BuildContext context, String name) {
   return Container(
     margin: const EdgeInsets.all(2),
     child: TextButton(
@@ -133,39 +223,17 @@ Container make_deleteButton() {
           ),
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        deletedata(context, name);
+      },
     ),
   );
 }
 
-Container make_addButton(BuildContext context) {
-  return Container(
-    width: double.infinity,
-    height: 45,
-    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-    color: Colors.white,
-    child: TextButton(
-      child: Text('+ 배송지 추가',
-          style: TextStyle(
-            color: Color(0xffffa511),
-            fontWeight: FontWeight.bold,
-          )),
-      style: ButtonStyle(
-        side: MaterialStateProperty.all(
-          const BorderSide(
-            width: 1,
-            color: Color(0xffc0c0c0),
-          ),
-        ),
-      ),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => addAddress(),
-          ),
-        );
-      },
-    ),
-  );
+void deletedata(BuildContext context, String name) {
+  FirebaseFirestore.instance
+      .collection("address")
+      .doc(name)
+      .delete()
+      .then((value) => makeDialog(context, '주소지가 삭제되었습니다.'));
 }

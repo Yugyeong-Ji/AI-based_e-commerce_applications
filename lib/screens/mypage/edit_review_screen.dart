@@ -4,23 +4,26 @@ import 'package:flutter/material.dart';
 
 int star = 0;
 
-class writeReview extends StatefulWidget {
+class editReview extends StatefulWidget {
   var company;
   var product;
   var orderNumber;
-  writeReview(this.company, this.product, this.orderNumber);
+  var stars;
+  var content;
+  editReview(
+      this.company, this.product, this.orderNumber, this.stars, this.content);
 
   @override
-  State<writeReview> createState() => _writeReviewState();
+  State<editReview> createState() => _editReviewState();
 }
 
-class _writeReviewState extends State<writeReview> {
+class _editReviewState extends State<editReview> {
   TextEditingController contentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: makeAppBar(context, '리뷰 쓰기'),
+      appBar: makeAppBar(context, '리뷰 수정'),
       body: SingleChildScrollView(
         child: GestureDetector(
           onVerticalDragUpdate: (DragUpdateDetails details) {},
@@ -118,7 +121,7 @@ class _writeReviewState extends State<writeReview> {
                         style: const TextStyle(color: Color(0xffa6a6a6)),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: '최소 15자 이상 작성해 주세요.',
+                          hintText: widget.content,
                           hintStyle: TextStyle(color: Color(0xffa6a6a6)),
                         ),
                       ),
@@ -143,9 +146,7 @@ class _writeReviewState extends State<writeReview> {
                           )),
                         ),
                         onPressed: () {
-                          if (vaildCheck(contentController.text == "")) {
-                            createReview();
-                          }
+                          updateReview();
                         },
                       ),
                     ),
@@ -159,17 +160,15 @@ class _writeReviewState extends State<writeReview> {
     );
   }
 
-  void createReview() {
+  void updateReview() {
     FirebaseFirestore.instance
         .collection('review')
         .doc(widget.orderNumber.toString())
-        .set({
-      "orderNumber": widget.orderNumber,
+        .update({
       "stars": 3, // 임시
-      "content": contentController.text,
-      "company": widget.company,
-      "product": widget.product,
-    }).then((value) => {makeDialog(context, '리뷰가 추가되었습니다.')});
+      if (widget.content != contentController.text)
+        "content": contentController.text,
+    }).then((value) => {makeDialog(context, '리뷰가 수정되었습니다.')});
   }
 }
 

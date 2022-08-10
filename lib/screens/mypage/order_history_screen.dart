@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:baljachwi_project/screens/mypage/order_history_detail_screen.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
+import 'package:baljachwi_project/screens/mypage/class.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -59,17 +60,6 @@ class _orderHistoryState extends State<orderHistory> {
       ),
     );
   }
-}
-
-class Order {
-  var orderNumber;
-  var company;
-  var product;
-  var date;
-  var payment;
-  var price;
-  var num;
-  var state;
 }
 
 Future<List<Order>> _getOrder() async {
