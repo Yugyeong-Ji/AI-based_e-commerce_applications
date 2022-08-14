@@ -152,7 +152,7 @@ class _nonmemberOrderState extends State<nonmemberOrder> {
 
                               List<Container> mainContainer = [];
                               for (NMOrder doc in qList) {
-                                mainContainer.add(make_orderList(
+                                mainContainer.add(makeOrderList(
                                     context,
                                     doc.orderNumber,
                                     doc.product,

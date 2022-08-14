@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
 
 class QA {
@@ -25,19 +24,22 @@ class _frequentQuestionState extends State<frequentQuestion> {
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            TabBar(
-              indicatorColor: Color(0xffffa511),
-              labelColor: Color(0xffffa511),
-              unselectedLabelColor: Color(0xffa6a6a6),
-              unselectedLabelStyle: TextStyle(
-                decoration: TextDecoration.none,
+            Container(
+              color: Colors.white,
+              child: TabBar(
+                indicatorColor: Color(0xffffa511),
+                labelColor: Color(0xffffa511),
+                unselectedLabelColor: Color(0xffa6a6a6),
+                unselectedLabelStyle: TextStyle(
+                  decoration: TextDecoration.none,
+                ),
+                tabs: [
+                  makeTap('Best'),
+                  makeTap('주문결제'),
+                  makeTap('배송'),
+                  makeTap('취소/환불')
+                ],
               ),
-              tabs: [
-                make_tap('Best'),
-                make_tap('주문결제'),
-                make_tap('배송'),
-                make_tap('취소/환불')
-              ],
             ),
             Container(height: 2, color: Color(0xffd9d9d9)),
             Expanded(

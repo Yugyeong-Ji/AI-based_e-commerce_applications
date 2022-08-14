@@ -5,21 +5,15 @@ import 'package:baljachwi_project/screens/mypage/ui.dart';
 var f = NumberFormat('###,###,###,###');
 
 class orderHistoryDetail extends StatefulWidget {
-  final _orderNum;
-  final String _product;
-  final String _date;
-  final String _payment;
-  final _price;
-  final _num;
-  final String _state;
-  orderHistoryDetail(
-      var this._orderNum,
-      String this._product,
-      String this._date,
-      String this._payment,
-      var this._price,
-      var this._num,
-      String this._state);
+  var orderNum;
+  var product;
+  var date;
+  var payment;
+  var price;
+  var num;
+  var state;
+  orderHistoryDetail(this.orderNum, this.product, this.date, this.payment,
+      this.price, this.num, this.state);
 
   @override
   State<orderHistoryDetail> createState() => _orderHistoryDetailState();
@@ -56,7 +50,7 @@ class _orderHistoryDetailState extends State<orderHistoryDetail> {
                         flex: 2,
                         child: Container(
                           child: Text(
-                            widget._orderNum.toString(),
+                            widget.orderNum.toString(),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
@@ -111,7 +105,7 @@ class _orderHistoryDetailState extends State<orderHistoryDetail> {
                                 Container(
                                   alignment: Alignment.centerLeft,
                                   margin: const EdgeInsets.only(bottom: 12),
-                                  child: Text(widget._product,
+                                  child: Text(widget.product,
                                       style: TextStyle(fontSize: 16)),
                                 ),
                                 Row(
@@ -121,7 +115,7 @@ class _orderHistoryDetailState extends State<orderHistoryDetail> {
                                       child: Container(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          f.format(widget._price).toString() +
+                                          f.format(widget.price).toString() +
                                               '원',
                                           style: TextStyle(
                                               fontSize: 15,
@@ -133,8 +127,7 @@ class _orderHistoryDetailState extends State<orderHistoryDetail> {
                                       flex: 2,
                                       child: Container(
                                         alignment: Alignment.centerLeft,
-                                        child: Text(
-                                            widget._num.toString() + "개",
+                                        child: Text(widget.num.toString() + "개",
                                             style: TextStyle(fontSize: 15)),
                                       ),
                                     ),
@@ -142,7 +135,7 @@ class _orderHistoryDetailState extends State<orderHistoryDetail> {
                                 ),
                                 Container(
                                   alignment: Alignment.centerLeft,
-                                  child: Text(widget._state,
+                                  child: Text(widget.state,
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold)),
@@ -159,28 +152,27 @@ class _orderHistoryDetailState extends State<orderHistoryDetail> {
             ),
             make_blank(),
             make_expanTile(
-                '주문 정보', Container(margin: const EdgeInsets.all(20))),
+                context, '주문 정보', Container(margin: const EdgeInsets.all(20))),
             make_blank(),
             make_expanTile(
+                context,
                 '결제 정보',
                 Container(
                   margin: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      make_row('결제 일시', widget._date),
+                      make_row('결제 일시', widget.date),
                       Container(height: 10),
-                      make_row('결제 방법', widget._payment),
+                      make_row('결제 방법', widget.payment),
                       Container(height: 10),
-                      make_row(
-                          '결제 금액',
-                          f.format(widget._price * widget._num).toString() +
-                              '원'),
+                      make_row('결제 금액',
+                          f.format(widget.price * widget.num).toString() + '원'),
                     ],
                   ),
                 )),
             make_blank(),
             make_expanTile(
-                '배송 정보', Container(margin: const EdgeInsets.all(20))),
+                context, '배송 정보', Container(margin: const EdgeInsets.all(20))),
             make_blank(),
             Container(
               color: Colors.white,
@@ -260,16 +252,19 @@ Widget make_row(String text, String content) {
   );
 }
 
-Widget make_expanTile(String title, Container cont) {
+Widget make_expanTile(BuildContext context, String title, Container cont) {
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
-    child: ExpansionTile(
-      title: Text(
-        title,
-        style: TextStyle(
-            fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+    child: Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+        title: Text(
+          title,
+          style: TextStyle(
+              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+        ),
+        children: [cont],
       ),
-      children: [cont],
     ),
   );
 }

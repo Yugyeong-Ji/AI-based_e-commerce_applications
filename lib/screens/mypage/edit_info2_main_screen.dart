@@ -57,7 +57,7 @@ class _EditInfo extends State<EditMemberInfo2> {
                 alignment: Alignment.topLeft,
                 child: Column(
                   children: [
-                    make_title('이메일'),
+                    makeTitle('이메일'),
                     Container(
                       alignment: Alignment.centerLeft,
                       margin: const EdgeInsets.fromLTRB(10, 5, 10, 10),
@@ -69,14 +69,14 @@ class _EditInfo extends State<EditMemberInfo2> {
                         ),
                       ),
                     ),
-                    make_title('비밀번호'),
-                    make_textField(widget.myInfo.pwd, _pwdController),
-                    make_title('비밀번호 확인'),
-                    make_textField(widget.myInfo.pwd, _pwdCheckController),
-                    make_title('이름'),
-                    make_textField(widget.myInfo.name, _nameController),
-                    make_title('전화번호'),
-                    make_textField(widget.myInfo.phone, _phoneController),
+                    makeTitle('비밀번호'),
+                    makeTextField(widget.myInfo.pwd, _pwdController),
+                    makeTitle('비밀번호 확인'),
+                    makeTextField(widget.myInfo.pwd, _pwdCheckController),
+                    makeTitle('이름'),
+                    makeTextField(widget.myInfo.name, _nameController),
+                    makeTitle('전화번호'),
+                    makeTextField(widget.myInfo.phone, _phoneController),
                     Container(
                       height: 50,
                       margin: const EdgeInsets.only(top: 30),
@@ -142,17 +142,14 @@ class _EditInfo extends State<EditMemberInfo2> {
 
   Map<String, dynamic> createUpdateData() {
     return {
-      if (_pwdController.text != null && _pwdController.text != "")
-        "pwd": _pwdController.text,
-      if (_nameController.text != null && _nameController.text != "")
-        "name": _nameController.text,
-      if (_phoneController.text != null && _phoneController.text != "")
-        "phone": _phoneController.text,
+      if (_pwdController.text != '') "pwd": _pwdController.text,
+      if (_nameController.text != '') "name": _nameController.text,
+      if (_phoneController.text != '') "phone": _phoneController.text,
     };
   }
 }
 
-Widget make_title(String text) {
+Widget makeTitle(String text) {
   return Container(
     alignment: Alignment.topLeft,
     margin: const EdgeInsets.fromLTRB(5, 15, 5, 10),

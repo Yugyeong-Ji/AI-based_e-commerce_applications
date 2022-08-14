@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:baljachwi_project/screens/mypage/add_address_screen.dart';
+import 'package:baljachwi_project/screens/mypage/address2_add_screen.dart';
+import 'package:baljachwi_project/screens/mypage/address2_edit_screen.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
 import 'package:baljachwi_project/screens/mypage/class.dart';
-import 'package:baljachwi_project/screens/mypage/edit_address_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class addressManage extends StatefulWidget {
   @override
@@ -20,7 +19,7 @@ class _addressManageState extends State<addressManage> {
         child: Column(
           children: [
             FutureBuilder(
-                future: _getAddress(),
+                future: getAddress(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasError) {
                     return const Text("Something went wrong");
@@ -33,7 +32,7 @@ class _addressManageState extends State<addressManage> {
 
                     List<Container> mainContainer = [];
                     for (Address doc in qList) {
-                      mainContainer.add(manage_address(
+                      mainContainer.add(manageAddress(
                         context,
                         doc.isDefault,
                         doc.name,
@@ -83,33 +82,7 @@ class _addressManageState extends State<addressManage> {
   }
 }
 
-class Address {
-  var isDefault;
-  var name;
-  var address;
-  var message;
-  var phone;
-}
-
-Future<List<Address>> _getAddress() async {
-  CollectionReference<Map<String, dynamic>> collectionReference =
-      FirebaseFirestore.instance.collection('address');
-  QuerySnapshot<Map<String, dynamic>> querySnapshot =
-      await collectionReference.get();
-  List<Address> adrs = [];
-  for (var doc in querySnapshot.docs) {
-    Address tmp = new Address();
-    tmp.isDefault = doc['isDefault'];
-    tmp.name = doc['name'];
-    tmp.address = doc['address'];
-    tmp.message = doc['message'];
-    tmp.phone = doc['phone'];
-    adrs.add(tmp);
-  }
-  return adrs;
-}
-
-Container manage_address(BuildContext context, bool isDefault, String name,
+Container manageAddress(BuildContext context, bool isDefault, String name,
     String address, String message, String phone) {
   return Container(
     child: Column(
@@ -132,19 +105,25 @@ Container manage_address(BuildContext context, bool isDefault, String name,
                   ),
                 ),
               ),
-              make_content(address),
-              make_content(message),
-              make_content(phone),
+              makeContent(address),
+              makeContent(message),
+              makeContent(phone.length == 11
+                  ? phone.substring(0, 3) +
+                      '-' +
+                      phone.substring(3, 7) +
+                      '-' +
+                      phone.substring(7, 11)
+                  : phone),
               Row(
                 children: [
                   Expanded(
                     flex: 1,
-                    child: make_editButton(
+                    child: makeEditButton(
                         context, isDefault, name, address, message, phone),
                   ),
                   Expanded(
                     flex: 1,
-                    child: make_deleteButton(context, name),
+                    child: makeDeleteButton(context, name),
                   ),
                   Expanded(
                     flex: 2,
@@ -164,7 +143,7 @@ Container manage_address(BuildContext context, bool isDefault, String name,
   );
 }
 
-Container make_content(String _content) {
+Container makeContent(String _content) {
   return Container(
     margin: const EdgeInsets.only(bottom: 5),
     alignment: Alignment.centerLeft,
@@ -175,7 +154,7 @@ Container make_content(String _content) {
   );
 }
 
-Container make_editButton(BuildContext context, bool isDefault, String name,
+Container makeEditButton(BuildContext context, bool isDefault, String name,
     String address, String message, String phone) {
   return Container(
     margin: const EdgeInsets.all(2),
@@ -207,7 +186,7 @@ Container make_editButton(BuildContext context, bool isDefault, String name,
   );
 }
 
-Container make_deleteButton(BuildContext context, String name) {
+Container makeDeleteButton(BuildContext context, String name) {
   return Container(
     margin: const EdgeInsets.all(2),
     child: TextButton(
@@ -228,12 +207,4 @@ Container make_deleteButton(BuildContext context, String name) {
       },
     ),
   );
-}
-
-void deletedata(BuildContext context, String name) {
-  FirebaseFirestore.instance
-      .collection("address")
-      .doc(name)
-      .delete()
-      .then((value) => makeDialog(context, '주소지가 삭제되었습니다.'));
 }

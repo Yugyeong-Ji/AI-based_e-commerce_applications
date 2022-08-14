@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
 
 class inviteFriend extends StatefulWidget {
@@ -22,10 +21,6 @@ class _inviteFriendState extends State<inviteFriend> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Container(
-              height: 2,
-              color: Color(0xffc0c0c0),
-            ),
             Container(
               color: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 27),

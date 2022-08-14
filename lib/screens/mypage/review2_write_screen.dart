@@ -1,29 +1,27 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:baljachwi_project/screens/mypage/ui.dart';
 import 'package:flutter/material.dart';
+import 'package:baljachwi_project/screens/mypage/ui.dart';
+import 'package:baljachwi_project/screens/mypage/class.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-int star = 0;
+var star = 0;
 
-class editReview extends StatefulWidget {
+class writeReview extends StatefulWidget {
   var company;
   var product;
   var orderNumber;
-  var stars;
-  var content;
-  editReview(
-      this.company, this.product, this.orderNumber, this.stars, this.content);
+  writeReview(this.company, this.product, this.orderNumber);
 
   @override
-  State<editReview> createState() => _editReviewState();
+  State<writeReview> createState() => _writeReviewState();
 }
 
-class _editReviewState extends State<editReview> {
+class _writeReviewState extends State<writeReview> {
   TextEditingController contentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: makeAppBar(context, '리뷰 수정'),
+      appBar: makeAppBar(context, '리뷰 쓰기'),
       body: SingleChildScrollView(
         child: GestureDetector(
           onVerticalDragUpdate: (DragUpdateDetails details) {},
@@ -32,7 +30,7 @@ class _editReviewState extends State<editReview> {
           },
           child: Column(
             children: <Widget>[
-              make_product(widget.company, widget.product),
+              makeProduct(widget.company, widget.product),
               Container(
                 height: 2,
                 color: Color(0xffc0c0c0),
@@ -95,14 +93,20 @@ class _editReviewState extends State<editReview> {
                     Container(
                       margin: const EdgeInsets.symmetric(
                           vertical: 20, horizontal: 50),
-                      child: Row(
-                        children: [
-                          make_star(Color(0xffffa511)),
-                          make_star(Color(0xffffa511)),
-                          make_star(Color(0xffffa511)),
-                          make_star(Color(0xffd9d9d9)),
-                          make_star(Color(0xffd9d9d9)),
-                        ],
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {});
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Detector(0),
+                            Detector(1),
+                            Detector(2),
+                            Detector(3),
+                            Detector(4),
+                          ],
+                        ),
                       ),
                     ),
                     Container(
@@ -121,7 +125,7 @@ class _editReviewState extends State<editReview> {
                         style: const TextStyle(color: Color(0xffa6a6a6)),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: widget.content,
+                          hintText: '최소 15자 이상 작성해 주세요.',
                           hintStyle: TextStyle(color: Color(0xffa6a6a6)),
                         ),
                       ),
@@ -146,7 +150,9 @@ class _editReviewState extends State<editReview> {
                           )),
                         ),
                         onPressed: () {
-                          updateReview();
+                          if (vaildCheck(contentController.text == "")) {
+                            createReview();
+                          }
                         },
                       ),
                     ),
@@ -160,29 +166,55 @@ class _editReviewState extends State<editReview> {
     );
   }
 
-  void updateReview() {
+  void createReview() {
     FirebaseFirestore.instance
         .collection('review')
         .doc(widget.orderNumber.toString())
-        .update({
-      "stars": 3, // 임시
-      if (widget.content != contentController.text)
-        "content": contentController.text,
-    }).then((value) => {makeDialog(context, '리뷰가 수정되었습니다.')});
+        .set({
+      "orderNumber": widget.orderNumber,
+      "stars": star,
+      "content": contentController.text,
+      "company": widget.company,
+      "product": widget.product,
+    }).then((value) => {makeDialog2(context, '리뷰가 추가되었습니다.')});
+  }
+
+  Widget Detector(var i) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          updateColor(i);
+        });
+      },
+      child: s(c[i]),
+    );
   }
 }
 
-Widget make_star(Color _color) {
-  return Expanded(
-    child: Icon(
-      Icons.star,
-      color: _color,
-      size: 30,
-    ),
+const c1 = Color(0xffffa511);
+const c2 = Color(0xffd9d9d9);
+
+List<Color> c = [c2, c2, c2, c2, c2];
+
+Widget s(Color c) {
+  return Icon(
+    Icons.star,
+    color: c,
+    size: 30,
   );
 }
 
-Container make_product(String _company, String _productName) {
+updateColor(var n) {
+  for (var i = 0; i < n + 1; i++) {
+    c[i] = c1;
+  }
+  for (var j = n + 1; j < 5; j++) {
+    c[j] = c2;
+  }
+  star = n;
+}
+
+Container makeProduct(String _company, String _productName) {
   return Container(
     color: Colors.white,
     padding: const EdgeInsets.all(20),

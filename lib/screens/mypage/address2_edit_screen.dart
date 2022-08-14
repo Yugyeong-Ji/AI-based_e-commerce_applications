@@ -3,14 +3,24 @@ import 'package:baljachwi_project/screens/mypage/ui.dart';
 import 'package:baljachwi_project/screens/mypage/class.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-bool isDefault = false;
-
-class addAddress extends StatefulWidget {
+class editAddress extends StatefulWidget {
+  var isDefault;
+  var name;
+  var address;
+  var message;
+  var phone;
+  editAddress(
+      this.isDefault, this.name, this.address, this.message, this.phone);
   @override
-  State<addAddress> createState() => _addAddressState();
+  State<editAddress> createState() => _editAddressState();
 }
 
-class _addAddressState extends State<addAddress> {
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}
+
+class _editAddressState extends State<editAddress> {
   final TextEditingController nC = TextEditingController();
   final TextEditingController aC = TextEditingController();
   final TextEditingController mC = TextEditingController();
@@ -20,7 +30,7 @@ class _addAddressState extends State<addAddress> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: makeAppBar(context, '배송지 추가'),
+      appBar: makeAppBar(context, '배송지 수정'),
       body: SingleChildScrollView(
         child: GestureDetector(
           onVerticalDragUpdate: (DragUpdateDetails details) {},
@@ -37,7 +47,7 @@ class _addAddressState extends State<addAddress> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(flex: 7, child: make_title('주소지 별명')),
+                        Expanded(flex: 7, child: makeTitle('주소지 별명')),
                         Expanded(
                           flex: 2,
                           child: Text('기본 배송지', style: TextStyle(fontSize: 15)),
@@ -47,10 +57,10 @@ class _addAddressState extends State<addAddress> {
                           child: Container(
                             child: Checkbox(
                               activeColor: Color(0xffffa511),
-                              value: isDefault,
+                              value: widget.isDefault,
                               onChanged: (value) {
                                 setState(() {
-                                  isDefault = value!;
+                                  widget.isDefault = value!;
                                 });
                               },
                             ),
@@ -60,28 +70,19 @@ class _addAddressState extends State<addAddress> {
                     ),
                     Container(
                       height: 50,
+                      width: double.infinity,
                       margin: const EdgeInsets.only(bottom: 5),
-                      child: TextField(
-                        controller: nC,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xffd9d9d9)),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xffd9d9d9)),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          hintText: '별명을 입력해주세요',
-                          hintStyle: TextStyle(
-                            color: Color(0xffd9d9d9),
-                          ),
-                        ),
+                      padding: const EdgeInsets.only(left: 12),
+                      alignment: Alignment.centerLeft,
+                      child: Text(widget.name, style: TextStyle(fontSize: 16)),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    make_textbox('주소', '주소를 입력해주세요', aC),
-                    make_textbox('휴대폰', '휴대폰 번호를 입력해주세요', pC),
-                    make_textbox('배달 상세 메세지', '상세 메세지를 입력해주세요', mC),
+                    makeTextbox('주소', widget.address, aC),
+                    makeTextbox('휴대폰', widget.phone, pC),
+                    makeTextbox('배달 상세 메세지', widget.message, mC),
                     Container(
                       width: double.infinity,
                       height: 45,
@@ -102,12 +103,7 @@ class _addAddressState extends State<addAddress> {
                           )),
                         ),
                         onPressed: () {
-                          if (vaildCheck(nC.text == "" ||
-                              aC.text == "" ||
-                              mC.text == "" ||
-                              pC.text == "")) {
-                            createNewADRS();
-                          }
+                          editdata(context);
                         },
                       ),
                     ),
@@ -121,13 +117,12 @@ class _addAddressState extends State<addAddress> {
     );
   }
 
-  void createNewADRS() {
-    FirebaseFirestore.instance.collection('address').doc(nC.text).set({
-      "isDefault": isDefault,
-      "name": nC.text,
-      "address": aC.text,
-      "message": mC.text,
-      "phone": pC.text
-    }).then((value) => {makeDialog(context, '주소가 추가되었습니다.')});
+  void editdata(BuildContext content) {
+    FirebaseFirestore.instance.collection("address").doc(widget.name).update({
+      "isDefault": widget.isDefault,
+      if (aC.text != '') "address": aC.text,
+      if (mC.text != '') "message": mC.text,
+      if (pC.text != '') "phone": pC.text
+    }).then((value) => {makeDialog2(context, '주소가 수정되었습니다.')});
   }
 }

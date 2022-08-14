@@ -1,18 +1,17 @@
-import 'package:baljachwi_project/widgets/user.dart';
 import 'package:flutter/material.dart';
 import 'package:baljachwi_project/screens/mypage/membership_rating_screen.dart';
 import 'package:baljachwi_project/screens/mypage/coupon_screen.dart';
-import 'package:baljachwi_project/screens/mypage/order_history_screen.dart';
-import 'package:baljachwi_project/screens/mypage/address_management_screen.dart';
-import 'package:baljachwi_project/screens/mypage/review_screen.dart';
+import 'package:baljachwi_project/screens/mypage/order_history1_main_screen.dart';
+import 'package:baljachwi_project/screens/mypage/address1_main_screen.dart';
+import 'package:baljachwi_project/screens/mypage/review1_main_screen.dart';
 import 'package:baljachwi_project/screens/mypage/gift_history_screen.dart';
-import 'package:baljachwi_project/screens/mypage/edit_member_info_screen.dart';
-import 'package:baljachwi_project/screens/mypage/invite_friend_screen.dart';
-import 'package:baljachwi_project/screens/mypage/personal_inquiry_screen.dart';
+import 'package:baljachwi_project/screens/mypage/edit_info1_pwcheck_screen.dart';
+import 'package:baljachwi_project/screens/mypage/add_friend_screen.dart';
+import 'package:baljachwi_project/screens/mypage/personal_inquiry1_main_screen.dart';
 import 'package:baljachwi_project/screens/mypage/product_inquiry_screen.dart';
-import 'package:baljachwi_project/screens/mypage/notice_screen.dart';
-import 'package:baljachwi_project/screens/mypage/introduce_screen.dart';
+import 'package:baljachwi_project/screens/mypage/notice1_main_screen.dart';
 import 'package:baljachwi_project/screens/mypage/information_use_screen.dart';
+import 'package:baljachwi_project/screens/mypage/introduce_screen.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
 import 'package:baljachwi_project/widgets/user.dart';
 
@@ -47,7 +46,7 @@ class mypage extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   InkWell(
-                    onTap: () {}, // 사진 변경 기능
+                    onTap: () {},
                     child: Container(
                       margin: const EdgeInsets.only(right: 15),
                       padding: const EdgeInsets.all(5),
@@ -213,15 +212,8 @@ class mypage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        child: InkWell(
-                          onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => nonmemberOrder(),
-                            //   ),
-                            // );
-                          },
+                        child: GestureDetector(
+                          onTap: null,
                           child: Column(
                             children: <Widget>[
                               Container(
