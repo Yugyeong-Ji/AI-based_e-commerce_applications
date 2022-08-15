@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
 import 'package:intl/intl.dart';
 
@@ -17,29 +16,32 @@ class _giftHistory extends State<giftHistory> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey[200],
         appBar: makeAppBar(context, '선물 내역'),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            TabBar(
-              indicatorColor: Color(0xffffa511),
-              labelColor: Color(0xffffa511),
-              unselectedLabelColor: Color(0xffa6a6a6),
-              unselectedLabelStyle: TextStyle(
-                decoration: TextDecoration.none,
+            Container(
+              color: Colors.white,
+              child: TabBar(
+                indicatorColor: Color(0xffffa511),
+                labelColor: Color(0xffffa511),
+                unselectedLabelColor: Color(0xffa6a6a6),
+                unselectedLabelStyle: TextStyle(
+                  decoration: TextDecoration.none,
+                ),
+                tabs: [
+                  makeTap('MY 선물함'),
+                  makeTap('선물한 내역'),
+                ],
               ),
-              tabs: [
-                make_tap('MY 선물함'),
-                make_tap('선물한 내역'),
-              ],
             ),
             Container(height: 2, color: Color(0xffd9d9d9)),
             Expanded(
               child: TabBarView(
                 children: [
-                  make_myGiftS(),
-                  make_giftHistoryS(),
+                  makeMyGiftS(),
+                  makeGiftHistoryS(),
                 ],
               ),
             ),
@@ -56,7 +58,7 @@ class myG {
   var product;
 }
 
-Future<List<myG>> _getMyG() async {
+Future<List<myG>> getMyG() async {
   CollectionReference<Map<String, dynamic>> collectionReference =
       FirebaseFirestore.instance
           .collection('/gift/nNQWAya8zJI9K336unYo/myGift');
@@ -73,12 +75,12 @@ Future<List<myG>> _getMyG() async {
   return my;
 }
 
-Widget make_myGiftS() {
+Widget makeMyGiftS() {
   return SingleChildScrollView(
     child: Container(
       constraints: BoxConstraints(minHeight: 600),
       child: FutureBuilder(
-          future: _getMyG(),
+          future: getMyG(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasError) {
               return const Text("Something went wrong");
@@ -91,7 +93,7 @@ Widget make_myGiftS() {
               List<Container> mainContainer = [];
               for (myG doc in qList) {
                 mainContainer
-                    .add(make_myGiftB(doc.by, doc.company, doc.product));
+                    .add(makeMyGiftB(doc.by, doc.company, doc.product));
               }
               return Container(child: Column(children: mainContainer.toList()));
             }
@@ -101,7 +103,7 @@ Widget make_myGiftS() {
   );
 }
 
-Container make_myGiftB(String _by, String _company, String _product) {
+Container makeMyGiftB(String _by, String _company, String _product) {
   return Container(
     child: Column(
       children: [
@@ -212,7 +214,7 @@ class gHistory {
   var num;
 }
 
-Future<List<gHistory>> _getGHistory() async {
+Future<List<gHistory>> getGHistory() async {
   CollectionReference<Map<String, dynamic>> collectionReference =
       FirebaseFirestore.instance
           .collection('/gift/nNQWAya8zJI9K336unYo/giftHistory');
@@ -231,12 +233,12 @@ Future<List<gHistory>> _getGHistory() async {
   return his;
 }
 
-Widget make_giftHistoryS() {
+Widget makeGiftHistoryS() {
   return SingleChildScrollView(
     child: Container(
       constraints: BoxConstraints(minHeight: 600),
       child: FutureBuilder(
-          future: _getGHistory(),
+          future: getGHistory(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasError) {
               return const Text("Something went wrong");
@@ -248,7 +250,7 @@ Widget make_giftHistoryS() {
               List<gHistory> qList = snapshot.data;
               List<Container> mainContainer = [];
               for (gHistory doc in qList) {
-                mainContainer.add(make_giftHistoryB(
+                mainContainer.add(makeGiftHistoryB(
                     doc.to, doc.company, doc.product, doc.price, doc.num));
               }
               return Container(child: Column(children: mainContainer.toList()));
@@ -259,7 +261,7 @@ Widget make_giftHistoryS() {
   );
 }
 
-Container make_giftHistoryB(
+Container makeGiftHistoryB(
     String _to, String _company, String _product, var _price, var _num) {
   var _sum = _price * _num;
   return Container(

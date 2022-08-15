@@ -39,7 +39,7 @@ class _productInquiryState extends State<productInquiry> {
                     alignment: Alignment.topLeft,
                     child: Column(
                       children: <Widget>[
-                        make_inquiryText('문의 유형'),
+                        makeInquiryText('문의 유형'),
                         Container(
                           width: 310,
                           margin: const EdgeInsets.only(bottom: 20),
@@ -64,7 +64,7 @@ class _productInquiryState extends State<productInquiry> {
                             isExpanded: true,
                           ),
                         ),
-                        make_inquiryTextForm(
+                        makeInquiryTextForm(
                           '주문 번호',
                           TextFormField(
                             decoration: inquiryFieldDeco('주문 번호를 입력해주세요'),
@@ -75,7 +75,7 @@ class _productInquiryState extends State<productInquiry> {
                             },
                           ),
                         ),
-                        make_inquiryTextForm(
+                        makeInquiryTextForm(
                           '작성란',
                           TextFormField(
                             decoration: inquiryFieldDeco('제목을 입력해주세요'),

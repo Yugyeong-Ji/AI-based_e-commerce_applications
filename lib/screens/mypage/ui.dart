@@ -1,6 +1,6 @@
-import 'package:baljachwi_project/screens/mypage/write_personal_inquiry_screen.dart';
+import 'package:baljachwi_project/screens/mypage/personal_inquiry2_write_screen.dart';
 import 'package:flutter/material.dart';
-import 'order_history_detail_screen.dart';
+import 'order_history2_detail_screen.dart';
 
 //AppBar
 AppBar makeAppBar(BuildContext context, String title) {
@@ -90,8 +90,8 @@ Container makeList(BuildContext context, Widget path, String title) {
   );
 }
 
-// order
-Container make_orderList(BuildContext context, var _orderNum, String _product,
+// order_history, nonmember_order
+Container makeOrderList(BuildContext context, var _orderNum, String _product,
     String _time, String _payment, var _price, var _num, String _state) {
   return Container(
     alignment: Alignment.centerLeft,
@@ -156,19 +156,19 @@ Container make_orderList(BuildContext context, var _orderNum, String _product,
           margin: const EdgeInsets.only(top: 5, bottom: 15),
           color: Color(0xffd9d9d9),
         ),
-        make_orderRow('상품명', _product),
+        makeOrderRow('상품명', _product),
         Container(height: 10),
-        make_orderRow('결제 금액', f.format(_price * _num).toString() + '원'),
+        makeOrderRow('결제 금액', f.format(_price * _num).toString() + '원'),
         Container(height: 10),
-        make_orderRow('결제 일시', _time),
+        makeOrderRow('결제 일시', _time),
         Container(height: 10),
-        make_orderRow('주문 상태', _state),
+        makeOrderRow('주문 상태', _state),
       ],
     ),
   );
 }
 
-Row make_orderRow(String title, String content) {
+Row makeOrderRow(String title, String content) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: <Widget>[
@@ -202,7 +202,7 @@ Row make_orderRow(String title, String content) {
   );
 }
 
-Widget make_textField(String _hint, TextEditingController _controller) {
+Widget makeTextField(String _hint, TextEditingController _controller) {
   return Container(
     height: 50,
     margin: const EdgeInsets.only(bottom: 7),
@@ -224,7 +224,7 @@ Widget make_textField(String _hint, TextEditingController _controller) {
   );
 }
 
-Container make_tap(String _tap) {
+Container makeTap(String _tap) {
   return Container(
     color: Colors.white,
     height: 50,
@@ -239,7 +239,7 @@ Container make_tap(String _tap) {
   );
 }
 
-Container make_inquiryText(String _text) {
+Container makeInquiryText(String _text) {
   return Container(
     alignment: Alignment.topLeft,
     child: Text(
@@ -252,10 +252,10 @@ Container make_inquiryText(String _text) {
   );
 }
 
-Widget make_inquiryTextForm(String _title, TextFormField _form) {
+Widget makeInquiryTextForm(String _title, TextFormField _form) {
   return Column(
     children: [
-      make_inquiryText(_title),
+      makeInquiryText(_title),
       Container(
         height: 40,
         margin: const EdgeInsets.only(top: 5, bottom: 20),
@@ -278,28 +278,7 @@ InputDecoration inquiryFieldDeco(String _hint) {
   );
 }
 
-void makeDialog(BuildContext context, String text) {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      Future.delayed(Duration(seconds: 3), () {
-        Navigator.pop(context);
-      });
-      return AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        content: Container(
-          alignment: Alignment.center,
-          width: 200,
-          height: 50,
-          child: Text(text, style: TextStyle(fontSize: 18)),
-        ),
-      );
-    },
-  );
-}
-
-Container make_title(String _title) {
+Container makeTitle(String _title) {
   // address(add, edit)
   return Container(
     margin: const EdgeInsets.fromLTRB(10, 10, 0, 3),
@@ -314,7 +293,7 @@ Container make_title(String _title) {
   );
 }
 
-Widget make_textbox(String _title, String _text, TextEditingController _c) {
+Widget makeTextbox(String _title, String _text, TextEditingController _c) {
   // address(add, edit)
   return Column(
     children: [

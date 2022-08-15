@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:baljachwi_project/screens/mypage/frequently_asked_q&a_screen.dart';
-import 'package:baljachwi_project/screens/mypage/write_personal_inquiry_screen.dart';
+import 'package:baljachwi_project/screens/mypage/personal_inquiry2_q&a_screen.dart';
+import 'package:baljachwi_project/screens/mypage/personal_inquiry2_write_screen.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
 import 'package:baljachwi_project/screens/mypage/class.dart';
 import 'package:intl/intl.dart';

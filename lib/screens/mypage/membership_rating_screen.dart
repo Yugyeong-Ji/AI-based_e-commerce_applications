@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
-
-class Membership {
-  var grade;
-  var criteria;
-  var benefit;
-}
+import 'package:baljachwi_project/screens/mypage/class.dart';
 
 class membershipRating extends StatefulWidget {
   final String _grade;
@@ -29,7 +22,7 @@ class _membershipRatingState extends State<membershipRating> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               FutureBuilder(
-                future: _getMembership(widget._grade),
+                future: getMembership(widget._grade),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasError) {
                     return const Text("Something went wrong");
@@ -38,14 +31,11 @@ class _membershipRatingState extends State<membershipRating> {
                     return const Text("불러오는 중..");
                   }
                   if (snapshot.connectionState == ConnectionState.done) {
-                    //return ListView(
-                    //children: snapshot.data,
-                    //);
                     List<Membership> nList = snapshot.data;
 
                     List<Container> mainContainer = [];
                     for (Membership doc in nList) {
-                      mainContainer.add(make_membership(
+                      mainContainer.add(makeMembership(
                           context, doc.grade, doc.criteria, doc.benefit));
                     }
                     return Container(
@@ -62,23 +52,7 @@ class _membershipRatingState extends State<membershipRating> {
   }
 }
 
-Future<List<Membership>> _getMembership(String _grade) async {
-  CollectionReference<Map<String, dynamic>> collectionReference =
-      FirebaseFirestore.instance.collection('membership');
-  QuerySnapshot<Map<String, dynamic>> querySnapshot =
-      await collectionReference.where('grade', isEqualTo: _grade).get();
-  List<Membership> membership = [];
-  for (var doc in querySnapshot.docs) {
-    Membership tmp = new Membership();
-    tmp.grade = doc['grade'];
-    tmp.criteria = doc['criteria'];
-    tmp.benefit = doc['benefit'];
-    membership.add(tmp);
-  }
-  return membership;
-}
-
-Container make_membership(
+Container makeMembership(
     BuildContext context, String grade, String criteria, String benefit) {
   return Container(
     child: Column(
@@ -135,14 +109,14 @@ Container make_membership(
                 ),
               ),
               Container(
-                height: 100,
+                constraints: const BoxConstraints(minHeight: 100),
                 width: double.infinity,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Color(0xfff2f2f2),
+                  color: const Color(0xfff2f2f2),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Text(benefit, style: TextStyle(fontSize: 15)),
+                child: Text(benefit, style: const TextStyle(fontSize: 15)),
               ),
             ],
           ),
@@ -150,10 +124,10 @@ Container make_membership(
         Container(
           margin: const EdgeInsets.only(top: 8, bottom: 15),
           height: 1,
-          color: Color(0xffd9d9d9),
+          color: const Color(0xffd9d9d9),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: Column(
             children: [
               Container(
