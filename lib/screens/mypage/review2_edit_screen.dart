@@ -1,26 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
+import 'package:baljachwi_project/screens/mypage/class.dart';
 import 'package:flutter/material.dart';
 
-int star = 0;
+var star = 0;
 
-class writeReview extends StatefulWidget {
+class editReview extends StatefulWidget {
   var company;
   var product;
   var orderNumber;
-  writeReview(this.company, this.product, this.orderNumber);
+  var stars;
+  var content;
+  editReview(
+      this.company, this.product, this.orderNumber, this.stars, this.content);
 
   @override
-  State<writeReview> createState() => _writeReviewState();
+  State<editReview> createState() => _editReviewState();
 }
 
-class _writeReviewState extends State<writeReview> {
+class _editReviewState extends State<editReview> {
   TextEditingController contentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: makeAppBar(context, '리뷰 쓰기'),
+      appBar: makeAppBar(context, '리뷰 수정'),
       body: SingleChildScrollView(
         child: GestureDetector(
           onVerticalDragUpdate: (DragUpdateDetails details) {},
@@ -29,7 +33,7 @@ class _writeReviewState extends State<writeReview> {
           },
           child: Column(
             children: <Widget>[
-              make_product(widget.company, widget.product),
+              makeProduct(widget.company, widget.product),
               Container(
                 height: 2,
                 color: Color(0xffc0c0c0),
@@ -93,12 +97,13 @@ class _writeReviewState extends State<writeReview> {
                       margin: const EdgeInsets.symmetric(
                           vertical: 20, horizontal: 50),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          make_star(Color(0xffffa511)),
-                          make_star(Color(0xffffa511)),
-                          make_star(Color(0xffffa511)),
-                          make_star(Color(0xffd9d9d9)),
-                          make_star(Color(0xffd9d9d9)),
+                          Detector(0),
+                          Detector(1),
+                          Detector(2),
+                          Detector(3),
+                          Detector(4),
                         ],
                       ),
                     ),
@@ -118,7 +123,7 @@ class _writeReviewState extends State<writeReview> {
                         style: const TextStyle(color: Color(0xffa6a6a6)),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: '최소 15자 이상 작성해 주세요.',
+                          hintText: widget.content,
                           hintStyle: TextStyle(color: Color(0xffa6a6a6)),
                         ),
                       ),
@@ -143,9 +148,7 @@ class _writeReviewState extends State<writeReview> {
                           )),
                         ),
                         onPressed: () {
-                          if (vaildCheck(contentController.text == "")) {
-                            createReview();
-                          }
+                          updateReview();
                         },
                       ),
                     ),
@@ -159,31 +162,52 @@ class _writeReviewState extends State<writeReview> {
     );
   }
 
-  void createReview() {
+  void updateReview() {
     FirebaseFirestore.instance
         .collection('review')
         .doc(widget.orderNumber.toString())
-        .set({
-      "orderNumber": widget.orderNumber,
-      "stars": 3, // 임시
-      "content": contentController.text,
-      "company": widget.company,
-      "product": widget.product,
-    }).then((value) => {makeDialog(context, '리뷰가 추가되었습니다.')});
+        .update({
+      "stars": star, // 임시
+      if (contentController.text != '') "content": contentController.text,
+    }).then((value) => {makeDialog2(context, '리뷰가 수정되었습니다.')});
+  }
+
+  Widget Detector(var i) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          updateColor(i);
+        });
+      },
+      child: s(c[i]),
+    );
   }
 }
 
-Widget make_star(Color _color) {
-  return Expanded(
-    child: Icon(
-      Icons.star,
-      color: _color,
-      size: 30,
-    ),
+const c1 = Color(0xffffa511);
+const c2 = Color(0xffd9d9d9);
+
+List<Color> c = [c2, c2, c2, c2, c2];
+
+Widget s(Color c) {
+  return Icon(
+    Icons.star,
+    color: c,
+    size: 30,
   );
 }
 
-Container make_product(String _company, String _productName) {
+updateColor(var n) {
+  for (var i = 0; i < n + 1; i++) {
+    c[i] = c1;
+  }
+  for (var j = n + 1; j < 5; j++) {
+    c[j] = c2;
+  }
+  star = n;
+}
+
+Container makeProduct(String _company, String _productName) {
   return Container(
     color: Colors.white,
     padding: const EdgeInsets.all(20),

@@ -40,7 +40,7 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
                   alignment: Alignment.topLeft,
                   child: Column(
                     children: <Widget>[
-                      make_inquiryText('문의 유형'),
+                      makeInquiryText('문의 유형'),
                       Container(
                         width: 310,
                         margin: const EdgeInsets.only(bottom: 20),
@@ -65,7 +65,7 @@ class _writePersonalInquiryState extends State<writePersonalInquiry> {
                           isExpanded: true,
                         ),
                       ),
-                      make_inquiryTextForm(
+                      makeInquiryTextForm(
                         '작성란',
                         TextFormField(
                           decoration: inquiryFieldDeco('제목을 입력해주세요'),

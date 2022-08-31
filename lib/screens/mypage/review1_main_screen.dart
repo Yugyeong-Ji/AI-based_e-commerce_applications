@@ -1,6 +1,6 @@
-import 'package:baljachwi_project/screens/mypage/edit_review_screen.dart';
+import 'package:baljachwi_project/screens/mypage/review2_edit_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:baljachwi_project/screens/mypage/write_review_screen.dart';
+import 'package:baljachwi_project/screens/mypage/review2_write_screen.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
 import 'package:baljachwi_project/screens/mypage/class.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,17 +23,20 @@ class _reviewState extends State<review> {
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            TabBar(
-              indicatorColor: Color(0xffffa511),
-              labelColor: Color(0xffffa511),
-              unselectedLabelColor: Color(0xffa6a6a6),
-              unselectedLabelStyle: TextStyle(
-                decoration: TextDecoration.none,
+            Container(
+              color: Colors.white,
+              child: TabBar(
+                indicatorColor: Color(0xffffa511),
+                labelColor: Color(0xffffa511),
+                unselectedLabelColor: Color(0xffa6a6a6),
+                unselectedLabelStyle: TextStyle(
+                  decoration: TextDecoration.none,
+                ),
+                tabs: [
+                  makeTap('리뷰 작성'),
+                  makeTap('내 리뷰'),
+                ],
               ),
-              tabs: [
-                make_tap('리뷰 작성'),
-                make_tap('내 리뷰'),
-              ],
             ),
             Container(height: 2, color: Color(0xffd9d9d9)),
             Expanded(
@@ -44,7 +47,7 @@ class _reviewState extends State<review> {
                       child: Container(
                         color: Color(0xfff2f2f2),
                         child: FutureBuilder(
-                            future: _getReviewableOrder(),
+                            future: getReviewableOrder(),
                             builder:
                                 (BuildContext context, AsyncSnapshot snapshot) {
                               if (snapshot.hasError) {
@@ -59,7 +62,7 @@ class _reviewState extends State<review> {
 
                                 List<Container> mainContainer = [];
                                 for (Order doc in qList) {
-                                  mainContainer.add(make_reviewableProducts(
+                                  mainContainer.add(makeReviewableProducts(
                                       context,
                                       doc.company,
                                       doc.product,
@@ -75,7 +78,7 @@ class _reviewState extends State<review> {
                     ),
                     SingleChildScrollView(
                       child: FutureBuilder(
-                          future: _getReview(),
+                          future: getReview(),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasError) {
@@ -90,7 +93,7 @@ class _reviewState extends State<review> {
 
                               List<Container> mainContainer = [];
                               for (Review doc in qList) {
-                                mainContainer.add(make_myReview(
+                                mainContainer.add(makeMyReview(
                                     context,
                                     doc.orderNumber.toString(),
                                     doc.company,
@@ -116,14 +119,14 @@ class _reviewState extends State<review> {
   }
 }
 
-Future<List<Order>> _getReviewableOrder() async {
+Future<List<Order>> getReviewableOrder() async {
   CollectionReference<Map<String, dynamic>> collectionReference =
       FirebaseFirestore.instance.collection('orderHistory');
   QuerySnapshot<Map<String, dynamic>> querySnapshot =
       await collectionReference.where('state', isEqualTo: '주문 완료').get();
   List<Order> order = [];
   for (var doc in querySnapshot.docs) {
-    Order tmp = new Order();
+    Order tmp = Order();
     tmp.company = doc['company'];
     tmp.product = doc['product'];
     tmp.orderNumber = doc['orderNumber'];
@@ -132,14 +135,14 @@ Future<List<Order>> _getReviewableOrder() async {
   return order;
 }
 
-Future<List<Review>> _getReview() async {
+Future<List<Review>> getReview() async {
   CollectionReference<Map<String, dynamic>> collectionReference =
       FirebaseFirestore.instance.collection('review');
   QuerySnapshot<Map<String, dynamic>> querySnapshot =
       await collectionReference.get();
   List<Review> R = [];
   for (var doc in querySnapshot.docs) {
-    Review tmp = new Review();
+    Review tmp = Review();
     tmp.orderNumber = doc['orderNumber'];
     tmp.stars = doc['stars'];
     tmp.company = doc['company'];
@@ -150,7 +153,7 @@ Future<List<Review>> _getReview() async {
   return R;
 }
 
-Container make_reviewableProducts(
+Container makeReviewableProducts(
     BuildContext context, String company, String product, int orderNumber) {
   return Container(
     child: Column(
@@ -251,20 +254,12 @@ Container make_reviewableProducts(
   );
 }
 
-Container make_myReview(BuildContext context, String _orderNumber,
-    String _company, String _productName, var _stars, String _content) {
+Container makeMyReview(BuildContext context, String orderNumber, String company,
+    String productName, var stars, String content) {
   return Container(
     color: Colors.white,
     child: Column(
       children: [
-        Container(
-          child: Column(
-            children: [
-              Container(height: 7, color: Color(0xfff2f2f2)),
-              Container(height: 2, color: Color(0xffd9d9d9)),
-            ],
-          ),
-        ),
         Container(
           margin: const EdgeInsets.all(20),
           child: Column(
@@ -283,7 +278,7 @@ Container make_myReview(BuildContext context, String _orderNumber,
                             alignment: Alignment.centerLeft,
                             margin: const EdgeInsets.only(left: 10),
                             child: Text(
-                              _company,
+                              company,
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
@@ -295,7 +290,7 @@ Container make_myReview(BuildContext context, String _orderNumber,
                             alignment: Alignment.centerLeft,
                             margin: const EdgeInsets.only(left: 10),
                             child: Text(
-                              _productName,
+                              productName,
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -325,19 +320,14 @@ Container make_myReview(BuildContext context, String _orderNumber,
               Container(
                 margin: const EdgeInsets.only(left: 10, bottom: 10),
                 child: Row(
-                  children: [
-                    // 임시
-                    make_star(),
-                    make_star(),
-                    make_star(),
-                  ],
+                  children: makeStar(stars),
                 ),
               ),
               Container(
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.only(left: 10),
                 child: Text(
-                  _content,
+                  content,
                   style: TextStyle(fontSize: 14),
                 ),
               ),
@@ -375,12 +365,8 @@ Container make_myReview(BuildContext context, String _orderNumber,
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => editReview(
-                                    _company,
-                                    _productName,
-                                    _orderNumber,
-                                    _stars,
-                                    _content),
+                                builder: (context) => editReview(company,
+                                    productName, orderNumber, stars, content),
                               ),
                             );
                           },
@@ -404,7 +390,7 @@ Container make_myReview(BuildContext context, String _orderNumber,
                           ),
                         ),
                         onPressed: () {
-                          deletedata(context, _orderNumber);
+                          deletedata(context, orderNumber);
                         },
                       ),
                     ),
@@ -424,12 +410,16 @@ Container make_myReview(BuildContext context, String _orderNumber,
   );
 }
 
-Icon make_star() {
-  return Icon(
-    Icons.star,
-    color: Color(0xffffa511),
-    size: 20,
-  );
+List<Widget> makeStar(var s) {
+  List<Widget> Stars = [];
+  for (var i = 0; i < s + 1; i++) {
+    Stars.add(Icon(
+      Icons.star,
+      color: Color(0xffffa511),
+      size: 20,
+    ));
+  }
+  return Stars;
 }
 
 void deletedata(BuildContext context, String name) {

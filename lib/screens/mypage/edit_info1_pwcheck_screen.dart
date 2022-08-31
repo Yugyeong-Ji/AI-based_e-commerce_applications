@@ -1,6 +1,6 @@
 import 'package:baljachwi_project/widgets/user.dart';
 import 'package:flutter/material.dart';
-import 'package:baljachwi_project/screens/mypage/edit_member_info2_screen.dart';
+import 'package:baljachwi_project/screens/mypage/edit_info2_main_screen.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
 
 class EditMemberInfo extends StatefulWidget {

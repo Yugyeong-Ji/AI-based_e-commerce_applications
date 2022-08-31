@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 class Product {
   final String? manufacturer; // 제조사 - 예: 하림
   final String name; // 제품명
   final String? distributor; // 유통사 - 예: CJ 대한통운
   final String? seller; // 판매자 - 예: 주식회사 푸드킹
+  final int category;
   final int price; // 가격
   final int discountRate; // 할인율
   final String? thumbnail;
@@ -19,6 +22,7 @@ class Product {
       required this.name,
       this.distributor,
       this.seller,
+      required this.category,
       required this.price,
       required this.discountRate,
       this.image,
@@ -30,54 +34,63 @@ class Product {
 List<Product> productList = [
   // 샘플 데이터
   Product(
+    category: 1,
     thumbnail: "assets/images/베이킹소다.jpg",
     name: "베이킹소다",
     price: 10260,
     discountRate: 10,
   ),
   Product(
+    category: 1,
     thumbnail: "assets/images/액상세제.jpg",
     name: "액츠 퍼펙트 실내건조 일반용 액상세제",
     price: 28530,
     discountRate: 5,
   ),
   Product(
+    category: 1,
     thumbnail: "assets/images/물티슈.jpg",
     name: "코멧 저자극 시그니처 아기 물티슈 엠보싱 캡형, 100매, 10팩",
     price: 23900,
     discountRate: 54,
   ),
   Product(
+    category: 1,
     thumbnail: "assets/images/유산균.jpg",
     name: "종근당건강 락토핏 생유산균 골드, 160g, 3개",
     price: 6200,
     discountRate: 10,
   ),
   Product(
+    category: 1,
     thumbnail: "assets/images/롤화장지.jpg",
     name: "코멧 순백 3겹 라벤더 바닐라 롤 화장지",
     price: 13600,
     discountRate: 17,
   ),
   Product(
+    category: 1,
     thumbnail: "assets/images/닭가슴살.jpg",
     name: "하림 IFF 닭가슴살(냉동), 2kg, 1개",
     price: 16900,
     discountRate: 9,
   ),
   Product(
+    category: 1,
     thumbnail: "assets/images/대추방울토마토.jpg",
     name: "충남세도 GAP 인증 대추방울토마토, 1kg, 1박스",
     price: 11800,
     discountRate: 15,
   ),
   Product(
+    category: 1,
     thumbnail: "assets/images/반숙란.jpg",
     name: "곰곰 반숙란 (냉장), 50g, 20구",
     price: 11600,
     discountRate: 5,
   ),
   Product(
+    category: 1,
     thumbnail: "assets/images/후라이팬.jpg",
     name: "락앤락 쿡플러스 하드앤라이트 프라이팬, 28cm, 1개",
     price: 38500,

@@ -1,8 +1,8 @@
-import 'package:baljachwi_project/widgets/user.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:baljachwi_project/screens/mypage/ui.dart';
+import 'package:baljachwi_project/widgets/user.dart';
 
 class Coupon {
   final String? title;
@@ -22,10 +22,6 @@ class Coupon {
   }
 }
 
-FirebaseFirestore db = FirebaseFirestore.instance;
-CollectionReference<Map<String, dynamic>> collectionReference =
-    db.collection('coupon');
-
 class MyPage_Coupon extends StatefulWidget {
   User myInfo;
   MyPage_Coupon(this.myInfo);
@@ -39,7 +35,7 @@ class _couponPage extends State<MyPage_Coupon> {
   @override
   void initState() {
     super.initState();
-    couponFuture = _getMyCoupons(); // 보유한 쿠폰 내역 보기
+    couponFuture = getMyCoupons(); // 보유한 쿠폰 내역 보기
   }
 
   @override
@@ -135,7 +131,7 @@ class _couponPage extends State<MyPage_Coupon> {
                                           primary: const Color(0xffffa511),
                                           fixedSize: Size(double.infinity, 50),
                                         ),
-                                        onPressed: () => _registerCoupon(
+                                        onPressed: () => registerCoupon(
                                             _textEditingController.text),
                                         child: const Text(
                                           '받기',
@@ -193,7 +189,7 @@ class _couponPage extends State<MyPage_Coupon> {
                                   for (Coupon doc in snapshot.data) {
                                     var deadline =
                                         "${DateFormat("yyyy-MM-dd").format(doc.startD.toDate())} ~ ${DateFormat("yyyy-MM-dd").format(doc.endD.toDate())}";
-                                    mainContainer.add(make_coupon(
+                                    mainContainer.add(makeCoupon(
                                         deadline,
                                         doc.title.toString(),
                                         doc.content.toString()));
@@ -215,10 +211,13 @@ class _couponPage extends State<MyPage_Coupon> {
   }
 
   // 나의 쿠폰 내역을 가져오는 메소드
-  Future<List<Coupon>> _getMyCoupons() async {
+  Future<List<Coupon>> getMyCoupons() async {
     List<Coupon> coupons = [];
     for (var coupon in widget.myInfo.coupon) {
-      DocumentSnapshot doc = await collectionReference.doc(coupon).get();
+      DocumentSnapshot doc = await FirebaseFirestore.instance
+          .collection('coupon')
+          .doc(coupon)
+          .get();
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
       coupons.add(Coupon(data['title'], data['startDate'], data['endDate'],
           data['content'], data['discount']));
@@ -231,27 +230,29 @@ class _couponPage extends State<MyPage_Coupon> {
   // 2. 받아온 문서 있는지 확인
   // 2-1. 있으면 =>  => myInfo 다시 받아오기(or 옵저버로 걍 변화 감지하게?), => coupon 다시 불러오기
   // 2-2. 없으면 => Toast()
-  void _registerCoupon(String couponID) async {
+  void registerCoupon(String couponID) async {
     _textEditingController.clear();
     if (couponID == null || couponID.length != 20) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('유효하지 않은 쿠폰입니다!')));
-
       return;
     }
-    DocumentSnapshot doc = await collectionReference.doc(couponID).get();
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('coupon')
+        .doc(couponID)
+        .get();
     if (doc.exists) {
       print('exists');
       // 1. local 업데이트
       widget.myInfo.coupon.add(couponID);
       // 2. firebase에 업데이트부분 업데이트
-      var result = await db
+      var result = await FirebaseFirestore.instance
           .collection('user')
           .doc(widget.myInfo.email)
           .update({'coupon': widget.myInfo.coupon});
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('쿠폰등록이 완료되었습니다.')));
-      couponFuture = _getMyCoupons();
+      couponFuture = getMyCoupons();
       //=> 추후 보완 예정
     } else {
       print('NOP');
@@ -261,7 +262,7 @@ class _couponPage extends State<MyPage_Coupon> {
   }
 }
 
-Container make_coupon(String _deadline, String _title, String _content) {
+Container makeCoupon(String _deadline, String _title, String _content) {
   return Container(
     decoration: BoxDecoration(
         color: Colors.white, borderRadius: BorderRadius.circular(15)),
@@ -300,8 +301,11 @@ Container make_coupon(String _deadline, String _title, String _content) {
   );
 }
 
-Future<bool> registration_coupon(String coupon_num) async {
-  var querySnapshot = await collectionReference.doc(coupon_num).get();
-  //if querySnapshot.hasDa
-  return false;
-}
+// Future<bool> registrationCoupon(String coupon_num) async {
+//   var querySnapshot = await FirebaseFirestore.instance
+//       .collection('coupon')
+//       .doc(coupon_num)
+//       .get();
+//   //if querySnapshot.hasDa
+//   return false;
+// }
