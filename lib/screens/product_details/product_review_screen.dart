@@ -230,7 +230,7 @@ class _productReview extends State<productReview> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                productReviewDetail(review: data, starInform: this.starInform, user: this.user),
+                productReviewDetail(review: data, user: this.user),
           ),
         );
       },

@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
       // home: mateHomeScreen(),
       // home: barTestScreen(),
       // home: nonmemberHome(),
-      home: BaseWidget(),
+      // home: BaseWidget(),
       //home: mateTeamScreen(),
       //home: LoginAppScreen(),
       // home: LoginMainScreen(),
