@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:baljachwi_project/widgets/product.dart';
+import 'package:baljachwi_project/widgets/product_item.dart';
 import 'package:baljachwi_project/screens/catalog_main_screen.dart' as catalog;
 
 bool isChecked = false;
@@ -17,7 +19,7 @@ class catalogList extends StatefulWidget {
   State<catalogList> createState() => _catalogList();
 
 }
-
+/*
 class Product{
   var name;
   var price;
@@ -26,7 +28,7 @@ class Product{
   var img;
   var category;
 }
-
+*/
 class _catalogList extends State<catalogList> with TickerProviderStateMixin {
   CollectionReference productCol = FirebaseFirestore.instance.collection('products');
   late ScrollController _scrollController;
@@ -106,7 +108,7 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
                       builder:
                           (BuildContext context, AsyncSnapshot snapshot){
                         if (snapshot.hasError) {
-                          //print(snapshot);
+                          print(snapshot);
                           return Text("Something went wrong");
                         }
                         if (!snapshot.hasData) {
@@ -118,12 +120,12 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
                           if (isChecked == false)
                             for(Product doc in nList) {
                               if (doc.name.contains(widget.search))
-                                mainContainer.add(makeProduct(doc.name,doc.img, doc.price, doc.discountRate, doc.regularDelivery, doc.category, context));
+                                mainContainer.add(makeProduct(doc.name,doc.thumbnail, doc.price, doc.discountRate, doc.regularDelivery, doc.category, context));
                               }
                           else if (isChecked == true)
                             for(Product doc in nList) {
                               if (doc.regularDelivery == true && doc.name.contains(widget.search))
-                                mainContainer.add(makeProduct(doc.name,doc.img, doc.price, doc.discountRate, doc.regularDelivery, doc.category, context));
+                                mainContainer.add(makeProduct(doc.name,doc.thumbnail, doc.price, doc.discountRate, doc.regularDelivery, doc.category, context));
                               }
                           return Container(
                             child: Column(
@@ -147,13 +149,14 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
     if (thisCat == -1) {
       querySnapshot = await FirebaseFirestore.instance.collection('products').get();
       for(var doc in querySnapshot.docs){
-        Product tmp = Product();
-        tmp.name = doc['name'];
-        tmp.img = doc['img'];
-        tmp.price = doc['price'];
-        tmp.discountRate = doc['discountRate'];
-        tmp.regularDelivery = doc['regularDelivery'];
-        tmp.category = doc['category'];
+        Product tmp = Product(
+          name : doc['name'],
+          category : doc['category'],
+          price : doc['price'],
+          discountRate : doc['discountRate'],
+          thumbnail : doc['img'],
+          regularDelivery : doc['regularDelivery']
+        );
         products.add(tmp);
       }
     }
@@ -161,13 +164,14 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
       for (int doc = thisCat; doc<thisCat+10; doc++) {
         querySnapshot = await FirebaseFirestore.instance.collection('products').where('category', isEqualTo: doc).get();
         for (var doc in querySnapshot.docs) {
-          Product tmp = Product();
-          tmp.name = doc['name'];
-          tmp.img = doc['img'];
-          tmp.price = doc['price'];
-          tmp.discountRate = doc['discountRate'];
-          tmp.regularDelivery = doc['regularDelivery'];
-          tmp.category = doc['category'];
+          Product tmp = Product(
+              name : doc['name'],
+              category : doc['category'],
+              price : doc['price'],
+              discountRate : doc['discountRate'],
+              thumbnail : doc['img'],
+              regularDelivery : doc['regularDelivery']
+          );
           products.add(tmp);
         }
       }
@@ -175,20 +179,21 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
     else {
       querySnapshot = await FirebaseFirestore.instance.collection('products').where('category', isEqualTo: id[bigCategory]).get();
       for (var doc in querySnapshot.docs) {
-        Product tmp = Product();
-        tmp.name = doc['name'];
-        tmp.img = doc['img'];
-        tmp.price = doc['price'];
-        tmp.discountRate = doc['discountRate'];
-        tmp.regularDelivery = doc['regularDelivery'];
-        tmp.category = doc['category'];
+        Product tmp = Product(
+            name : doc['name'],
+            category : doc['category'],
+            price : doc['price'],
+            discountRate : doc['discountRate'],
+            thumbnail : doc['img'],
+            regularDelivery : doc['regularDelivery']
+        );
         products.add(tmp);
       }
     }
     return products;
   }
 
-  ListTile makeProduct(String name,String img, int price, int discountRate, bool regularDelivery, int category, BuildContext context){
+  ListTile makeProduct(String name,String? img, int price, int discountRate, bool? regularDelivery, int category, BuildContext context){
     var f = NumberFormat('###,###,###,###원');
     return ListTile(
       onTap: (){

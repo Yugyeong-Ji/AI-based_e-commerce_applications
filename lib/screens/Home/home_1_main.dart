@@ -63,18 +63,8 @@ class _Main extends State<Home_Main> {
                                 ),
                               ),
                               SizedBox(
-                                height: 300,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: productList.length,
-                                  itemBuilder: (context, index) => Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: SizedBox(
-                                      width: 150,
-                                      child: ProductItem(product: productList[index]),
-                                    ),
-                                  ),
-                                ),
+                                width: double.infinity,
+                                child: ProductItem(),
                               ),
                               SizedBox(height: 25),
                               Padding(
@@ -95,19 +85,10 @@ class _Main extends State<Home_Main> {
                                 ),
                               ),
                               SizedBox(
-                                height: 300,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: productList.length,
-                                  itemBuilder: (context, index) => Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: SizedBox(
-                                      width: 150,
-                                      child: ProductItem(product: productList[index]),
-                                    ),
-                                  ),
-                                ),
+                                width: double.infinity,
+                                child: ProductItem(),
                               ),
+                              SizedBox(height: 30),
                             ],
                           )
                       ),

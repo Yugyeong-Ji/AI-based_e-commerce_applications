@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:baljachwi_project/widgets/list_mate.dart';
 import 'package:card_swiper/card_swiper.dart';
@@ -249,3 +250,4 @@ class _MateContent extends State<Home_Mate>  with TickerProviderStateMixin {
 //       );
 //   }
 // }
+ */

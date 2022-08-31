@@ -1,8 +1,7 @@
 import 'dart:collection';
 
 import 'package:baljachwi_project/screens/Mate/mate_home_screen.dart';
-import 'package:baljachwi_project/screens/catalog_main_screen.dart'
-    as prefix; // * Product 자료형 충돌로 인해 임시조치
+import 'package:baljachwi_project/screens/catalog_main_screen.dart';
 import 'package:baljachwi_project/screens/after_login.dart';
 import 'package:baljachwi_project/widgets/product.dart';
 import 'package:baljachwi_project/widgets/user.dart';
@@ -59,11 +58,11 @@ class MyApp extends StatelessWidget {
       // home: HomeScreen(),
       // home: Home(),
       // catalogList(),
-      // home: HomeScreen(),
+       home: HomeScreen(),
       // home: mateHomeScreen(),
       // home: barTestScreen(),
       // home: nonmemberHome(),
-      home: BaseWidget(),
+      // home: BaseWidget(),
       //home: mateTeamScreen(),
       //home: LoginAppScreen(),
       // home: LoginMainScreen(),
@@ -85,6 +84,7 @@ Product testProduct = new Product(
     distributor: "CJ 대한통운",
     seller: "주식회사 푸드킹",
     price: 40000,
+    category: 1,
     discountRate: 30,
     thumbnail: "images/productDetailsExample.jpg",
     information: inform,
