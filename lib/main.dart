@@ -30,6 +30,7 @@ import 'package:baljachwi_project/screens/bar_test_screen.dart';
 import 'package:baljachwi_project/screens/mypage/mypage_screen.dart';
 import 'package:baljachwi_project/screens/nonmember_home_screen.dart';
 import 'package:baljachwi_project/screens/Login/login_main_screen.dart';
+import 'package:baljachwi_project/widgets/refrigerator.dart';
 
 void main() async {
   // => firebase 사용하기 위한 필수 코드
@@ -58,7 +59,8 @@ class MyApp extends StatelessWidget {
       // home: HomeScreen(),
       // home: Home(),
       // catalogList(),
-       home: HomeScreen(),
+      home: Refrigerator(),
+      // home: HomeScreen(),
       // home: mateHomeScreen(),
       // home: barTestScreen(),
       // home: nonmemberHome(),
