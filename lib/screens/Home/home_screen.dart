@@ -70,7 +70,8 @@ class _HomeState extends State<HomeScreen> with TickerProviderStateMixin {
               children: [
                 Home_Main(),
                 Home_Shopping(),
-                Home_Mate(),
+                Home_Shopping(),
+                //Home_Mate(),
                 Home_Recipe()
               ],
             ),

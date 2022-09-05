@@ -26,12 +26,24 @@ class _bottomMenu extends State<bottomMenu> {
 
   _bottomMenu(this.user, this.product);
 
+  var currentFocus;
+  String? selectedValue;
+  bool isFavorite = false;
+  double buttonSize = 47.0;
   final List<String> items = [
     '옵션1',
     '옵션2',
     '옵션3',
+    '옵션4',
   ];
-  String selectedValue = '옵션1';
+
+  unfocus() {
+    currentFocus = FocusScope.of(context);
+
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+  }
 
   // bottomMenu : 위시리스트 담기, 장바구니 담기
   @override
@@ -48,9 +60,6 @@ class _bottomMenu extends State<bottomMenu> {
       ),
     );
   }
-
-  bool isFavorite = false;
-  double buttonSize = 47.0;
 
   Widget favoriteButton() {
     return Container(
@@ -106,26 +115,33 @@ class _bottomMenu extends State<bottomMenu> {
 
   Widget modalBottonSheet(BuildContext bc) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.3,
       color: Colors.transparent,
       child: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            SizedBox(height: 20),
             selectOptionButton(),
-            SizedBox(height: 20),
-            purchaseInformation(),
-            SizedBox(height: 20),
+            //Flexible(child: selectOptionButton()),
+            if (selectedValue != null)
+              GestureDetector(onTap: unfocus, child: purchaseInformation()),
+            SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                button(context, 0.48, null, null, '바로구매', 23, (){Navigator.pop(context);}),
+                button(context, 0.48, null, null, '바로구매', 23, () {
+                  Navigator.pop(context);
+                }),
                 SizedBox(width: 12),
-                button(context, 0.48, Colors.white, Colors.black87, '장바구니', 23, (){Navigator.pop(context);}),
+                button(context, 0.48, Colors.white, Colors.black87, '장바구니', 23,
+                    () {
+                  Navigator.pop(context);
+                }),
               ],
             ),
+            SizedBox(height: 20),
           ],
         ),
       ),
@@ -151,7 +167,8 @@ class _bottomMenu extends State<bottomMenu> {
           ),
         ),
         items: items
-            .map((item) => DropdownMenuItem<String>(
+            .map(
+              (item) => DropdownMenuItem<String>(
                 value: item,
                 child: Padding(
                   padding: EdgeInsets.only(left: 15),
@@ -161,7 +178,9 @@ class _bottomMenu extends State<bottomMenu> {
                       fontSize: 20,
                     ),
                   ),
-                )))
+                ),
+              ),
+            )
             .toList(),
         value: selectedValue,
         onChanged: (value) {
@@ -169,9 +188,13 @@ class _bottomMenu extends State<bottomMenu> {
             selectedValue = value as String;
           });
         },
-        buttonHeight: 50,
+        buttonHeight: 45,
         buttonWidth: (MediaQuery.of(context).size.width) * 0.95,
-        itemHeight: 50,
+        buttonElevation: 2,
+        dropdownWidth: (MediaQuery.of(context).size.width) * 0.95,
+        dropdownMaxHeight: 100,
+        itemHeight: 45,
+        scrollbarAlwaysShow: true,
       ),
     );
   }
@@ -179,7 +202,6 @@ class _bottomMenu extends State<bottomMenu> {
   Widget purchaseInformation() {
     int? totalPrice = this.product.price;
     var priceFormat = NumberFormat('###,###,###,###원');
-
     return Container(
       color: Colors.white,
       height: 60,
@@ -192,7 +214,7 @@ class _bottomMenu extends State<bottomMenu> {
             child: Padding(
               padding: EdgeInsets.only(top: 15, left: 25),
               child: Text(
-                selectedValue,
+                selectedValue as String,
                 style: TextStyle(fontSize: 20, color: Colors.black),
               ),
             ),

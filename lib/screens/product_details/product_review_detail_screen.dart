@@ -11,26 +11,23 @@ import '../../widgets/product.dart';
 class productReviewDetail extends StatefulWidget {
   final Review review;
   final User user;
-  List starInform;
 
   productReviewDetail(
       {Key? key,
       required this.review,
-      required this.starInform,
       required this.user})
       : super(key: key);
 
   @override
   _productReviewDetail createState() =>
-      _productReviewDetail(review, starInform, user);
+      _productReviewDetail(review, user);
 }
 
 class _productReviewDetail extends State<productReviewDetail> {
   final Review review; // 리뷰
-  final List starInform;
   final User user;
 
-  _productReviewDetail(this.review, this.starInform, this.user);
+  _productReviewDetail(this.review, this.user);
 
   @override
   Widget build(BuildContext context) {

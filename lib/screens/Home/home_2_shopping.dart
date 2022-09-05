@@ -84,20 +84,10 @@ class _Shopping extends State<Home_Shopping> with TickerProviderStateMixin{
           ),
         ),
 
-        SizedBox(
+        Container(
           height: 300,
-          child:
-          ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: productList.length,
-            itemBuilder: (context, index) => Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: SizedBox(
-                width: 150,
-                child: ProductItem(product: productList[index]),
-              ),
-            ),
-          ),
+          width: double.infinity,
+          child: ProductItem(),
         ),
 
         Container(

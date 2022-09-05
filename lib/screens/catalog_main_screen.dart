@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:baljachwi_project/widgets/product.dart';
 import 'package:baljachwi_project/screens/catalog_list_screen.dart';
 
 bool isChecked = false;
@@ -12,7 +13,7 @@ class catalogMain extends StatefulWidget {
   @override
   State<catalogMain> createState() => _catalogMain();
 }
-
+/*
 class Product{
   var name;
   var price;
@@ -21,7 +22,7 @@ class Product{
   var img;
   var category;
 }
-
+*/
 class _catalogMain extends State<catalogMain> with TickerProviderStateMixin {
   CollectionReference productCol = FirebaseFirestore.instance.collection('products');
   late ScrollController _scrollController;

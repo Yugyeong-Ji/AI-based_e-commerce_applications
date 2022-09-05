@@ -1,3 +1,4 @@
+import 'package:baljachwi_project/screens/product_details/photo_gird_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/review.dart';
@@ -93,7 +94,7 @@ Widget smallGridview(BuildContext context, User user, List<Review> reviews) {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            viewOnlyImages(user: user, reviews: reviews)),
+                            photoGridView(user: user, reviews: reviews)),
                   );
                 },
                 child: Column(
