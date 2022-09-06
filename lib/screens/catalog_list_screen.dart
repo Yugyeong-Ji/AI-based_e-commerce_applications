@@ -155,7 +155,8 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
           price : doc['price'],
           discountRate : doc['discountRate'],
           thumbnail : doc['img'],
-          regularDelivery : doc['regularDelivery']
+          regularDelivery : doc['regularDelivery'],
+          uploadDate : doc['uploadDate'],
         );
         products.add(tmp);
       }
@@ -170,7 +171,8 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
               price : doc['price'],
               discountRate : doc['discountRate'],
               thumbnail : doc['img'],
-              regularDelivery : doc['regularDelivery']
+              regularDelivery : doc['regularDelivery'],
+              uploadDate : doc['uploadDate'],
           );
           products.add(tmp);
         }
@@ -185,7 +187,8 @@ class _catalogList extends State<catalogList> with TickerProviderStateMixin {
             price : doc['price'],
             discountRate : doc['discountRate'],
             thumbnail : doc['img'],
-            regularDelivery : doc['regularDelivery']
+            regularDelivery : doc['regularDelivery'],
+            uploadDate : doc['uploadDate'],
         );
         products.add(tmp);
       }

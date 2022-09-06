@@ -56,10 +56,10 @@ class MyApp extends StatelessWidget {
 
       // home: productDetails(product: testProduct, user: testUser),
       // home: catalogMain(),
-      // home: HomeScreen(),
+       home: HomeScreen(),
       // home: Home(),
       // catalogList(),
-      home: Refrigerator(),
+      // home: Refrigerator(),
       // home: HomeScreen(),
       // home: mateHomeScreen(),
       // home: barTestScreen(),
@@ -90,6 +90,7 @@ Product testProduct = new Product(
     discountRate: 30,
     thumbnail: "images/productDetailsExample.jpg",
     information: inform,
+    uploadDate: DateTime.utc(2020, 6, 6),
     image: [
       "assets/images/chicken1.jpg",
       "assets/images/chicken2.jpg",

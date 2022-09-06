@@ -13,7 +13,7 @@ class Product {
   final String? detailsImage; // 상세이미지 경로
   final bool? regularDelivery; //정기배송상품
   final Map<String, String>? information;
-  var uploadDate; // 날짜(신상품순정렬용)
+  final DateTime uploadDate; // 날짜(신상품순정렬용)
 
   Product(
       {this.thumbnail,
@@ -27,10 +27,10 @@ class Product {
       required this.discountRate,
       this.image,
       this.regularDelivery,
-      this.uploadDate,
+      required this.uploadDate,
       this.information}); // 생성자
 }
-
+/*
 List<Product> productList = [
   // 샘플 데이터
   Product(
@@ -97,3 +97,4 @@ List<Product> productList = [
     discountRate: 48,
   ),
 ];
+ */
