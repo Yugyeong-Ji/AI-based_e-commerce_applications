@@ -86,7 +86,7 @@ class _Main extends State<Home_Main> {
                               ),
                               SizedBox(
                                 width: double.infinity,
-                                child: ProductItem(),
+                                child: ProductItem(order:'new'),
                               ),
                               SizedBox(height: 30),
                             ],

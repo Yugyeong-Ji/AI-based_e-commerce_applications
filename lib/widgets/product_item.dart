@@ -5,21 +5,24 @@ import 'product.dart';
 import 'package:intl/intl.dart';
 
 class ProductItem extends StatelessWidget {
-  final bool? lineChange;
-  final double? textContainerHeight;
-
+  //final bool? lineChange;
+  //final double? textContainerHeight;
+  final String? order;
+  const ProductItem({this.order});
+/*
   const ProductItem(
       {Key? key,
       this.lineChange = false,
-      this.textContainerHeight = 80})
+      this.textContainerHeight = 80
+      })
       : super(key: key);
-
+*/
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 230,
+      height: 250,
       child: FutureBuilder(
-                    future: getProduct(),
+                    future: getProduct(order:order),
                     builder:
                         (BuildContext context, AsyncSnapshot snapshot){
                       if (snapshot.hasError) {
@@ -33,7 +36,6 @@ class ProductItem extends StatelessWidget {
                         List<Product> nList = snapshot.data;
                         List<Container> mainContainer = [];
                         for(Product doc in nList) {
-                          print(doc.thumbnail);
                           mainContainer.add(
                               Container(
                                 child: Column(
@@ -42,40 +44,38 @@ class ProductItem extends StatelessWidget {
                                       child: InkWell(
                                         onTap: () {},
                                         child: Image.asset('assets/images/${doc.thumbnail}',
-                                            width: 150, height: 150),
+                                            width: 130, height: 130),
                                       ),
                                     ),
                                     Container(
-                                      width: 180,
-                                      height: textContainerHeight,
+                                      width: 120,
+                                      height: 120,
                                       child: Padding(
                                         padding: EdgeInsets.only(top: 8),
                                         child: Text.rich(
                                           TextSpan(children: [
                                             TextSpan(
-                                                text: "${doc.name} ${lineChange == true
-                                                    ? "\n"
-                                                    : ""}",
+                                                text: "${doc.name}\n",
                                                 style: GoogleFonts.nanumGothic(
-                                                    fontSize: 16.0)),
+                                                    fontSize: 14.0)),
                                             TextSpan(
                                                 text: "${doc.discountRate}%",
                                                 style: GoogleFonts.nanumGothic(
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 16.0,
+                                                    fontSize: 14.0,
                                                     color: Colors.red)),
                                             TextSpan(
                                                 text: discountPrice(
-                                                    doc.price ?? 0,
-                                                    doc.discountRate ?? 0),
+                                                    doc.price,
+                                                    doc.discountRate),
                                                 style: GoogleFonts.nanumGothic(
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 16.0)),
+                                                    fontSize: 14.0)),
                                             TextSpan(
                                               text: "${doc.price.toString()
                                                   .numberFormat()}원",
                                               style: GoogleFonts.nanumGothic(
-                                                fontSize: 14.0,
+                                                fontSize: 13.0,
                                                 decoration: TextDecoration.lineThrough,
                                               ),
                                             ),
@@ -106,18 +106,20 @@ class ProductItem extends StatelessWidget {
   }
 }
 
-Future<List<Product>> getProduct() async{
+Future<List<Product>> getProduct({String? order}) async{
   List<Product> products = [];
   QuerySnapshot<Map<String,dynamic>> querySnapshot;
-  querySnapshot = await FirebaseFirestore.instance.collection('products').get();
+  if (order == 'new') querySnapshot = await FirebaseFirestore.instance.collection("products").orderBy("uploadDate", descending: true).get();
+  else querySnapshot = await FirebaseFirestore.instance.collection("products").get();
   for(var doc in querySnapshot.docs){
     Product tmp = Product(
+        uploadDate : DateTime.parse(doc['uploadDate'].toDate().toString()),
         name : doc['name'],
         category : doc['category'],
         price : doc['price'],
         discountRate : doc['discountRate'],
         thumbnail : doc['img'],
-        regularDelivery : doc['regularDelivery']
+        regularDelivery : doc['regularDelivery'],
       );
       products.add(tmp);
     }
