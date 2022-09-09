@@ -40,6 +40,11 @@ class IngredientDBHelper{
     final List<Map<String,dynamic>> maps = (await db.query('ingredient',where:'name=?',whereArgs: [name]));
     return maps.isNotEmpty ? maps.first['kind']:null;
  }
+  Future<dynamic> getIngredients_limit3() async{
+    final db = await database;
+    final List<Map<String,dynamic>> maps = (await db.query('ingredient',columns:['name'],limit: 3));
+    return maps.isNotEmpty ? maps.first['kind']:null;
+  }
  Future<void> updateIngredient(Ingredient ingredient) async{
    final db = await database;
    await db.update(

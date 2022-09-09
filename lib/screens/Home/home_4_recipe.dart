@@ -1,43 +1,36 @@
+import 'package:baljachwi_project/widgets/Ingredient.dart';
 import 'package:flutter/material.dart';
-import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:html/parser.dart' as parse;
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
 import 'package:card_swiper/card_swiper.dart';
+import '../../widgets/db_helper.dart';
+import 'package:baljachwi_project/widgets/Recipe.dart';
 
-class Recipe{
-  var title;
-  var imgPath;
-  var ingredient;
-  @override
-  String toString(){
-    return "title : "+title+"\n"+"img : "+imgPath;
-  }
-  Recipe(this.title,this.imgPath,this.ingredient);
-}
-final List<String> items = [
-  '~10,000',
-  '~30,000',
-  '~50,000',
-  '~100,000',
-  '무제한',
-];
-String? selectedValue;
 class Home_Recipe extends StatefulWidget {
   @override
   _Recipe createState()=> _Recipe();
 }
 
 class _Recipe extends State<Home_Recipe>{
+
   var top10Future;  // 실시간 인기레시피를 불러오기 위한 Future 변수
   var recommandIngredientFuture;  // 재료추천을 위한 Future 변수
   final searchRecipe=null;
   final _searchRecipeController = TextEditingController();
   final _searchIngredientController = TextEditingController();
   bool _showRecipe = true;
+  // 2. 레시피 추천 변수들
+  var dbHelper;
+  var localDbFuture;
+  var categoryNames = {0:'all',1:'채소',2:'과일.견과.쌀',3:'정육.계란',4:'면.양념.오일'};
+  late List<Ingredient> ingredients;
+  List<String> selectedIngredient = [];   // 선택한 재료 담은 list 변수
+  final List<String> maximum = ['~10,000','~30,000','~50,000','~100,000','무제한'];
+  int _selectedMaximum=-1;
 
-  // TOP10 뽑는 메소드
+  // 0. TOP10 뽑는 메소드
   Future<List<InkWell>> _getTop10() async {
     List<InkWell> tmpTop = [];
     http.Response response = await http.get(Uri.parse('https://www.10000recipe.com/index.html'));
@@ -61,7 +54,7 @@ class _Recipe extends State<Home_Recipe>{
     }
    return tmpTop;
   }
-
+  // 1. 재료 검색 메소드
   Future<Recipe> _getRecipe(recipeName) async{
     // (1) 레시피 검색
     print('call _getRecipe'+recipeName);
@@ -112,11 +105,18 @@ class _Recipe extends State<Home_Recipe>{
     print(ingredient);
     return Recipe(title,img,ingredient);
   }
+  // 2. 냉장고 속 재료 가져오기
+  Future<void> _getIngredientDB() async{
+    ingredients = await dbHelper.getAllIngredients();
+  }
   @override
-  void initState() {
+  void initState(){
     super.initState();
     top10Future = _getTop10();
+    dbHelper = IngredientDBHelper();
+    localDbFuture = _getIngredientDB();//ingredients = _getIngredientDB(); // local db 불러오기
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,8 +166,8 @@ class _Recipe extends State<Home_Recipe>{
                                       control: const SwiperControl(
                                           color: Color(0xffffa511)
                                       ),
-                                      autoplay: true,
-                                      duration: 1,
+                                      //autoplay: true,
+                                      //duration: 1,
                                     )
                                   );
                                 }
@@ -275,7 +275,6 @@ class _Recipe extends State<Home_Recipe>{
                         ],
                       ),
                     ),
-
                     Container(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,41 +285,125 @@ class _Recipe extends State<Home_Recipe>{
                               IconButton(onPressed: ()=>showHelpDialog(1), icon: Icon(Icons.help,color: Colors.orange[100]))
                             ],
                           ),
-                          Divider(thickness: 3,color: Colors.grey[850]),
                           const Text('보유중인 재료에 맞는 레시피를 추천해 드립니다!',style: TextStyle(color: Colors.grey)),
+                          const SizedBox(height: 10),
                           Container(
-                              alignment: Alignment.centerRight,
-                              child: CustomDropdownButton2(
-                                  hint: '상한',
-                                  value: selectedValue,
-                                  dropdownItems: items,
-                                  onChanged: (value){
-                                    setState((){
-                                      selectedValue = value;
-                                    }) ;
-                                  })
+                            height: 70,
+                            child:ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: maximum.length,
+                              itemBuilder: (context,index){
+                                return Container(
+                                    margin: const EdgeInsets.all(5),
+                                    padding: const EdgeInsets.all(5),
+                                    child: ChoiceChip(
+                                      label: Text(maximum[index]),
+                                      selected: _selectedMaximum==index,
+                                      onSelected: (bool selected){
+                                        setState(() {
+                                          _selectedMaximum = index;
+                                        });
+                                      },
+                                      backgroundColor: Colors.grey[300],
+                                      selectedColor: Colors.orange
+                                    )
+                                );
+                              }
+                            ),
                           ),
-                          Container(
-                              margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                              height: 150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(color: const Color(0xffbcbdc2),width: 1)
-                                //border: BorderSide(color: Colors.grey)
+                          FutureBuilder(
+                            future: localDbFuture,
+                            builder: (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasError) {
+                                return CircularProgressIndicator(color:Colors.grey); // CircularProgressIndicator : 로딩 에니메이션
+                              }
+                              else{
+                                return Container(
+                                  height: 250,
+                                  child: GridView.builder(
+                                    itemCount: ingredients.length,
+                                    scrollDirection: Axis.horizontal,
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        mainAxisSpacing: 4.0,
+                                        crossAxisSpacing: 8.0,
+                                        childAspectRatio: 3/5
+                                    ),
+                                    itemBuilder: (context,i){
+                                      String? itemCategory = categoryNames[ingredients[i].category];
+                                      return InkWell(
+                                          onTap:(){
+                                            if(selectedIngredient.contains(ingredients[i].name)){
+                                              setState(() {
+                                                selectedIngredient.remove(ingredients[i].name);
+                                              });
+                                            }
+                                            else{
+                                              setState(() {
+                                                selectedIngredient.add(ingredients[i].name);
+                                              });
+                                            }
+                                          },
+                                            child: Container(
+                                                margin: const EdgeInsets.all(3),
+                                                padding: const EdgeInsets.all(10),
+                                                width : 50,
+                                                decoration: BoxDecoration(
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          color: Colors.grey.withOpacity(0.2),
+                                                          offset:const Offset(0, 5),
+                                                          blurRadius: 5.0,
+                                                          spreadRadius:0
+                                                      )],
+                                                    color: selectedIngredient.contains(ingredients[i].name) ? Colors.orange : Colors.white,
+                                                    borderRadius: const BorderRadius.all(Radius.circular(5))
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text( itemCategory!,
+                                                        style: TextStyle(
+                                                            color: selectedIngredient.contains(ingredients[i].name) ? Colors.white : Colors.grey[850],
+                                                            fontSize: 10)),
+                                                    const SizedBox(height: 10),
+                                                    Center(
+                                                        child: Text(ingredients[i].name,
+                                                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14,
+                                                                color: selectedIngredient.contains(ingredients[i].name) ? Colors.white : Colors.grey[850])
+                                                        ))
+                                                  ],
+                                                )
+                                            )
+                                      );
+                                    },
+                                  )
+                                );
+                              }
+                            },
+                          ),
+                          const SizedBox(height: 40),
+                          OutlinedButton(
+                              onPressed: (){},
+                              style: OutlinedButton.styleFrom(
+                                elevation: 1,
+                                backgroundColor: Colors.white,
+                                //side:BorderSide(color: Colors.grey,width:1),
+                                padding: const EdgeInsets.all(15),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50)
+                                )
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(Icons.search,color: Colors.black),
+                                  SizedBox(width: 5),
+                                  Text('선택한 재료 조합으로 메뉴 검색',style: TextStyle(color: Colors.black))
+                                ],
                               )
                           ),
-                          ElevatedButton(
-                              onPressed: (){},
-                              style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0)
-                                  ),
-                                  primary: const Color(0xffffa511),
-                                  onPrimary: Colors.white,
-                                  //minimumSize: Size(MediaQuery.of(context).size.width, 50)
-                              ),
-                            child: const Text('검색'),
-                          )
+                          const SizedBox(height: 50)
                         ],
                       ),
                     )
@@ -344,7 +427,7 @@ class _Recipe extends State<Home_Recipe>{
   }
   Container makeIngredient_con(ingredientName){
     return Container(
-      padding :EdgeInsets.fromLTRB(10, 0, 10, 0),
+      padding :const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Column(
         children: [
           Row(
@@ -388,4 +471,5 @@ class _Recipe extends State<Home_Recipe>{
         }
     );
   }
+
 }

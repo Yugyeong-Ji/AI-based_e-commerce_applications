@@ -34,6 +34,13 @@ class _Refrigerator extends State<Refrigerator> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        ),
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: (){
           setState(() {
