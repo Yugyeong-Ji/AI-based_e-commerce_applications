@@ -12,7 +12,7 @@ class _Refrigerator extends State<Refrigerator> with TickerProviderStateMixin {
   var categoryNames = {0:'all',1:'채소',2:'과일.견과.쌀',3:'정육.계란',4:'면.양념.오일'};
   var dbHelper;
   var dbFutre;
-  var _ADDselectedIdx;
+  int _ADDselectedIdx=-1;
   @override
   void initState(){
     super.initState();
@@ -35,11 +35,13 @@ class _Refrigerator extends State<Refrigerator> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xffffa511),
         leading: BackButton(
           onPressed: (){
             Navigator.pop(context);
           },
         ),
+        elevation: 0,
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: (){
@@ -56,7 +58,7 @@ class _Refrigerator extends State<Refrigerator> with TickerProviderStateMixin {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.fromLTRB(15, 100, 15, 15),
+            padding: const EdgeInsets.fromLTRB(15, 50, 15, 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -246,18 +248,16 @@ class _Refrigerator extends State<Refrigerator> with TickerProviderStateMixin {
         ChoiceChip(
           label: Text(_title!),
           avatar: const CircleAvatar(backgroundColor: Colors.white),
-          backgroundColor: Colors.grey[300],
           padding: const EdgeInsets.all(7),
-          selectedColor: Color(0xffffa511),
           selected: _ADDselectedIdx==i,
           onSelected: (bool selected){
-           setState(() {
-             if(selected) {
-               _ADDselectedIdx = i;
-               print(_ADDselectedIdx);
-             }
-           });
+            setState(() {
+              _ADDselectedIdx = i;
+            });
+            print(_ADDselectedIdx);
           },
+          backgroundColor: Colors.grey[300],
+          selectedColor: Color(0xffffa511),
         )
       );
     }

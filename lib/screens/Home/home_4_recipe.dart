@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:baljachwi_project/widgets/Ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
 import 'package:card_swiper/card_swiper.dart';
 import '../../widgets/db_helper.dart';
+import '../../widgets/recipeDbHelper.dart';
 import 'package:baljachwi_project/widgets/Recipe.dart';
 
 class Home_Recipe extends StatefulWidget {
@@ -13,7 +16,7 @@ class Home_Recipe extends StatefulWidget {
   _Recipe createState()=> _Recipe();
 }
 
-class _Recipe extends State<Home_Recipe>{
+class _Recipe extends State<Home_Recipe> with TickerProviderStateMixin{
 
   var top10Future;  // 실시간 인기레시피를 불러오기 위한 Future 변수
   var recommandIngredientFuture;  // 재료추천을 위한 Future 변수
@@ -23,13 +26,14 @@ class _Recipe extends State<Home_Recipe>{
   bool _showRecipe = true;
   // 2. 레시피 추천 변수들
   var dbHelper;
+  var recipeDBHelper; // recipe.db에 연결하는 helper
   var localDbFuture;
   var categoryNames = {0:'all',1:'채소',2:'과일.견과.쌀',3:'정육.계란',4:'면.양념.오일'};
   late List<Ingredient> ingredients;
-  List<String> selectedIngredient = [];   // 선택한 재료 담은 list 변수
+  List<String> _selectedIngredient = [];   // 선택한 재료 담은 list 변수
   final List<String> maximum = ['~10,000','~30,000','~50,000','~100,000','무제한'];
   int _selectedMaximum=-1;
-
+  var recommandedRecipeFuture;
   // 0. TOP10 뽑는 메소드
   Future<List<InkWell>> _getTop10() async {
     List<InkWell> tmpTop = [];
@@ -109,11 +113,17 @@ class _Recipe extends State<Home_Recipe>{
   Future<void> _getIngredientDB() async{
     ingredients = await dbHelper.getAllIngredients();
   }
+  late TabController _recommandController;
   @override
   void initState(){
     super.initState();
+    _recommandController = TabController(
+      length: 2,
+      vsync: this, //vsync에 this 형태로 전달해야 애니메이션이 정상 처리됨
+    );
     top10Future = _getTop10();
     dbHelper = IngredientDBHelper();
+    recipeDBHelper = RecipeDBHelper();
     localDbFuture = _getIngredientDB();//ingredients = _getIngredientDB(); // local db 불러오기
   }
 
@@ -176,6 +186,7 @@ class _Recipe extends State<Home_Recipe>{
                         ],
                       ),
                     ),
+                    SizedBox(height: 20),
                     Container(
                       margin: const EdgeInsets.fromLTRB(0,30, 0, 100),
                       child: Column(
@@ -197,80 +208,80 @@ class _Recipe extends State<Home_Recipe>{
                               )
                           ),
                           Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
-                            child: Row(
-                                children: <Widget>[
-                                  Flexible(
-                                    child: TextField(
-                                      controller: _searchRecipeController,
-                                      onSubmitted: _handleSubmitted,
-                                      decoration: const InputDecoration.collapsed(
-                                          hintText: "레시피를 입력해주세요"),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.grey),
+                              ),
+                              padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
+                              child: Row(
+                                  children: <Widget>[
+                                    Flexible(
+                                      child: TextField(
+                                        controller: _searchRecipeController,
+                                        onSubmitted: _handleSubmitted,
+                                        decoration: const InputDecoration.collapsed(
+                                            hintText: "레시피를 입력해주세요"),
+                                      ),
                                     ),
-                                  ),
-                                  Container(
+                                    Container(
                                       margin: const EdgeInsets.symmetric(horizontal: 4.0),
                                       child: IconButton(
                                           icon: const Icon(Icons.search),
                                           onPressed: ()=> _handleSubmitted(_searchRecipeController.text)),
-                                      )
-                                ]
-                            )
+                                    )
+                                  ]
+                              )
                           ),
                           Offstage(
-                            offstage: _showRecipe,
-                            child:FutureBuilder(
-                                future: recommandIngredientFuture,
-                                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                                  if (snapshot.hasData == false) {
-                                    return const Center(child: Text('ROADING..'));
-                                  }
-                                  else{
-                                    Recipe r = snapshot.data;
-                                    if(r.title=='NONE'){
-                                      return Center();
+                              offstage: _showRecipe,
+                              child:FutureBuilder(
+                                  future: recommandIngredientFuture,
+                                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                    if (snapshot.hasData == false) {
+                                      return const Center(child: Text('ROADING..'));
                                     }
-                                    return Container(
-                                        padding: EdgeInsets.all(10),
-                                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          border: Border.all(color: Colors.grey),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              alignment: Alignment.centerRight,
-                                              child: IconButton(
-                                                  onPressed: ()=>setState(() {
-                                                    _showRecipe = true;
-                                                  }),
-                                                  icon: Icon(Icons.close_rounded),color: Colors.grey)
-                                            ),
-                                            Image.network(r.imgPath,fit:BoxFit.fitWidth,height: 100),
-                                            SizedBox(height: 10),
-                                            Text(r.title,textAlign:TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
-                                            SizedBox(height: 20),
-                                            Row(
-                                              children: [Text('재료 ',style: TextStyle(fontWeight: FontWeight.bold)),Text('Ingredients',style: TextStyle(color: Colors.grey[400]))],
-                                            ),
-                                            ListView.builder(
-                                                shrinkWrap: true,
-                                                itemCount: (r.ingredient).length,
-                                                itemBuilder: (BuildContext context,int idx){
-                                                  return makeIngredient_con(r.ingredient[idx]);
-                                                }
-                                            )
-                                          ],
-                                        )
-                                    );
+                                    else{
+                                      Recipe r = snapshot.data;
+                                      if(r.title=='NONE'){
+                                        return Center();
+                                      }
+                                      return Container(
+                                          padding: EdgeInsets.all(10),
+                                          margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(color: Colors.grey),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                  alignment: Alignment.centerRight,
+                                                  child: IconButton(
+                                                      onPressed: ()=>setState(() {
+                                                        _showRecipe = true;
+                                                      }),
+                                                      icon: Icon(Icons.close_rounded),color: Colors.grey)
+                                              ),
+                                              Image.network(r.imgPath,fit:BoxFit.fitWidth,height: 100),
+                                              SizedBox(height: 10),
+                                              Text(r.title,textAlign:TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                                              SizedBox(height: 20),
+                                              Row(
+                                                children: [Text('재료 ',style: TextStyle(fontWeight: FontWeight.bold)),Text('Ingredients',style: TextStyle(color: Colors.grey[400]))],
+                                              ),
+                                              ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount: (r.ingredient).length,
+                                                  itemBuilder: (BuildContext context,int idx){
+                                                    return makeIngredient_con(r.ingredient[idx]);
+                                                  }
+                                              )
+                                            ],
+                                          )
+                                      );
+                                    }
                                   }
-                                }
-                            )
+                              )
                           )
                         ],
                       ),
@@ -287,28 +298,28 @@ class _Recipe extends State<Home_Recipe>{
                           ),
                           const Text('보유중인 재료에 맞는 레시피를 추천해 드립니다!',style: TextStyle(color: Colors.grey)),
                           const SizedBox(height: 10),
-                          Container(
+                          SizedBox(
                             height: 70,
                             child:ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: maximum.length,
-                              itemBuilder: (context,index){
-                                return Container(
-                                    margin: const EdgeInsets.all(5),
-                                    padding: const EdgeInsets.all(5),
-                                    child: ChoiceChip(
-                                      label: Text(maximum[index]),
-                                      selected: _selectedMaximum==index,
-                                      onSelected: (bool selected){
-                                        setState(() {
-                                          _selectedMaximum = index;
-                                        });
-                                      },
-                                      backgroundColor: Colors.grey[300],
-                                      selectedColor: Colors.orange
-                                    )
-                                );
-                              }
+                                scrollDirection: Axis.horizontal,
+                                itemCount: maximum.length,
+                                itemBuilder: (context,index){
+                                  return Container(
+                                      margin: const EdgeInsets.all(5),
+                                      padding: const EdgeInsets.all(5),
+                                      child: ChoiceChip(
+                                          label: Text(maximum[index]),
+                                          selected: _selectedMaximum==index,
+                                          onSelected: (bool selected){
+                                            setState(() {
+                                              _selectedMaximum = index;
+                                            });
+                                          },
+                                          backgroundColor: Colors.grey[300],
+                                          selectedColor: Colors.orange
+                                      )
+                                  );
+                                }
                             ),
                           ),
                           FutureBuilder(
@@ -319,31 +330,31 @@ class _Recipe extends State<Home_Recipe>{
                               }
                               else{
                                 return Container(
-                                  height: 250,
-                                  child: GridView.builder(
-                                    itemCount: ingredients.length,
-                                    scrollDirection: Axis.horizontal,
-                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                        mainAxisSpacing: 4.0,
-                                        crossAxisSpacing: 8.0,
-                                        childAspectRatio: 3/5
-                                    ),
-                                    itemBuilder: (context,i){
-                                      String? itemCategory = categoryNames[ingredients[i].category];
-                                      return InkWell(
-                                          onTap:(){
-                                            if(selectedIngredient.contains(ingredients[i].name)){
-                                              setState(() {
-                                                selectedIngredient.remove(ingredients[i].name);
-                                              });
-                                            }
-                                            else{
-                                              setState(() {
-                                                selectedIngredient.add(ingredients[i].name);
-                                              });
-                                            }
-                                          },
+                                    height: 250,
+                                    child: GridView.builder(
+                                      itemCount: ingredients.length,
+                                      scrollDirection: Axis.horizontal,
+                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3,
+                                          mainAxisSpacing: 4.0,
+                                          crossAxisSpacing: 8.0,
+                                          childAspectRatio: 3/5
+                                      ),
+                                      itemBuilder: (context,i){
+                                        String? itemCategory = categoryNames[ingredients[i].category];
+                                        return InkWell(
+                                            onTap:(){
+                                              if(_selectedIngredient.contains(ingredients[i].name)){
+                                                setState(() {
+                                                  _selectedIngredient.remove(ingredients[i].name);
+                                                });
+                                              }
+                                              else{
+                                                setState(() {
+                                                  _selectedIngredient.add(ingredients[i].name);
+                                                });
+                                              }
+                                            },
                                             child: Container(
                                                 margin: const EdgeInsets.all(3),
                                                 padding: const EdgeInsets.all(10),
@@ -356,7 +367,7 @@ class _Recipe extends State<Home_Recipe>{
                                                           blurRadius: 5.0,
                                                           spreadRadius:0
                                                       )],
-                                                    color: selectedIngredient.contains(ingredients[i].name) ? Colors.orange : Colors.white,
+                                                    color: _selectedIngredient.contains(ingredients[i].name) ? Colors.orange : Colors.white,
                                                     borderRadius: const BorderRadius.all(Radius.circular(5))
                                                 ),
                                                 child: Column(
@@ -364,35 +375,35 @@ class _Recipe extends State<Home_Recipe>{
                                                   children: [
                                                     Text( itemCategory!,
                                                         style: TextStyle(
-                                                            color: selectedIngredient.contains(ingredients[i].name) ? Colors.white : Colors.grey[850],
+                                                            color: _selectedIngredient.contains(ingredients[i].name) ? Colors.white : Colors.grey[850],
                                                             fontSize: 10)),
                                                     const SizedBox(height: 10),
                                                     Center(
                                                         child: Text(ingredients[i].name,
                                                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14,
-                                                                color: selectedIngredient.contains(ingredients[i].name) ? Colors.white : Colors.grey[850])
+                                                                color: _selectedIngredient.contains(ingredients[i].name) ? Colors.white : Colors.grey[850])
                                                         ))
                                                   ],
                                                 )
                                             )
-                                      );
-                                    },
-                                  )
+                                        );
+                                      },
+                                    )
                                 );
                               }
                             },
                           ),
                           const SizedBox(height: 40),
                           OutlinedButton(
-                              onPressed: (){},
+                              onPressed: (){ recommandedRecipeFuture= _getRecommandRecipe(); },    // 레시피 추천 함수
                               style: OutlinedButton.styleFrom(
-                                elevation: 1,
-                                backgroundColor: Colors.white,
-                                //side:BorderSide(color: Colors.grey,width:1),
-                                padding: const EdgeInsets.all(15),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50)
-                                )
+                                  elevation: 1,
+                                  backgroundColor: Colors.white,
+                                  //side:BorderSide(color: Colors.grey,width:1),
+                                  padding: const EdgeInsets.all(15),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50)
+                                  )
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -403,9 +414,40 @@ class _Recipe extends State<Home_Recipe>{
                                 ],
                               )
                           ),
-                          const SizedBox(height: 50)
                         ],
                       ),
+                    ),
+                    SizedBox(height: 20),
+                    FutureBuilder(
+                      future: recommandedRecipeFuture,
+                      builder: (BuildContext context,AsyncSnapshot snapshot){
+                        if(snapshot.hasData==false || snapshot.hasError){
+                          print('NOP');
+                          return Container();
+                        }
+                        else{
+                          print('YES');
+                          List<dynamic> datas = snapshot.data;
+                          return Container(
+                            height: 250,
+                            child: Swiper(
+                              itemCount: 10,
+                              itemBuilder: (BuildContext,int idx){
+                                return _getRecipeUI(datas[idx]['IMG_URL'],datas[idx]['RECIPE_NM_KO'],datas[idx]['SUMRY'],datas[idx]['recipe_cnt']);
+                              },
+                              pagination: SwiperPagination(
+                                builder: DotSwiperPaginationBuilder(
+                                    color: Colors.white.withOpacity(0.6),
+                                    activeColor: Colors.black
+                                )
+                              ),
+                              control: const SwiperControl(
+                                  color: Colors.black
+                              ),
+                            )
+                          );
+                        }
+                      }
                     )
                   ]
               )
@@ -413,9 +455,68 @@ class _Recipe extends State<Home_Recipe>{
       ),
     );
   }
+  // 추천 레시피의 UI
+  Widget _getRecipeUI(String _url, String _nm, String _sumry, int _cnt){
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+            foregroundDecoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              gradient: LinearGradient(
+                colors: [Colors.black,Colors.transparent,Colors.transparent, Color(0xffffa511)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0,0.12,0.55, 1],
+              ),
+            ),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Image.network(_url,fit: BoxFit.cover)
+            )
+        ),
+        Positioned(
+            right: 0,
+            child:Container(
+                margin: EdgeInsets.all(15),
+                child: Text('겹치는 재료수 : $_cnt개',
+                    style: TextStyle(color: Colors.white, shadows: [Shadow(blurRadius: 8,color: Colors.black,offset: Offset(1,1))])
+                )
+            )
+        ),
+        Positioned(
+            bottom: 0,
+            child: Container(
+                width: 350,
+                padding: EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children:[
+                    Text(_nm,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.white, shadows: [Shadow(blurRadius: 5,color: Colors.black,offset: Offset(1,1))])),
+                    SizedBox(height: 7),
+                    Text(_sumry,style: TextStyle(color: Colors.white),overflow: TextOverflow.ellipsis),
+                    SizedBox(height: 20)
+                  ],
+                )
+            )
+        )
+      ]
+    );
+  }
+  // 레시피 추천 함수
+  Future<dynamic> _getRecommandRecipe() async{
+    if(_selectedIngredient.isEmpty || _selectedMaximum==-1){
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('재료와 상한을 입력해 주세요.')));
+      return;
+    }
+    // -> 조건에 맞는 레시피 가져오기 -> 레시피 UI 부르기
+    return await recipeDBHelper.getRecommandRecipe(_selectedIngredient);
+  }
+  // 추천받은 레시피 10개 display
+
   void _handleSubmitted(String text){
-    if(text==null || text.length==0){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Plz PUTT')));
+    if(text.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Plz PUTT')));
       return;
     }
     _searchRecipeController.clear();
@@ -455,7 +556,7 @@ class _Recipe extends State<Home_Recipe>{
                 Text(title[idx]),
                 IconButton(
                     onPressed: ()=>Navigator.pop(context),
-                    icon: Icon(Icons.close_rounded),color: Colors.grey)
+                    icon: const Icon(Icons.close_rounded),color: Colors.grey)
               ],
             ),
             content: SingleChildScrollView(
@@ -464,7 +565,7 @@ class _Recipe extends State<Home_Recipe>{
                   Text('원하는 레시피에 필요한 재료를 입력해주세요!'),
                   Divider(),
                   Text('사용법',style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'),
+                  Text('standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'),
                 ])
              )
           );

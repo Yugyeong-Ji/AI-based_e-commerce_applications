@@ -94,6 +94,7 @@ flutter:
     - assets/images/membershipGrade/
     - assets/icon/
     - assets/icon/favorite.png
+    - assets/recipe.db
 
 
 
