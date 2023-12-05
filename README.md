@@ -27,8 +27,11 @@
 ## 메인 기능
 
 -정기배송
+
 -함께배송 Mate(GPS기반 자동매칭 가능)
+
 -예산에 맞는 레시피 추천 시스템
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
